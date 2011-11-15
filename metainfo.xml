@@ -1,0 +1,15 @@
+<Extension>
+
+	<name>opencms</name>
+	<version>0.1</version>
+	<title>OpenCms 内容管理系统</title>
+	
+ 
+	<class>org.opencomb.opencms.Opencms</class>
+	<package folder="/class" namespace="org.opencomb.opencms" />
+ 
+	<template folder="/template" />
+	
+	<publicFolder folder="/public" />
+	
+</Extension>
