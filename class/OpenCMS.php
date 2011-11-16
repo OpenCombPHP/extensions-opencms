@@ -3,7 +3,7 @@ namespace org\opencomb\opencms ;
 
 use oc\ext\Extension ;
 
-class Opencms extends Extension 
+class OpenCMS extends Extension 
 {
 	/**
 	 * 载入扩展
