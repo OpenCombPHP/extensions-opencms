@@ -14,23 +14,22 @@ class CategoryManage extends ControlPanel
 			'view:category'=>array(
 				'template'=>'CategoryManage.html',
 				'class'=>'view',
-				'model'=>'categoryTree'
 			),
 			'model:categoryTree'=>array(
-				'config'=>'model/category'
+				'config'=>'model/category',
 			)
 		);
 	}
 	
 	public function process()
 	{
+// 		$this->modelCategoryTree->printStruct();
 		//准备分类信息
 		$aCatIter = Category::loadTotalCategory($this->modelCategoryTree->prototype()) ;
 		
 		Category::buildTree($aCatIter);
 		
 		$this->viewCategory->variables()->set('aCatIter',$aCatIter) ;
-		
 	}
 }
 

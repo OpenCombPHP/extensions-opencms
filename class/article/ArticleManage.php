@@ -15,11 +15,11 @@ class ArticleManage extends ControlPanel
 			'view:article'=>array(
 				'template'=>'ArticleManage.html',
 				'class'=>'view',
-				'model'=>'article'
+				'model'=>'article',
 			),
 			'model:article'=>array(
-// 				'class'=>'org\\jecat\\framework\\mvc\\model\\db\\ModelList',
 				'config'=>'model/article',
+					'list'=>true,
 			),
 			'model:categoryTree'=>array(
 				'config'=>'model/category'

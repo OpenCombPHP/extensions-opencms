@@ -14,7 +14,7 @@ class CreateCategory extends ControlPanel
 			'view:category'=>array(
 				'template'=>'CategoryForm.html',
 				'class'=>'form',
-				'model'=>'category',
+				'model'=>'categoryTree',
 				'widgets'=>array(
 					array(
 						'config'=>'widget/category_title'
