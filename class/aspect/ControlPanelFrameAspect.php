@@ -1,9 +1,9 @@
 <?php
 namespace org\opencomb\opencms\aspect ;
 
-use jc\bean\BeanFactory;
+use org\jecat\framework\bean\BeanFactory;
 
-use jc\lang\aop\jointpoint\JointPointMethodDefine;
+use org\jecat\framework\lang\aop\jointpoint\JointPointMethodDefine;
 
 class ControlPanelFrameAspect
 {

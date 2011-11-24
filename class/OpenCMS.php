@@ -1,7 +1,7 @@
 <?php
 namespace org\opencomb\opencms;
 
-use jc\lang\aop\AOP;
+use org\jecat\framework\lang\aop\AOP;
 
 use oc\ext\Extension;
 

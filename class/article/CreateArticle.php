@@ -1,12 +1,12 @@
 <?php
 namespace org\opencomb\opencms\article;
 
-use jc\db\DB;
+use org\jecat\framework\db\DB;
 
-use jc\mvc\model\db\Category;
+use org\jecat\framework\mvc\model\db\Category;
 
-use jc\mvc\view\DataExchanger;
-use jc\message\Message;
+use org\jecat\framework\mvc\view\DataExchanger;
+use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
 class CreateArticle extends ControlPanel
