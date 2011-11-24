@@ -1,15 +1,17 @@
-<?php 
-namespace org\opencomb\opencms ;
+<?php
+namespace org\opencomb\opencms;
 
-use oc\ext\Extension ;
+use jc\lang\aop\AOP;
 
-class OpenCMS extends Extension 
+use oc\ext\Extension;
+
+class OpenCMS extends Extension
 {
 	/**
 	 * 载入扩展
 	 */
 	public function load()
 	{
-		// todo ...
+		AOP::singleton()->register('org\\opencomb\\development\\toolkit\\aspect\\ControlPanelFrameAspect') ;
 	}
 }

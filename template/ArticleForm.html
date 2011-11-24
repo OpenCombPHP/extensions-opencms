@@ -1,2 +1,7 @@
-
-<widget id="article-title" />
+<msgqueue for="$theController->messageQueue()" />
+<form action="/?c=org.opencomb.opencms.article.CreateArticle" method="post">
+	<label>文章标题<widget id="article_title" /></label><br />
+	<label>所属分类<widget id="article_cat" /></label><br />
+	<label>文章内容<widget id="article_content" /></label><br />
+	<input type='submit' />
+</form>

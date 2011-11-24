@@ -1,0 +1,28 @@
+<?php
+return array(
+	array(
+		'title'=>'cms管理',
+		'menu'=>array(
+			'direction'=>'v',
+			'independence'=>true,
+			'items'=>array(
+				array(
+					'title'=>'新建文章',
+					'link'=>'?c=org.opencomb.development.toolkit.extension.CreateExtension'
+				),
+				array(
+					'title'=>'文章管理',
+					'link'=>'?c=org.opencomb.development.toolkit.extension.CreateExtension'
+				),
+				array(
+					'title'=>'新建栏目',
+					'link'=>'?c=org.opencomb.development.toolkit.platform.ClearCache'
+				),
+				array(
+					'title'=>'栏目管理',
+					'link'=>'?c=org.opencomb.development.toolkit.platform.ClearCache'
+				)
+			)
+		)
+	)
+);
