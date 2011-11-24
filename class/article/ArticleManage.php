@@ -18,7 +18,7 @@ class ArticleManage extends ControlPanel
 				'model'=>'article'
 			),
 			'model:article'=>array(
-				'class'=>'org\\jecat\\framework\\mvc\\model\\db\\ModelList',
+// 				'class'=>'org\\jecat\\framework\\mvc\\model\\db\\ModelList',
 				'config'=>'model/article',
 			),
 			'model:categoryTree'=>array(
