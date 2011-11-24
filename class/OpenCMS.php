@@ -2,8 +2,7 @@
 namespace org\opencomb\opencms;
 
 use org\jecat\framework\lang\aop\AOP;
-
-use oc\ext\Extension;
+use org\opencomb\ext\Extension ;
 
 class OpenCMS extends Extension
 {
