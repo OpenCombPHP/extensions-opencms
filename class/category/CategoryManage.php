@@ -26,6 +26,7 @@ class CategoryManage extends ControlPanel
 	{
 		//准备分类信息
 		$aCatIter = Category::loadTotalCategory($this->modelCategoryTree->prototype()) ;
+		$this->modelCategoryTree->printStruct() ;
 		
 		Category::buildTree($aCatIter);
 		

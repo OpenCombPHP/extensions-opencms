@@ -11,6 +11,6 @@ class OpenCMS extends Extension
 	 */
 	public function load()
 	{
-		AOP::singleton()->register('org\\opencomb\\development\\toolkit\\aspect\\ControlPanelFrameAspect') ;
+		AOP::singleton()->register('org\\opencomb\\opencms\\aspect\\ControlPanelFrameAspect') ;
 	}
 }
