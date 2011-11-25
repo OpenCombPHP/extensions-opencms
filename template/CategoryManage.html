@@ -1,30 +1,37 @@
 <div id='catList'>
-<table border="1">
-	<thead>
-		<tr height="30">
-			<th width="40">选中</th>
-			<th width="60">id</th>
-			<th width="600">分类名称</th>
-			<th width="40">编辑</th>
-		</tr>
-	</thead>
-	<tbody>
-		<foreach for="$aCatIter" item="aCat">
-		<tr>
-			<td><input type="checkbox" value="{=$aCat['cid']}" /></td>
-			<td>{=$aCat['cid']}</td>
-			<td><a href="?c=fxxxxx&cid={=$aCat['cid']}">{=$aCat['title']}</a></td>
-			<td><a href="?c=org.opencomb.opencms.category.CategoryEdit&cid={=$aCat['cid']}">编辑</a></td>
-		</tr>
-		</foreach>
-	</tbody>
-</table>
-</div>
-<div id='controllPanel'>
-	批量操作: <a href="#">删除</a>
-</div>
-<div id='pageNums'>
-	<a href="#">|&lt;</a> <a href="#">&lt;</a> <a href="#">1</a> <a
-		href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">&gt;</a>
-	<a href="#">&gt;|</a>
+	<a href="?c=org.opencomb.opencms.category.CreateCategory&target=end">添加顶级栏目</a>
+	<script type="text/javascript">
+		function confirmDel(){
+			if(!confirm("确认删除栏目吗?")){
+				return false;
+			}
+		}
+	</script>
+	<table border="1">
+		<thead>
+			<tr height="30">
+				<th width="60">id</th>
+				<th width="600">分类名称</th>
+				<th width="90">新增子栏目</th>
+				<th width="50">编辑</th>
+				<th width="50">删除</th>
+			</tr>
+		</thead>
+		<tbody>
+			<foreach for="$aCatIter" item="aCat">
+			<tr>
+				<td>{=$aCat['cid']}</td>
+				<td><span class='cat_depth'>{=str_repeat("-", $aCat->depth())}</span><a href="?c=fxxxxx&cid={=$aCat['cid']}">{=$aCat['title']}</a></td>
+				<td><a href="?c=org.opencomb.opencms.category.CreateCategory&target={=$aCat->rightPoint()}">新增子栏目</a></td>
+				<td><a href="?c=org.opencomb.opencms.category.EditCategory&cid={=$aCat['cid']}">编辑</a></td>
+				<td><a href="?c=org.opencomb.opencms.category.DeleteCategory&cid={=$aCat['cid']}" onclick="javascript:return confirmDel();">删除</a></td>
+			</tr>
+			</foreach>
+		</tbody>
+	</table>
+	<div id='pageNums'>
+		<a href="#">|&lt;</a> <a href="#">&lt;</a> <a href="#">1</a> <a
+			href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">&gt;</a>
+		<a href="#">&gt;|</a>
+	</div>
 </div>

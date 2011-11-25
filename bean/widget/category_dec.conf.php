@@ -1,11 +1,8 @@
 <?php
 return array(
-	'id'=>'category_content',
+	'id'=>'category_dec',
 	'class'=>'text',
 	'type'=>'multiple',
 	'title'=>'分类简介',
 	'exchange'=>'description',
-	'verifier:length'=>array(
-		'min'=>6
-	)
 );

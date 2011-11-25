@@ -15,11 +15,11 @@ class ArticleManage extends ControlPanel
 			'view:article'=>array(
 				'template'=>'ArticleManage.html',
 				'class'=>'view',
-				'model'=>'article',
+				'model'=>'articles',
 			),
-			'model:article'=>array(
-				'config'=>'model/article',
-					'list'=>true,
+			'model:articles'=>array(
+				'config'=>'model/articles',
+				'list'=>true,
 			),
 			'model:categoryTree'=>array(
 				'config'=>'model/category'
@@ -34,9 +34,13 @@ class ArticleManage extends ControlPanel
 		Category::buildTree ( $aCatIter );
 		$this->viewArticle->variables ()->set ( 'aCatIter', $aCatIter );
 		
-		$this->modelArticle->load ();
+		//降序
+// 		$this->modelArticles->prototype()->
+
+		//读取
+		$this->modelArticles->load ();
 // 		$this->modelArticle->printStruct();
-		$this->viewArticle->variables()->set('aArtIter',$this->modelArticle->childIterator()) ;
+		$this->viewArticle->variables()->set('aArtIter',$this->modelArticles->childIterator()) ;
 	}
 }
 

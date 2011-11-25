@@ -2,6 +2,6 @@
 return array(
 	'class'=>'category',
 	'orm'=>array(
-		'config'=>'model/orm/category'
+		'config'=>'model/orm/category',
 	)
 );

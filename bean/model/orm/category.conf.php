@@ -1,10 +1,10 @@
 <?php
 return array(
-		'table'=>'category',
-// 		'name'=>'category',
-// 		'hasMany:articles'=>array(
-// 			'fromkeys'=>'cid',
-// 			'tokeys'=>'cid',
-// 			'config'=>'model/orm/article'
-// 		)
+	'table'=>'category',
+	'name'=>'category',
+	'hasMany:article'=>array(
+		'fromkeys'=>'cid',
+		'tokeys'=>'cid',
+		'config'=>'model/orm/article'
+	)
 );

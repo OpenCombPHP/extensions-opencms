@@ -21,6 +21,9 @@ class CreateCategory extends ControlPanel
 					),
 					array(
 						'config'=>'widget/category_dec'
+					),
+					array(
+						'config'=>'widget/category_parent'
 					)
 				)
 			),
@@ -32,15 +35,11 @@ class CreateCategory extends ControlPanel
 	
 	public function process()
 	{
-		//为分类select添加option
-		$fff = Category::loadTotalCategory ( $this->modelCategoryTree->prototype (), true, false, $this->modelCategoryTree );
-		$aCatSelectWidget = $this->viewCategory->widget ( "article_cat" );
-		$aCatSelectWidget->addOption ( "文章分类...", null, true );
-		foreach ( $fff as $aCat )
-		{
-			$aCatSelectWidget->addOption ( $aCat->title, $aCat->cid, false );
+		if($this->params->has('target')){
+			$this->viewCategory->widget("category_parent")->setValue($this->params->get('target'));
+		}else{
+			$this->messageQueue ()->create ( Message::error, "没有设置父分类" );
 		}
-		
 		//如果是提交请求...
 		if ($this->viewCategory->isSubmit ( $this->params )) //前面定义了名为article的视图,之后就可以用$this->viewCategory来取得这个视图.控制器把视图当作自己的成员来管理,通过"viewCategory","viewCategory","article"这3种成员变量名都可以访问到这个view,推荐第一种
 		{
@@ -54,14 +53,22 @@ class CreateCategory extends ControlPanel
 					break;
 				}
 				$this->viewCategory->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
-				if ($this->modelArticle->save ())
+				if ($this->modelCategoryTree->save ())
 				{
+					$target = $this->viewCategory->widget("category_parent")->value();
+					if($target == 'end'){
+						//添加顶级分类
+						$this->modelCategoryTree->insertCategoryToPoint();
+					}else{
+						//添加子分类
+						$this->modelCategoryTree->insertCategoryToPoint((int)$target);
+					}
 					$this->viewCategory->hideForm ();
-					$this->messageQueue ()->create ( Message::success, "文章保存成功" );
+					$this->messageQueue ()->create ( Message::success, "分类保存成功" );
 				}
 				else
 				{
-					$this->messageQueue ()->create ( Message::error, "文章保存失败" );
+					$this->messageQueue ()->create ( Message::error, "分类保存失败" );
 				}
 			} while ( 0 );
 		}

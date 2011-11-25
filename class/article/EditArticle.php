@@ -1,7 +1,7 @@
 <?php
 namespace org\opencomb\opencms\article;
 
-use org\jecat\framework\db\DB;
+// use org\jecat\framework\db\DB;
 
 use org\jecat\framework\mvc\model\db\Category;
 
@@ -9,7 +9,7 @@ use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
-class CreateArticle extends ControlPanel
+class EditArticle extends ControlPanel
 {
 	public function createBeanConfig()
 	{
@@ -55,6 +55,15 @@ class CreateArticle extends ControlPanel
 			$aCatSelectWidget->addOption(str_repeat("&nbsp;&nbsp;", $aCat->depth()).$aCat->title,$aCat->cid,false);
 		}
 		
+		//还原文章数据
+		if($this->params->has("pid")){
+			$this->modelArticle->load(array($this->params->get("pid")),array("pid"));
+			$this->viewArticle->exchangeData ( DataExchanger::MODEL_TO_WIDGET);
+		}else{
+			$this->messageQueue ()->create ( Message::error, "未指定文章" );
+		}
+		
+		
 		//如果是提交请求...
 		if ($this->viewArticle->isSubmit ( $this->params ))
 		{
@@ -81,12 +90,7 @@ class CreateArticle extends ControlPanel
 				}
 			} while ( 0 );
 		}else{
-			if($this->params->has("pid")){
-				$this->modelArticle->load(array($this->params->get("pid")),array("pid"));
-				$this->viewArticle->exchangeData ( DataExchanger::MODEL_TO_WIDGET);
-			}else{
-				$this->messageQueue ()->create ( Message::error, "未指定文章" );
-			}
+			
 		}
 	}
 }
