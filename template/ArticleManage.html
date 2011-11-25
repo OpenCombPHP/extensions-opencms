@@ -1,26 +1,27 @@
 <div id='artList'>
-<table border="1">
-	<thead>
-		<tr height="30">
-			<th width="40">选中</th>
-			<th width="60">id</th>
-			<th width="600">文章名称</th>
-			<th width="200">文章栏目</th>
-			<th width="40">编辑</th>
-		</tr>
-	</thead>
-	<tbody>
-		<foreach for="$aArtIter" item="aArt">
-		<tr>
-			<td><input type="checkbox" value="{=$aArt['pid']}" /></td>
-			<td>{=$aArt['pid']}</td>
-			<td><a href="?c=fxxxxx&cid={=$aArt['pid']}">{=$aArt['post.title']}</a></td>
-			<td><a href="?c=fxxxxx&cid={=$aArt['pid']}">{=$aArt['post.title']}</a></td>
-			<td><a href="?c=org.opencomb.opencms.category.CategoryEdit&cid={=$aArt['pid']}">编辑</a></td>
-		</tr>
-		</foreach>
-	</tbody>
-</table>
+	<table border="1">
+		<thead>
+			<tr height="30">
+				<th width="40">选中</th>
+				<th width="60">id</th>
+				<th width="600">文章名称</th>
+				<th width="200">文章栏目</th>
+				<th width="40">编辑</th>
+			</tr>
+		</thead>
+		<tbody>
+			<foreach for="$aArtIter" item="aArt">
+			<tr>
+				<td><input type="checkbox" value="{=$aArt['pid']}" /></td>
+				<td>{=$aArt['pid']}</td>
+				<td><a href="?c=fxxxxx&cid={=$aArt['pid']}">{=$aArt['post.title']}</a></td>
+				<td><a href="?c=fxxxxx&cid={=$aArt['cid']}">{=$aArt['category.title']}</a></td>
+				<td><a
+					href="?c=org.opencomb.opencms.category.CategoryEdit&cid={=$aArt['pid']}">编辑</a></td>
+			</tr>
+			</foreach>
+		</tbody>
+	</table>
 </div>
 <div id='controllPanel'>
 	批量操作: <a href="#">删除</a>

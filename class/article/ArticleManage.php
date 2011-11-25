@@ -15,12 +15,16 @@ class ArticleManage extends ControlPanel
 			'view:article'=>array(
 				'template'=>'ArticleManage.html',
 				'class'=>'view',
-				'model'=>'article'
+				'model'=>'article',
 			),
 			'model:article'=>array(
+<<<<<<< HEAD
  				'class'=>'model',
 				'list' => true,
+=======
+>>>>>>> 8b28203bd1879a20d19d5b6b1f2eb6e3701a97c5
 				'config'=>'model/article',
+					'list'=>true,
 			),
 			'model:categoryTree'=>array(
 				'config'=>'model/category'

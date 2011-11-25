@@ -6,5 +6,10 @@ return array(
 		'fromkeys'=>'pid',
 		'tokeys'=>'pid',
 		'config'=>'basepost:model/orm/post'
+	),
+	'belongsTo:category'=>array(
+		'fromkeys'=>'cid',
+		'tokeys'=>'cid',
+		'config'=>'model/orm/category'
 	)
 );

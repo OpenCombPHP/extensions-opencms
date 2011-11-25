@@ -64,6 +64,14 @@ class CreateCategory extends ControlPanel
 					$this->messageQueue ()->create ( Message::error, "文章保存失败" );
 				}
 			} while ( 0 );
+		}else{
+			//还原数据
+			if($this->params->has("cid")){
+				$this->modelCategoryTree->load(array($this->params->get("cid")),array("cid"));
+				$this->viewCategory->exchangeData ( DataExchanger::MODEL_TO_WIDGET);
+			}else{
+				$this->messageQueue ()->create ( Message::error, "未指定文章" );
+			}
 		}
 	}
 }
