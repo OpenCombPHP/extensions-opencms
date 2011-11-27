@@ -14,6 +14,7 @@
 				<th width="600">分类名称</th>
 				<th width="90">新增子栏目</th>
 				<th width="50">编辑</th>
+				<th width="100">排序</th>
 				<th width="50">删除</th>
 			</tr>
 		</thead>
@@ -24,6 +25,8 @@
 				<td><span class='cat_depth'>{=str_repeat("-", $aCat->depth())}</span><a href="?c=fxxxxx&cid={=$aCat['cid']}">{=$aCat['title']}</a></td>
 				<td><a href="?c=org.opencomb.opencms.category.CreateCategory&target={=$aCat->rightPoint()}">新增子栏目</a></td>
 				<td><a href="?c=org.opencomb.opencms.category.EditCategory&cid={=$aCat['cid']}">编辑</a></td>
+				<td><a href="?c=org.opencomb.opencms.category.CategorySort&cid={=$aCat['cid']}&to=up">向上</a> | 
+					<a href="?c=org.opencomb.opencms.category.CategorySort&cid={=$aCat['cid']}&to=down">向下</a></td>
 				<td><a href="?c=org.opencomb.opencms.category.DeleteCategory&cid={=$aCat['cid']}" onclick="javascript:return confirmDel();">删除</a></td>
 			</tr>
 			</foreach>

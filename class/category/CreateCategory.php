@@ -57,18 +57,18 @@ class CreateCategory extends ControlPanel
 				{
 					$target = $this->viewCategory->widget("category_parent")->value();
 					if($target == 'end'){
-						//添加顶级分类
+						//添加顶级栏目
 						$this->modelCategoryTree->insertCategoryToPoint();
 					}else{
-						//添加子分类
+						//添加子栏目
 						$this->modelCategoryTree->insertCategoryToPoint((int)$target);
 					}
 					$this->viewCategory->hideForm ();
-					$this->messageQueue ()->create ( Message::success, "分类保存成功" );
+					$this->messageQueue ()->create ( Message::success, "栏目保存成功" );
 				}
 				else
 				{
-					$this->messageQueue ()->create ( Message::error, "分类保存失败" );
+					$this->messageQueue ()->create ( Message::error, "栏目保存失败" );
 				}
 			} while ( 0 );
 		}

@@ -23,10 +23,11 @@ class CategoryManage extends ControlPanel
 	
 	public function process()
 	{
-// 		$this->modelCategoryTree->printStruct();
+		// 权限认证
+		$this->requireLogined() ;
+		
 		//准备分类信息
 		$aCatIter = Category::loadTotalCategory($this->modelCategoryTree->prototype()) ;
-		$this->modelCategoryTree->printStruct() ;
 		
 		Category::buildTree($aCatIter);
 		
