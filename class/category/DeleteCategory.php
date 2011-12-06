@@ -16,7 +16,7 @@ class DeleteCategory extends ControlPanel
 				'class'=>'view'
 			),
 			'model:categoryTree'=>array(
-				'config'=>'model/category'
+				'config'=>'model/categoryTree'
 			)
 		);
 	}

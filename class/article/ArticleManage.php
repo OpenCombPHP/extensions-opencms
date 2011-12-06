@@ -22,7 +22,7 @@ class ArticleManage extends ControlPanel
 				'list'=>true,
 			),
 			'model:categoryTree'=>array(
-				'config'=>'model/category'
+				'config'=>'model/categoryTree'
 			)
 		);
 	}
