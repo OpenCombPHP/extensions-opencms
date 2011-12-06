@@ -7,6 +7,10 @@ return array(
 			'independence'=>true,
 			'items'=>array(
 				array(
+					'title'=>'首页管理',
+					'link'=>'?c=org.opencomb.opencms.index.IndexManage'
+				),
+				array(
 					'title'=>'文章管理',
 					'link'=>'?c=org.opencomb.opencms.article.ArticleManage'
 				),
