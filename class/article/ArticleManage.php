@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\opencms\article;
 
+use org\jecat\framework\db\DB;
+
 use org\jecat\framework\mvc\model\db\Category;
 
 use org\jecat\framework\mvc\view\DataExchanger;
@@ -16,6 +18,9 @@ class ArticleManage extends ControlPanel
 				'template'=>'ArticleManage.html',
 				'class'=>'view',
 				'model'=>'articles',
+				'widget:paginator' => array(
+						'class' => 'paginator' ,
+				) ,
 			),
 			'model:articles'=>array(
 				'config'=>'model/articles',
@@ -39,7 +44,6 @@ class ArticleManage extends ControlPanel
 
 		//读取
 		$this->modelArticles->load ();
-// 		$this->modelArticle->printStruct();
 		$this->viewArticle->variables()->set('aArtIter',$this->modelArticles->childIterator()) ;
 	}
 }
