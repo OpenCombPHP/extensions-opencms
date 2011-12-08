@@ -28,7 +28,7 @@ class CreateCategory extends ControlPanel
 				)
 			),
 			'model:categoryTree'=>array(
-				'config'=>'model/category'
+				'config'=>'model/categoryTree'
 			)
 		);
 	}

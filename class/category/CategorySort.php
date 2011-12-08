@@ -16,7 +16,7 @@ class CategorySort extends ControlPanel
 						'class'=>'view',
 				),
 				'model:categoryTree' => array (
-						'class'=>'category',
+						'class'=>'categoryTree',
 						'orm'=>array(
 								'table'=>'category',
 								'name'=>'category',
@@ -51,7 +51,7 @@ class CategorySort extends ControlPanel
 		
 		Category::buildTree ( $aCatIter );
 		
-		
+// 		$aCatIter->next();
 		var_dump($aCatIter->current());
 // 		$aCatIter->next();
 // 		while($aCatIter->valid()){

@@ -34,7 +34,7 @@ class CreateArticle extends ControlPanel
 				'config'=>'model/article'
 			),
 			'model:categoryTree'=>array(
-				'config'=>'model/category'
+				'config'=>'model/categoryTree'
 			)
 		);
 	}
@@ -79,6 +79,9 @@ class CreateArticle extends ControlPanel
 				// 				if(!$this->params->has("article_content") || strlen($this->article_content->value()) == 0){
 				// 					$this->messageQueue()->create( Message::error, "文章内容不能为空" );
 				// 				}
+				
+// 				$this->viewArticle->variables()->set('aArtIter',$this->modelArticles->childIterator()) ;
+				
 				
 				//记录创建时间
 				$this->modelArticle->setData('post.createTime',time());

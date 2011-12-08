@@ -1,4 +1,4 @@
-﻿<div id='artList'>
+<div id='artList'>
 	<a href='?c=org.opencomb.opencms.article.CreateArticle'>新建文章</a>
 	<script type="text/javascript">
 		function confirmDel(){
@@ -21,7 +21,7 @@
 			<foreach for="$aArtIter" item="aArt">
 			<tr>
 				<td>{=$aArt['pid']}</td>
-				<td><a href="?c=fxxxxx&cid={=$aArt['pid']}">{=$aArt['post.title']}</a></td>
+				<td><a href="/?c=org.opencomb.opencms.article.ArticleContent&pid={=$aArt['pid']}">{=$aArt['post.title']}</a></td>
 				<td><a href="?c=fxxxxx&cid={=$aArt['cid']}">{=$aArt['category.title']}</a></td>
 				<td><a href="?c=org.opencomb.opencms.article.EditArticle&pid={=$aArt['pid']}">编辑</a></td>
 				<td><a href="?c=org.opencomb.opencms.article.DeleteArticle&pid={=$aArt['pid']}" onclick="javascript:return confirmDel();">删除</a></td>

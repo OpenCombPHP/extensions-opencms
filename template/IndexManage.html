@@ -1,0 +1,41 @@
+<div id='indexManage'>
+<msgqueue for="$theController->messageQueue()" />
+	<div id="topListManage">
+		<h1>首页最新文章列表设置</h1>
+		<form method="POST">
+			<table border="1" width="100%">
+				<thead>
+					<tr height="30">
+						<th width="60">id</th>
+						<th>分类名称</th>
+						<th width="50" title="是否显示子栏目的文章">子栏目</th>
+						<th width="50" title="显示多少文章">文章数</th>
+						<th width="50" title="选中:按照时间反序排列;未选中:按照时间正序排列">反序</th>
+						<th width="50" title="选中:在首页添加此分类的最新文章的列表">首页</th>
+					</tr>
+				</thead>
+				<tbody>
+					<foreach for="$aCatIter" item="aCat">
+					<tr>
+						<td>{=$aCat['cid']}</td>
+						<td><span class='cat_depth'>{=str_repeat("-", $aCat->depth())}</span><a href="?c=org.opencomb.opencms.article.ArticleList&cid={=$aCat['cid']}">{=$aCat['title']}</a></td>
+						<td>
+							<input type='checkbox' name="cat[{=$aCat['cid']}][subCat]" value="1" {=(isset($arrTopLists[$aCat['cid']]['subCat']) && $arrTopLists[$aCat['cid']]['subCat'] == '1')? 'checked' : '' }/>
+						</td>
+						<td>
+							<input type='text' name="cat[{=$aCat['cid']}][limit]" value="{=(isset($arrTopLists[$aCat['cid']]['limit']) && (int)$arrTopLists[$aCat['cid']]['limit'] > 0 )? $arrTopLists[$aCat['cid']]['limit'] : 10 }"/>
+						</td>
+						<td>
+							<input type='checkbox' name="cat[{=$aCat['cid']}][order]" value="desc" {=(isset($arrTopLists[$aCat['cid']]['index']) && $arrTopLists[$aCat['cid']]['index'] == 'desc')? '' : 'checked' }/>
+						</td>
+						<td>
+							<input type='checkbox' name="cat[{=$aCat['cid']}][index]" value="1" {=(isset($arrTopLists[$aCat['cid']]['index']) && $arrTopLists[$aCat['cid']]['index'] == '1')? 'checked' : '' }/>
+						</td>
+					</tr>
+					</foreach>
+				</tbody>
+			</table>
+			<input type="submit" value="保存"/>
+		</form>
+	</div>
+</div>

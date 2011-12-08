@@ -1,0 +1,14 @@
+<div class='topList'>
+	<msgqueue for="$theController->messageQueue()" />
+	<h3>{=$sCategoryTitle}</h3>
+	<a href="?c=org.opencomb.opencms.article.ArticleList&cid=3">更多</a>
+	<ul>
+		<model:foreach>
+		<li>
+			<a href="/?c=org.opencomb.opencms.article.ArticleContent&pid={=$theModel['pid']}"><data>post.title</data></a>
+			<span>{=date("Y年m月d日", $theModel['post.createTime'])}</span>
+		</li>
+		</model:foreach>
+	</ul>
+</div>
+<views/>

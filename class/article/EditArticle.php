@@ -34,7 +34,7 @@ class EditArticle extends ControlPanel
 				'config'=>'model/article'
 			),
 			'model:categoryTree'=>array(
-				'config'=>'model/category'
+				'config'=>'model/categoryTree'
 			)
 		);
 	}
