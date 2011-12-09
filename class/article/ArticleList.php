@@ -17,12 +17,15 @@ class ArticleList extends Controller
 				'template'=>'ArticleList.html',
 				'class'=>'view',
 				'model'=>'articles',
+				'widget:paginator' => array(
+					'class' => 'paginator' ,
+				) ,
 			),
 			'model:category'=>array(
-					'orm'=>array(
-						'columns' => array('lft','rgt') ,
-						'table'=>'category',
-					)
+				'orm'=>array(
+					'columns' => array('lft','rgt') ,
+					'table'=>'category',
+				)
 			),
 			'model:articles'=>array(
 				'list'=>true,
