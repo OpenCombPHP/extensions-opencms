@@ -2,21 +2,24 @@
 return array(
 	array(
 		'title'=>'cms管理',
+		'link'=>'?c=org.opencomb.opencms.index.IndexManage',
 		'menu'=>array(
 			'direction'=>'v',
-			'independence'=>true,
 			'items'=>array(
 				array(
 					'title'=>'首页管理',
-					'link'=>'?c=org.opencomb.opencms.index.IndexManage'
+					'link'=>'?c=org.opencomb.opencms.index.IndexManage',
+					'quote'=>'c=org.opencomb.opencms.index.IndexManage'
 				),
 				array(
 					'title'=>'文章管理',
-					'link'=>'?c=org.opencomb.opencms.article.ArticleManage'
+					'link'=>'?c=org.opencomb.opencms.article.ArticleManage',
+					'quote'=>'c=org.opencomb.opencms.article.ArticleManage'
 				),
 				array(
 					'title'=>'栏目管理',
-					'link'=>'?c=org.opencomb.opencms.category.CategoryManage'
+					'link'=>'?c=org.opencomb.opencms.category.CategoryManage',
+					'quote'=>'c=org.opencomb.opencms.category.CategoryManage'
 				)
 			)
 		)
