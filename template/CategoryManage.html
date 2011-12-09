@@ -22,7 +22,7 @@
 			<foreach for="$aCatIter" item="aCat">
 			<tr>
 				<td>{=$aCat['cid']}</td>
-				<td><span class='cat_depth'>{=str_repeat("-", $aCat->depth())}</span><a href="?c=fxxxxx&cid={=$aCat['cid']}">{=$aCat['title']}</a></td>
+				<td><span class='cat_depth'>{=str_repeat("-", $aCat->depth())}</span><a href="?c=org.opencomb.opencms.article.ArticleList&cid={=$aCat['cid']}">{=$aCat['title']}</a></td>
 				<td><a href="?c=org.opencomb.opencms.category.CreateCategory&target={=$aCat->rightPoint()}">新增子栏目</a></td>
 				<td><a href="?c=org.opencomb.opencms.category.EditCategory&cid={=$aCat['cid']}">编辑</a></td>
 				<td><a href="?c=org.opencomb.opencms.category.CategorySort&cid={=$aCat['cid']}&to=up">向上</a> | 
