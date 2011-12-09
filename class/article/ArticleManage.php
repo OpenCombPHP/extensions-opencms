@@ -19,12 +19,27 @@ class ArticleManage extends ControlPanel
 				'class'=>'view',
 				'model'=>'articles',
 				'widget:paginator' => array(
-						'class' => 'paginator' ,
+					'class' => 'paginator' ,
 				) ,
 			),
 			'model:articles'=>array(
-				'config'=>'model/articles',
+				'class'=>'model',
 				'list'=>true,
+				'orm'=>array(
+					'table'=>'article',
+					'name'=>'article',
+					'belongsTo:post'=>array(
+						'fromkeys'=>'pid',
+						'tokeys'=>'pid',
+						'config'=>'basepost:model/orm/post'
+					),
+					'belongsTo:category'=>array(
+						'fromkeys'=>'cid',
+						'tokeys'=>'cid',
+						'table'=>'category',
+						'name'=>'category',
+					)
+				)
 			),
 			'model:categoryTree'=>array(
 				'config'=>'model/categoryTree'
@@ -39,10 +54,12 @@ class ArticleManage extends ControlPanel
 		Category::buildTree ( $aCatIter );
 		$this->viewArticle->variables ()->set ( 'aCatIter', $aCatIter );
 		
-		//降序
-// 		$this->modelArticles->prototype()->
-
-		//读取
+		//TODO 排序
+		
+		//TODO groupby
+		
+		//限制
+// 		$this->modelArticles->prototype()->criteria()->setLimit();
 		$this->modelArticles->load ();
 		$this->viewArticle->variables()->set('aArtIter',$this->modelArticles->childIterator()) ;
 	}
