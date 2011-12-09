@@ -20,7 +20,6 @@ class ArticleManage extends ControlPanel
 				'model'=>'articles',
 				'widget:paginator' => array(
 					'class' => 'paginator' ,
-					'count' => 10,
 				) ,
 			),
 			'model:articles'=>array(
