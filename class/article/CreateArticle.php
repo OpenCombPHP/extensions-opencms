@@ -129,7 +129,7 @@ class CreateArticle extends ControlPanel
 	
 
 	// 					//如果已经登录,就把当前的uid录入到uid字段,但事实上,编辑表单是需要权限的,所以在权限做好以后应该省略判断
-	// 					if( IdManager::fromSession()->currentId() && $uidFromSession = IdManager::fromSession()->currentId()->userId() ){
+	// 					if( IdManager::singleton()->currentId() && $uidFromSession = IdManager::singleton()->currentId()->userId() ){
 	// 						$this->modelPhoto->uid = $uidFromSession;
 	// 					}
 	
