@@ -9,6 +9,10 @@ use org\opencomb\ext\Extension ;
 
 class OpenCMS extends Extension
 {
+	const PURVIEW_ADMIN = 'purview:admin' ;
+	const PURVIEW_ADMIN_ARTICLE = 'purview:admin_article' ;
+	const PURVIEW_ADMIN_CATEGORY = 'purview:admin_category' ;
+	
 	/**
 	 * 载入扩展
 	 */

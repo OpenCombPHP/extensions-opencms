@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\opencms\category;
 
+use org\opencomb\opencms\OpenCMS;
+
 use org\jecat\framework\mvc\model\db\Category;
 use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
@@ -24,7 +26,7 @@ class CategoryManage extends ControlPanel
 	public function process()
 	{
 		// 权限认证
-		$this->requireLogined() ;
+		$this->requirePurview(OpenCMS::PURVIEW_ADMIN, 'opencms') ;
 		
 		//准备分类信息
 		$aCatIter = Category::loadTotalCategory($this->modelCategoryTree->prototype()) ;
