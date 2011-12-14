@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\opencms\index;
 
+use org\opencomb\opencms\OpenCMS;
+
 use org\opencomb\system\PlatformFactory;
 use org\opencomb\Platform;
 use org\jecat\framework\mvc\model\db\Category;
@@ -28,8 +30,8 @@ class IndexManage extends ControlPanel
 	public function process()
 	{
 		// 权限认证
-		$this->requireLogined ();
-		
+		//$this->requirePurview(OpenCMS::PURVIEW_ADMIN,'opencms') ;
+				
 		//准备分类信息
 		$aCatIter = Category::loadTotalCategory ( $this->modelCategoryTree->prototype () );
 		

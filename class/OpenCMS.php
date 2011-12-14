@@ -9,6 +9,10 @@ use org\opencomb\ext\Extension ;
 
 class OpenCMS extends Extension
 {
+	const PURVIEW_ADMIN = 'purview:admin' ;
+	const PURVIEW_ADMIN_ARTICLE = 'purview:admin_article' ;
+	const PURVIEW_ADMIN_CATEGORY = 'purview:admin_category' ;
+	
 	/**
 	 * 载入扩展
 	 */
@@ -19,8 +23,6 @@ class OpenCMS extends Extension
 		
 // 		$aAccessRouter->setDefaultController("org\\opencomb\\opencms\\category\\CreateCategory") ;
 		
-// 		// 权限管理器
-// 		PurviewManager::setSingleton( new DBPurviewManager('coresystem_purview') ) ;
 		//菜单
 		AOP::singleton()->register('org\\opencomb\\opencms\\aspect\\ControlPanelFrameAspect') ;
 	}
