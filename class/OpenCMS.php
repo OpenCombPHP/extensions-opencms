@@ -23,8 +23,6 @@ class OpenCMS extends Extension
 		
 // 		$aAccessRouter->setDefaultController("org\\opencomb\\opencms\\category\\CreateCategory") ;
 		
-// 		// 权限管理器
-// 		PurviewManager::setSingleton( new DBPurviewManager('coresystem_purview') ) ;
 		//菜单
 		AOP::singleton()->register('org\\opencomb\\opencms\\aspect\\ControlPanelFrameAspect') ;
 	}

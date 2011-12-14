@@ -30,7 +30,7 @@ class IndexManage extends ControlPanel
 	public function process()
 	{
 		// 权限认证
-		$this->requirePurview(OpenCMS::PURVIEW_ADMIN,'opencms') ;
+		//$this->requirePurview(OpenCMS::PURVIEW_ADMIN,'opencms') ;
 				
 		//准备分类信息
 		$aCatIter = Category::loadTotalCategory ( $this->modelCategoryTree->prototype () );
