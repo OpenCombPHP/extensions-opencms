@@ -34,7 +34,12 @@ class CreateArticle extends ControlPanel
 				'config'=>'model/article'
 			),
 			'model:categoryTree'=>array(
-				'config'=>'model/categoryTree'
+				'class'=>'model',
+				'list'=>true,
+				'orm'=>array(
+					'table'=>'category',
+					'name'=>'category',
+				)
 			)
 		);
 	}
@@ -46,13 +51,14 @@ class CreateArticle extends ControlPanel
 		
 		$aCatSelectWidget->addOption("文章分类...",null,true);
 		
-		$aCatIter = Category::loadTotalCategory($this->modelCategoryTree->prototype()) ;
+		$this->modelCategoryTree->prototype()->criteria()->setLimit(-1);
+		$this->modelCategoryTree->load();
 		
-		Category::buildTree($aCatIter);
+		Category::buildTree($this->modelCategoryTree);
 		
-		foreach($aCatIter as $aCat)
+		foreach($this->modelCategoryTree as $aCat)
 		{
-			$aCatSelectWidget->addOption(str_repeat("&nbsp;&nbsp;", $aCat->depth()).$aCat->title,$aCat->cid,false);
+			$aCatSelectWidget->addOption(str_repeat("&nbsp;&nbsp;", Category::depth($aCat)).$aCat->title,$aCat->cid,false);
 		}
 		
 		//如果是提交请求...

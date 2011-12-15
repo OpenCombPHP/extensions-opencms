@@ -16,9 +16,15 @@ class CategoryManage extends ControlPanel
 			'view:category'=>array(
 				'template'=>'CategoryManage.html',
 				'class'=>'view',
+				'model'=>'categoryTree',
 			),
 			'model:categoryTree'=>array(
-				'config'=>'model/categoryTree',
+				'class'=>'model',
+				'list'=>true,
+				'orm'=>array(
+					'table'=>'category',
+					'name'=>'category',
+				)
 			)
 		);
 	}
@@ -29,11 +35,10 @@ class CategoryManage extends ControlPanel
 		$this->requirePurview(OpenCMS::PURVIEW_ADMIN, 'opencms') ;
 		
 		//准备分类信息
-		$aCatIter = Category::loadTotalCategory($this->modelCategoryTree->prototype()) ;
+		$this->modelCategoryTree->prototype()->criteria()->setLimit(-1);
+		$this->modelCategoryTree->load();
 		
-		Category::buildTree($aCatIter);
-		
-		$this->viewCategory->variables()->set('aCatIter',$aCatIter) ;
+		Category::buildTree($this->modelCategoryTree);
 	}
 }
 

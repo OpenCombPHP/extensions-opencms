@@ -15,24 +15,24 @@
 					</tr>
 				</thead>
 				<tbody>
-					<foreach for="$aCatIter" item="aCat">
+					<model:foreach>
 					<tr>
-						<td>{=$aCat['cid']}</td>
-						<td><span class='cat_depth'>{=str_repeat("-", $aCat->depth())}</span><a href="?c=org.opencomb.opencms.article.ArticleList&cid={=$aCat['cid']}">{=$aCat['title']}</a></td>
+						<td>{=$theModel['cid']}</td>
+						<td><span class='cat_depth'>{=str_repeat("-", org\jecat\framework\mvc\model\db\Category::depth($theModel))}</span><a href="?c=org.opencomb.opencms.article.ArticleList&cid={=$theModel['cid']}">{=$theModel['title']}</a></td>
 						<td>
-							<input type='checkbox' name="cat[{=$aCat['cid']}][subCat]" value="1" {=(isset($arrTopLists[$aCat['cid']]['subCat']) && $arrTopLists[$aCat['cid']]['subCat'] == '1')? 'checked' : '' }/>
+							<input type='checkbox' name="cat[{=$theModel['cid']}][subCat]" value="1" {=(isset($arrTopLists[$theModel['cid']]['subCat']) && $arrTopLists[$theModel['cid']]['subCat'] == '1')? 'checked' : '' }/>
 						</td>
 						<td>
-							<input type='text' name="cat[{=$aCat['cid']}][limit]" value="{=(isset($arrTopLists[$aCat['cid']]['limit']) && (int)$arrTopLists[$aCat['cid']]['limit'] > 0 )? $arrTopLists[$aCat['cid']]['limit'] : 10 }"/>
+							<input type='text' name="cat[{=$theModel['cid']}][limit]" value="{=(isset($arrTopLists[$theModel['cid']]['limit']) && (int)$arrTopLists[$theModel['cid']]['limit'] > 0 )? $arrTopLists[$theModel['cid']]['limit'] : 10 }"/>
 						</td>
 						<td>
-							<input type='checkbox' name="cat[{=$aCat['cid']}][order]" value="desc" {=(isset($arrTopLists[$aCat['cid']]['index']) && $arrTopLists[$aCat['cid']]['index'] == 'desc')? '' : 'checked' }/>
+							<input type='checkbox' name="cat[{=$theModel['cid']}][order]" value="desc" {=(isset($arrTopLists[$theModel['cid']]['index']) && $arrTopLists[$theModel['cid']]['index'] == 'desc')? '' : 'checked' }/>
 						</td>
 						<td>
-							<input type='checkbox' name="cat[{=$aCat['cid']}][index]" value="1" {=(isset($arrTopLists[$aCat['cid']]['index']) && $arrTopLists[$aCat['cid']]['index'] == '1')? 'checked' : '' }/>
+							<input type='checkbox' name="cat[{=$theModel['cid']}][index]" value="1" {=(isset($arrTopLists[$theModel['cid']]['index']) && $arrTopLists[$theModel['cid']]['index'] == '1')? 'checked' : '' }/>
 						</td>
 					</tr>
-					</foreach>
+					</model:foreach>
 				</tbody>
 			</table>
 			<input type="submit" class="coresystem-form-button" value="保 存"/>

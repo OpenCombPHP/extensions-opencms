@@ -18,26 +18,27 @@ class IndexManage extends ControlPanel
 	{
 		return array(
 			'view:index'=>array(
-				'template'=>'IndexManage.html',
-				'class'=>'form'
+				'template' => 'IndexManage.html',
+				'class' => 'form',
+				'model' => 'categoryTree',
 			),
 			'model:categoryTree'=>array(
-				'config'=>'model/categoryTree'
-			)
+				'class'=>'model',
+				'list'=>true,
+				'orm'=>array(
+					'table'=>'category',
+					'name'=>'category',
+				)
+			),
 		);
 	}
 	
 	public function process()
 	{
-		// 权限认证
-		//$this->requirePurview(OpenCMS::PURVIEW_ADMIN,'opencms') ;
-				
 		//准备分类信息
-		$aCatIter = Category::loadTotalCategory ( $this->modelCategoryTree->prototype () );
-		
-		Category::buildTree ( $aCatIter );
-		
-		$this->viewIndex->variables()->set('aCatIter',$aCatIter) ;
+		$this->modelCategoryTree->prototype()->criteria()->setLimit(-1);
+		$this->modelCategoryTree->load();
+		Category::buildTree($this->modelCategoryTree);
 		
 		if( $this->viewIndex->isSubmit($this->params) )
 		{

@@ -42,7 +42,12 @@ class ArticleManage extends ControlPanel
 				)
 			),
 			'model:categoryTree'=>array(
-				'config'=>'model/categoryTree'
+				'class'=>'model',
+				'list'=>true,
+				'orm'=>array(
+					'table'=>'category',
+					'name'=>'category',
+				)
 			)
 		);
 	}
@@ -50,9 +55,10 @@ class ArticleManage extends ControlPanel
 	public function process()
 	{
 		//准备分类信息
-		$aCatIter = Category::loadTotalCategory ( $this->modelCategoryTree->prototype () );
-		Category::buildTree ( $aCatIter );
-		$this->viewArticle->variables ()->set ( 'aCatIter', $aCatIter );
+		$this->modelCategoryTree->prototype()->criteria()->setLimit(-1);
+		$this->modelCategoryTree->load();
+		Category::buildTree($this->modelCategoryTree);
+		$this->viewArticle->variables ()->set ( 'aCatIter', $this->modelCategoryTree );
 		
 		//TODO 排序
 		

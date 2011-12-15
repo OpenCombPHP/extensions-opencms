@@ -1,6 +1,7 @@
 <?php
 return array(
-	'class'=>'category',
+	'class'=>'model',
+	'list'=>true,
 	'orm'=>array(
 		'config'=>'model/orm/category',
 	)
