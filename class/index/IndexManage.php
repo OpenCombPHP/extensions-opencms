@@ -3,8 +3,8 @@ namespace org\opencomb\opencms\index;
 
 use org\opencomb\opencms\OpenCMS;
 
-use org\opencomb\system\PlatformFactory;
-use org\opencomb\Platform;
+use org\opencomb\platform\system\PlatformFactory;
+use org\opencomb\platform\Platform;
 use org\jecat\framework\mvc\model\db\Category;
 use org\jecat\framework\lang\oop\ClassLoader;
 use org\jecat\framework\mvc\view\DataExchanger;

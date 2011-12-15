@@ -5,7 +5,7 @@ namespace org\opencomb\opencms;
 // use org\jecat\framework\auth\PurviewManager;
 // use org\jecat\framework\system\AccessRouter;
 use org\jecat\framework\lang\aop\AOP;
-use org\opencomb\ext\Extension ;
+use org\opencomb\platform\ext\Extension ;
 
 class OpenCMS extends Extension
 {
