@@ -68,6 +68,7 @@ class EditArticle extends ControlPanel
 			$this->messageQueue ()->create ( Message::error, "未指定文章" );
 		}
 		
+		$this->viewArticle->variables()->set('page_h1',"编辑文章") ;
 		
 		//如果是提交请求...
 		if ($this->viewArticle->isSubmit ( $this->params ))

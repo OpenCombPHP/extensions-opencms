@@ -61,6 +61,8 @@ class CreateArticle extends ControlPanel
 			$aCatSelectWidget->addOption(str_repeat("&nbsp;&nbsp;", Category::depth($aCat)).$aCat->title,$aCat->cid,false);
 		}
 		
+		$this->viewArticle->variables()->set('page_h1',"新建文章") ;
+		
 		//如果是提交请求...
 		if ($this->viewArticle->isSubmit ( $this->params )) //前面定义了名为article的视图,之后就可以用$this->viewArticle来取得这个视图.控制器把视图当作自己的成员来管理,通过"viewArticle","viewarticle","article"这3种成员变量名都可以访问到这个view,推荐第一种
 		{
