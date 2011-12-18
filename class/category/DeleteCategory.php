@@ -29,8 +29,10 @@ class DeleteCategory extends ControlPanel
 			$arrToDelete = is_array ( $this->params->get ( "cid" ) ) ? $this->params->get ( "cid" ) : ( array ) $this->params->get ( "cid" );
 			$this->modelCategoryTree->prototype ()->criteria ()->where ()->in ( "cid", $arrToDelete );
 			$this->modelCategoryTree->load ();
-			if ($this->modelCategoryTree->delete ())
+			if ($this->modelCategoryTree->totalCount() == 1)
 			{
+				$aCategory = new Category($this->modelCategoryTree);
+				$aCategory->delete();
 				$this->messageQueue ()->create ( Message::success, "删除栏目成功" );
 			}
 			else

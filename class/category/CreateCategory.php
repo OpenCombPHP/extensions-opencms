@@ -28,7 +28,11 @@ class CreateCategory extends ControlPanel
 				)
 			),
 			'model:categoryTree'=>array(
-				'config'=>'model/categoryTree'
+				'class'=>'model',
+				'orm'=>array(
+					'table'=>'category',
+					'name'=>'category',
+				)
 			)
 		);
 	}
@@ -56,12 +60,13 @@ class CreateCategory extends ControlPanel
 				if ($this->modelCategoryTree->save ())
 				{
 					$target = $this->viewCategory->widget("category_parent")->value();
+					$aCategory = new Category($this->modelCategoryTree);
 					if($target == 'end'){
 						//添加顶级栏目
-						$this->modelCategoryTree->insertCategoryToPoint();
+						$aCategory->insertCategoryToPoint();
 					}else{
 						//添加子栏目
-						$this->modelCategoryTree->insertCategoryToPoint((int)$target);
+						$aCategory->insertCategoryToPoint((int)$target);
 					}
 					$this->viewCategory->hideForm ();
 					$this->messageQueue ()->create ( Message::success, "栏目保存成功" );

@@ -31,7 +31,10 @@ class CreateArticle extends ControlPanel
 				)
 			),
 			'model:article'=>array(
-				'config'=>'model/article'
+				'class'=>'model',
+				'orm'=>array(
+					'config'=>'model/orm/article'
+				)
 			),
 			'model:categoryTree'=>array(
 				'class'=>'model',
