@@ -55,9 +55,9 @@ class EditArticle extends ControlPanel
 		
 		Category::buildTree($this->modelCategoryTree);
 		
-		foreach($this->modelCategoryTree as $aCat)
+		foreach($this->modelCategoryTree->childIterator() as $aCat)
 		{
-			$aCatSelectWidget->addOption(str_repeat("&nbsp;&nbsp;", Category::depth($aCat)).$aCat->title,$aCat->cid,false);
+			$aCatSelectWidget->addOption(str_repeat("--", Category::depth($aCat)).$aCat->title,$aCat->cid,false);
 		}
 		
 		//还原文章数据
