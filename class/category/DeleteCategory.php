@@ -28,8 +28,7 @@ class DeleteCategory extends ControlPanel
 		{
 			$arrToDelete = is_array ( $this->params->get ( "cid" ) ) ? $this->params->get ( "cid" ) : ( array ) $this->params->get ( "cid" );
 			$this->modelCategoryTree->prototype ()->criteria ()->where ()->in ( "cid", $arrToDelete );
-			$this->modelCategoryTree->load ();
-			if ($this->modelCategoryTree->totalCount() == 1)
+			if ($this->modelCategoryTree->load ())
 			{
 				$aCategory = new Category($this->modelCategoryTree);
 				$aCategory->delete();
