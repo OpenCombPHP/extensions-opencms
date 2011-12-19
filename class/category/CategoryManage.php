@@ -31,9 +31,6 @@ class CategoryManage extends ControlPanel
 	
 	public function process()
 	{
-		// 权限认证
-		$this->requirePurview(OpenCMS::PURVIEW_ADMIN, 'opencms') ;
-		
 		//准备分类信息
 		$this->modelCategoryTree->prototype()->criteria()->setLimit(-1);
 		$this->modelCategoryTree->load();

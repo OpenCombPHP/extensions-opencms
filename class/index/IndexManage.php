@@ -53,7 +53,7 @@ class IndexManage extends ControlPanel
 			
 			$this->viewIndex->variables()->set('arrTopLists',$arrTopLists) ;
 			
-			$this->messageQueue ()->create(Message::success,"最新文章列表设置保存成功");
+			$this->messageQueue ()->create(Message::success,"首页设置保存成功");
 		}else{
 			$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
 			$arrTopLists = $aSetting->item('/index/toplist','toplist',array()) ;

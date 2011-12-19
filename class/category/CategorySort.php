@@ -29,9 +29,6 @@ class CategorySort extends ControlPanel
 	
 	public function process()
 	{
-		// 权限认证
-		$this->requirePurview(OpenCMS::PURVIEW_ADMIN, 'opencms') ;
-		
 		//向哪?
 		if ($this->params->has ( 'to' ))
 		{

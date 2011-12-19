@@ -35,7 +35,6 @@ class Index extends Controller
 						'params' => array_merge($arrTopList,array('cid'=>$nCid , 'orderby'=>'views')),
 				);
 			}
-			
 		}
 		return $arrBean;
 	}
