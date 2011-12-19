@@ -2,6 +2,11 @@
 return array(
 	'class'=>'model',
 	'orm'=>array(
-		'config'=>'model/orm/category',
+		'table'=>'category',
+		'hasMany:article'=>array(
+				'fromkeys'=>'cid',
+				'tokeys'=>'cid',
+				'config'=>'model/orm/article'
+		)
 	)
 );

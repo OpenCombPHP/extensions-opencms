@@ -16,7 +16,6 @@ class Index extends Controller
 					'template'=>'Index.html',
 					'class'=>'view',
 				),
-				
 				'controllers' => array() ,
 		);
 		
@@ -29,7 +28,6 @@ class Index extends Controller
 						'params' => array_merge($arrTopList,array('cid'=>$nCid)),
 					);
 		}
-		
 		return $arrBean;
 	}
 

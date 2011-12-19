@@ -19,7 +19,7 @@ class ArticleContent extends Controller
 			'model:article'=>array(
 				'class'=>'model',
 				'orm'=>array(
-					'config'=>'model/orm/article'
+					'table'=>'article'
 				)
 			),
 		);
@@ -27,8 +27,8 @@ class ArticleContent extends Controller
 	
 	public function process()
 	{
-		if($this->params->has("pid")){
-			if(!$this->modelArticle->load(array($this->params->get("pid")),array('pid'))){
+		if($this->params->has("aid")){
+			if(!$this->modelArticle->load(array($this->params->get("aid")),array('aid'))){
 				$this->messageQueue ()->create ( Message::error, "错误的文章编号" );
 			}
 		}else{

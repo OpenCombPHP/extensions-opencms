@@ -24,7 +24,7 @@ class DeleteCategory extends ControlPanel
 			'model:article'=>array(
 				'class'=>'model',
 				'orm'=>array(
-					'config'=>'model/orm/article'
+					'table'=>'article'
 				)
 			),
 		);
@@ -39,8 +39,15 @@ class DeleteCategory extends ControlPanel
 			$this->modelCategory->prototype ()->criteria ()->where ()->in ( "cid", $arrToDelete );
 			if ($this->modelCategory->load ())
 			{
+				//保证正在删除的分类没有文章
 				if($this->modelArticle->load (array($this->modelCategory->data('cid')),array('cid'))){
 					$this->messageQueue ()->create ( Message::error, "栏目中有文章,请先转移文章再删除栏目" );
+					return;
+				}
+				
+				//保证正在删除的分类没有子分类
+				if(Category::rightPoint($this->modelCategory) - Category::leftPoint($this->modelCategory) > 1){
+					$this->messageQueue ()->create ( Message::error, "栏目中有子栏目,请先转移子栏目再试" );
 					return;
 				}
 				$aCategory = new Category($this->modelCategory);

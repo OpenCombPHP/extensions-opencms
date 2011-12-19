@@ -33,7 +33,7 @@ class CreateArticle extends ControlPanel
 			'model:article'=>array(
 				'class'=>'model',
 				'orm'=>array(
-					'config'=>'model/orm/article'
+					'table'=>'article'
 				)
 			),
 			'model:categoryTree'=>array(
@@ -78,24 +78,9 @@ class CreateArticle extends ControlPanel
 				{
 					break;
 				}
-// 				var_dump($this->viewArticle->widget("article_cat")->value());exit;
-				//检查
-				// 				if(!$this->params->has("article_title") || strlen($this->params->get("article_title")) == 0){
-				//					//把错误信息发送到这个控制器的消息队列中
-				// 					$this->messageQueue()->create( Message::error, "文章标题不能为空" );
-				// 				}
-				// 				if(!$this->params->has("article_cat") || strlen($this->viewArticle->widget("article_cat")->value()) == 0){
-				// 					$this->messageQueue()->create( Message::error, "文章分类不能为空" );
-				// 				}
-				// 				if(!$this->params->has("article_content") || strlen($this->article_content->value()) == 0){
-				// 					$this->messageQueue()->create( Message::error, "文章内容不能为空" );
-				// 				}
-				
-// 				$this->viewArticle->variables()->set('aArtIter',$this->modelArticles->childIterator()) ;
-				
 				
 				//记录创建时间
-				$this->modelArticle->setData('post.createTime',time());
+				$this->modelArticle->setData('createTime',time());
 				
 				$this->viewArticle->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
 				
@@ -111,75 +96,6 @@ class CreateArticle extends ControlPanel
 				}
 			} while ( 0 );
 		}
-	
-		// 		if ($this->viewAddPhoto->isSubmit ( $this->aParams )) {
-	// 			do {
-	// 				$this->viewAddPhoto->loadWidgets ( $this->aParams );
-	// 				if (! $this->viewAddPhoto->verifyWidgets ()) {
-	// 					$this->photoupdate->setValue(null);
-	// 					break ;
-	// 				}
-	
-
-	// 				//是否有目标相册的所有权
-	// 				$aSelectAlbumModel = $this->modelAlbum->findChildBy($this->aParams->get('photoalbum'));
-	// 				if( $this->nUid != $aSelectAlbumModel['uid'] )
-	// 				{
-	// 					$this->permissionDenied('没有权限',array()) ;
-	// 				}
-	
-
-	// 				$this->viewAddPhoto->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
-	// 				try{
-	
-
-	// 					//如果是在新建照片,就带上一个创建时间
-	// 					if(!$this->aParams->has('pid')){
-	// 						$this->modelPhoto->createTime = time() ;
-	// 					}
-	
-
-	// 					//如果已经登录,就把当前的uid录入到uid字段,但事实上,编辑表单是需要权限的,所以在权限做好以后应该省略判断
-	// 					if( IdManager::singleton()->currentId() && $uidFromSession = IdManager::singleton()->currentId()->userId() ){
-	// 						$this->modelPhoto->uid = $uidFromSession;
-	// 					}
-	
-
-	// 					//记录文件大小
-	// 					if($this->aParams->has('photoupdate')){
-	// 						if(($aFile = $this->viewAddPhoto->widget('photoupdate')->value()) != null){
-	// 							$this->modelPhoto->bytes = $aFile->length();
-	// 						}else{
-	// 							$this->messageQueue()->create( Message::error, "照片提交失败" );
-	// 							return ;
-	// 						}
-	// 					}
-	
-
-	// 					if($this->modelPhoto->save()){
-	
-
-	// 						//更新相册总大小
-	// 						$aSelectAlbumModel->bytes = $aSelectAlbumModel->bytes + $this->modelPhoto->bytes;
-	// 						if(!$aSelectAlbumModel->save()){
-	// 							throw new Exception('更新相册总大小失败!');
-	// 						}
-	
-
-	// 						$this->viewAddPhoto->hideForm();
-	// 						$this->messageQueue()->create( Message::success, "照片提交完成" );
-	// 					}else{
-	// 						$this->messageQueue()->create( Message::error, "照片提交失败" );
-	// 					}
-	// 				}catch (Exception $e){
-	// 					$this->messageQueue()->create( Message::error, "照片提交失败" );
-	// 				}
-	
-
-	// 			} while ( 0 );
-	// 		}
-	// 		else {
-	// 		}
 	}
 }
 

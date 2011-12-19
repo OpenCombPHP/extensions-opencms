@@ -5,8 +5,8 @@
 	<ul>
 		<model:foreach>
 		<li>
-			<a href="/?c=org.opencomb.opencms.article.ArticleContent&pid={=$theModel['pid']}"><data>post.title</data></a>
-			<span>{=date("Y年m月d日", $theModel['post.createTime'])}</span>
+			<a href="/?c=org.opencomb.opencms.article.ArticleContent&aid={=$theModel['aid']}">{=$theModel['title']}</a>
+			<span>{=date("Y年m月d日", $theModel['createTime'])}</span>
 		</li>
 		</model:foreach>
 	</ul>

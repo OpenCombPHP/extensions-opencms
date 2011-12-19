@@ -10,8 +10,8 @@
 		<tbody>
 			<model:foreach>
 			<tr>
-				<td><a href="/?c=org.opencomb.opencms.article.ArticleContent&pid={=$theModel['pid']}"><data>post.title</data></a></td>
-				<td>{=date("Y年m月d日 H:m:s", $theModel['post.createTime'])}</td>
+				<td><a href="/?c=org.opencomb.opencms.article.ArticleContent&aid={=$theModel['aid']}"><data>title</data></a></td>
+				<td>{=date("Y年m月d日 H:m:s", $theModel['createTime'])}</td>
 			</tr>
 			</model:foreach>
 		</tbody>

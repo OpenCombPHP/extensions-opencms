@@ -31,20 +31,13 @@ class TopList extends Controller
 			$arrBean['model:articles'] = array(
 				'list'=>true,
 				'orm'=>array(
-					'columns' => array('pid') ,
 					'table'=>'article',
-					'hasOne:post'=>array(
-						'fromkeys'=>'pid',
-						'tokeys'=>'pid',
-						'config'=>'basepost:model/orm/post'
-					),
 				)
 			);
 		}else{  //遍历范围,所有层
 			$arrBean['model:articles'] = array(
 				'list'=>true,
 				'orm'=>array(
-					'columns' => array('pid') ,
 					'table'=>'article',
 					'hasOne:category'=>array(
 						'fromkeys'=>'cid',
@@ -52,15 +45,9 @@ class TopList extends Controller
 						'columns' => array('title') ,
 						'table'=>'category',
 					) ,
-					'hasOne:post'=>array(
-						'fromkeys'=>'pid',
-						'tokeys'=>'pid',
-						'config'=>'basepost:model/orm/post'
-					),
 				)
-			);
+			); 
 		}
-		
 		return $arrBean;
 	}
 	
@@ -91,9 +78,9 @@ class TopList extends Controller
 		
 		//排序,默认按照时间反序排列
 		if($this->params->has('order') and $this->params->get('order') == "asc"){
-			$this->modelArticles->prototype()->criteria()->addOrderBy('post.createTime',false);
+			$this->modelArticles->prototype()->criteria()->addOrderBy('createTime',false);
 		}else{
-			$this->modelArticles->prototype()->criteria()->addOrderBy('post.createTime',true);
+			$this->modelArticles->prototype()->criteria()->addOrderBy('createTime',true);
 		}
 		
 		//页面显示结果数,默认20
@@ -104,7 +91,6 @@ class TopList extends Controller
 		}
 		
 		$this->modelArticles->load($aWhere);
-			
 	}
 }
 

@@ -30,7 +30,6 @@ class ArticleList extends Controller
 			'model:articles'=>array(
 				'list'=>true,
 				'orm'=>array(
-					'columns' => array('pid') ,
 					'table'=>'article',
 					'hasOne:category'=>array(
 						'fromkeys'=>'cid',
@@ -38,11 +37,6 @@ class ArticleList extends Controller
 						'columns' => array('title') ,
 						'table'=>'category',
 					) ,
-					'belongsTo:post'=>array(
-						'fromkeys'=>'pid',
-						'tokeys'=>'pid',
-						'config'=>'basepost:model/orm/post'
-					),
 				)
 			)
 		);
@@ -64,9 +58,9 @@ class ArticleList extends Controller
 			$aWhere->le("category.rgt",$this->modelCategory->data('rgt'));
 			
 			if($this->params->has('order') and $this->params->get('order') == "asc"){
-				$this->modelArticles->prototype()->criteria()->addOrderBy('post.createTime',false);
+				$this->modelArticles->prototype()->criteria()->addOrderBy('createTime',false);
 			}else{
-				$this->modelArticles->prototype()->criteria()->addOrderBy('post.createTime',true);
+				$this->modelArticles->prototype()->criteria()->addOrderBy('createTime',true);
 			}
 			
 			//页面显示结果数,默认20
@@ -77,9 +71,6 @@ class ArticleList extends Controller
 			}
 			
 			$this->modelArticles->load($aWhere);
-			
-// 			$this->modelArticles->db()->executeLog();
-// 			$this->modelArticles->printStruct();
 			
 		}else{
 			$this->messageQueue ()->create ( Message::error, "未指定分类" );

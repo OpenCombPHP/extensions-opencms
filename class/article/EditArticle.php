@@ -33,7 +33,7 @@ class EditArticle extends ControlPanel
 			'model:article'=>array(
 				'class'=>'model',
 				'orm'=>array(
-					'config'=>'model/orm/article'
+					'table'=>'article'
 				)
 			),
 			'model:categoryTree'=>array(
@@ -64,8 +64,8 @@ class EditArticle extends ControlPanel
 		}
 		
 		//还原文章数据
-		if($this->params->has("pid")){
-			$this->modelArticle->load(array($this->params->get("pid")),array("pid"));
+		if($this->params->has("aid")){
+			$this->modelArticle->load(array($this->params->get("aid")),array("aid"));
 			$this->viewArticle->exchangeData ( DataExchanger::MODEL_TO_WIDGET);
 		}else{
 			$this->messageQueue ()->create ( Message::error, "未指定文章" );

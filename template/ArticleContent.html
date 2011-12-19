@@ -1,7 +1,7 @@
 <div id='articleContent'>
 	<msgqueue for="$theController->messageQueue()" />
-	<h1 class="article_title">{=$article['post.title']}</h1>
-	<div class="article_createTime">{=date("Y年m月d日 H:m:s", $article['post.createTime'])}</div>
-	<div class="article_content">{=$article['post.text']}</div>
+	<h1 class="article_title">{=$article['title']}</h1>
+	<div class="article_createTime">{=date("Y年m月d日 H:m:s", $article['createTime'])}</div>
+	<div class="article_content">{=$article['text']}</div>
 </div>
 <views/>
