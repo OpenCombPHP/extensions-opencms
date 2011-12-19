@@ -14,22 +14,37 @@
 				<th width="50px">id</th>
 				<th>文章名称</th>
 				<th>文章栏目</th>
+				<th width="60px">浏览次数</th>
 				<th width="50px">编辑</th>
 				<th width="50px">删除</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody id="tableStyle">
 			<foreach for="$aArtIter" item="aArt">
 			<tr>
 				<td>{=$aArt['aid']}</td>
 				<td><a href="?c=org.opencomb.opencms.article.ArticleContent&aid={=$aArt['aid']}">{=$aArt['title']}</a></td>
 				<td><a href="?c=org.opencomb.opencms.article.ArticleList&cid={=$aArt['cid']}">{=$aArt['category.title']}</a></td>
+				<td>{=$aArt['views']}</td>
 				<td><a href="?c=org.opencomb.opencms.article.EditArticle&aid={=$aArt['aid']}">编辑</a></td>
 				<td><a href="?c=org.opencomb.opencms.article.DeleteArticle&aid={=$aArt['aid']}" onclick="javascript:return confirmDel();">删除</a></td>
 			</tr>
 			</foreach>
 		</tbody>
 	</table>
+	<script type="text/javascript">
+var TbRow = document.getElementById("tableStyle");
+if (TbRow != null){
+	for (var i=0;i<TbRow.rows.length ;i++ ){
+		if (TbRow.rows[i].rowIndex%2==1){
+			TbRow.rows[i].style.backgroundColor="";
+		}
+		else{
+			TbRow.rows[i].style.backgroundColor="#F1F1F1";
+		}
+	}
+}
+</script>
 </div>
 
 <widget id="paginator" attr.nums="10" attr.showFirst="1" attr.showLast="1" attr.showTotal="1" attr.showPre="1" attr.showNext="1" />

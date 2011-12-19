@@ -44,18 +44,16 @@ class IndexManage extends ControlPanel
 		{
 			$arrTopLists = array();
 			foreach( $this->params->get('cat') as $sCid => $arrTopList){
-				if(!isset($arrTopList['index']) || $arrTopList['index']!="1"){
-					continue;
+				if(isset($arrTopList['index_new']) || isset($arrTopList['index_hot'])){
+					$arrTopLists[ (int)$sCid ] = $arrTopList;
 				}
-				$arrTopLists[ (int)$sCid ] = $arrTopList;
 			}
-			
 			$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
 			$aSetting->setItem('/index/toplist','toplist',$arrTopLists) ;
 			
 			$this->viewIndex->variables()->set('arrTopLists',$arrTopLists) ;
 			
-			$this->viewIndex->createMessage(Message::success,"最新文章列表设置保存成功");
+			$this->messageQueue ()->create(Message::success,"最新文章列表设置保存成功");
 		}else{
 			$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
 			$arrTopLists = $aSetting->item('/index/toplist','toplist',array()) ;

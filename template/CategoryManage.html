@@ -19,7 +19,7 @@
 				<th width="50">删除</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody id="tableStyle">
 			<model:foreach>
 			<tr>
 				<td>{=$theModel['cid']}</td>
@@ -33,4 +33,17 @@
 			</model:foreach>
 		</tbody>
 	</table>
+	<script type="text/javascript">
+var TbRow = document.getElementById("tableStyle");
+if (TbRow != null){
+	for (var i=0;i<TbRow.rows.length ;i++ ){
+		if (TbRow.rows[i].rowIndex%2==1){
+			TbRow.rows[i].style.backgroundColor="";
+		}
+		else{
+			TbRow.rows[i].style.backgroundColor="#F1F1F1";
+		}
+	}
+}
+</script>
 </div>

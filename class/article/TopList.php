@@ -2,7 +2,6 @@
 namespace org\opencomb\opencms\article;
 
 
-use org\jecat\framework\db\DB;
 use org\jecat\framework\mvc\model\db\Category;
 use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
@@ -76,12 +75,18 @@ class TopList extends Controller
 			$aWhere->le("category.rgt",$this->modelCategory->data('rgt'));
 		}
 		
-		//排序,默认按照时间反序排列
-		if($this->params->has('order') and $this->params->get('order') == "asc"){
-			$this->modelArticles->prototype()->criteria()->addOrderBy('createTime',false);
-		}else{
-			$this->modelArticles->prototype()->criteria()->addOrderBy('createTime',true);
+		//排序依据(列)
+		$sOrderBy = "creatTime";
+		if($this->params->has('orderby')){
+			$sOrderBy = $this->params->get('orderby');
 		}
+		
+		//排序,默认按照时间反序排列
+		$bOrder = true;
+		if($this->params->has('order') and $this->params->get('order') == "asc"){
+			$bOrder = false;
+		}
+		$this->modelArticles->prototype()->criteria()->addOrderBy($sOrderBy,$bOrder);
 		
 		//页面显示结果数,默认20
 		if($this->params->has("limit")){

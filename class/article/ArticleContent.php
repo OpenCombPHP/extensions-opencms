@@ -1,8 +1,6 @@
 <?php
 namespace org\opencomb\opencms\article;
 
-
-use org\jecat\framework\db\DB;
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\Controller;
 
@@ -35,8 +33,11 @@ class ArticleContent extends Controller
 			$this->messageQueue ()->create ( Message::error, "未指定文章" );
 		}
 		
+		//浏览次数
+		$this->modelArticle->setData("views",(int)$this->modelArticle->data("views")+1);
+		$this->modelArticle->save();
+		
 		$this->viewArticle->variables()->set('article',$this->modelArticle) ;
 	}
 }
-
 ?>

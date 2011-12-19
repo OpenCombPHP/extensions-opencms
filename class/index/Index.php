@@ -23,10 +23,19 @@ class Index extends Controller
 		$arrTopLists = $aSetting->item('/index/toplist','toplist',array()) ;
 		
 		foreach($arrTopLists as $nCid => $arrTopList){
-			$arrBean['controllers']['topList'.$nCid] = array(
+			if(isset($arrTopList['index_new'])){
+				$arrBean['controllers']['topList_new_'.$nCid] = array(
 						'class' => 'org\\opencomb\\opencms\\article\\TopList' ,
-						'params' => array_merge($arrTopList,array('cid'=>$nCid)),
-					);
+						'params' => array_merge($arrTopList,array('cid'=>$nCid , 'orderby'=>'createTime')),
+				);
+			}
+			if(isset($arrTopList['index_hot'])){
+				$arrBean['controllers']['topList_hot_'.$nCid] = array(
+						'class' => 'org\\opencomb\\opencms\\article\\TopList' ,
+						'params' => array_merge($arrTopList,array('cid'=>$nCid , 'orderby'=>'views')),
+				);
+			}
+			
 		}
 		return $arrBean;
 	}

@@ -4,7 +4,6 @@ namespace org\opencomb\opencms\article;
 use org\jecat\framework\db\DB;
 
 use org\jecat\framework\mvc\model\db\Category;
-
 use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
@@ -52,15 +51,10 @@ class ArticleManage extends ControlPanel
 		//准备分类信息
 		$this->modelCategoryTree->prototype()->criteria()->setLimit(-1);
 		$this->modelCategoryTree->load();
+		
 		Category::buildTree($this->modelCategoryTree);
 		$this->viewArticle->variables ()->set ( 'aCatIter', $this->modelCategoryTree );
 		
-		//TODO 排序
-		
-		//TODO groupby
-		
-		//限制
-// 		$this->modelArticles->prototype()->criteria()->setLimit();
 		$this->modelArticles->load ();
 		$this->viewArticle->variables()->set('aArtIter',$this->modelArticles->childIterator()) ;
 	}
