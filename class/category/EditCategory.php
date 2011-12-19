@@ -25,7 +25,8 @@ class EditCategory extends ControlPanel
 				)
 			),
 			'model:categoryTree'=>array(
-				'config'=>'model/categoryTree'
+				'config'=>'model/categoryTree',
+				'list'=>false,
 			)
 		);
 	}

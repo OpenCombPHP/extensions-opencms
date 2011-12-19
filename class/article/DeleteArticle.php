@@ -16,7 +16,10 @@ class DeleteArticle extends ControlPanel
 				'class'=>'view'
 			),
 			'model:article'=>array(
-				'config'=>'model/article'
+				'class'=>'model',
+				'orm'=>array(
+					'config'=>'model/orm/article'
+				)
 			)
 		);
 	}

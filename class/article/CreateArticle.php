@@ -31,7 +31,10 @@ class CreateArticle extends ControlPanel
 				)
 			),
 			'model:article'=>array(
-				'config'=>'model/article'
+				'class'=>'model',
+				'orm'=>array(
+					'config'=>'model/orm/article'
+				)
 			),
 			'model:categoryTree'=>array(
 				'class'=>'model',
@@ -56,9 +59,9 @@ class CreateArticle extends ControlPanel
 		
 		Category::buildTree($this->modelCategoryTree);
 		
-		foreach($this->modelCategoryTree as $aCat)
+		foreach($this->modelCategoryTree->childIterator() as $aCat)
 		{
-			$aCatSelectWidget->addOption(str_repeat("&nbsp;&nbsp;", Category::depth($aCat)).$aCat->title,$aCat->cid,false);
+			$aCatSelectWidget->addOption(str_repeat("--", Category::depth($aCat)).$aCat->title,$aCat->cid,false);
 		}
 		
 		$this->viewArticle->variables()->set('page_h1',"新建文章") ;

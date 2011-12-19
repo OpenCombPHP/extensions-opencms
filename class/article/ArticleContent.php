@@ -17,11 +17,11 @@ class ArticleContent extends Controller
 				'model'=>'article',
 			),
 			'model:article'=>array(
-				'config'=>'model/article'
+				'class'=>'model',
+				'orm'=>array(
+					'config'=>'model/orm/article'
+				)
 			),
-// 			'model:categoryTree'=>array(
-// 				'config'=>'model/category'
-// 			)
 		);
 	}
 	
