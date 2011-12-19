@@ -15,9 +15,18 @@ class DeleteCategory extends ControlPanel
 				'template'=>'DeleteCategory.html',
 				'class'=>'view'
 			),
-			'model:categoryTree'=>array(
-				'config'=>'model/categoryTree'
-			)
+			'model:category'=>array(
+				'class'=>'model',
+				'orm'=>array(
+					'table'=>'category',
+				)
+			),
+			'model:article'=>array(
+				'class'=>'model',
+				'orm'=>array(
+					'config'=>'model/orm/article'
+				)
+			),
 		);
 	}
 	
@@ -27,10 +36,14 @@ class DeleteCategory extends ControlPanel
 		if ($this->params->has ( "cid" ))
 		{
 			$arrToDelete = is_array ( $this->params->get ( "cid" ) ) ? $this->params->get ( "cid" ) : ( array ) $this->params->get ( "cid" );
-			$this->modelCategoryTree->prototype ()->criteria ()->where ()->in ( "cid", $arrToDelete );
-			if ($this->modelCategoryTree->load ())
+			$this->modelCategory->prototype ()->criteria ()->where ()->in ( "cid", $arrToDelete );
+			if ($this->modelCategory->load ())
 			{
-				$aCategory = new Category($this->modelCategoryTree);
+				if($this->modelArticle->load (array($this->modelCategory->data('cid')),array('cid'))){
+					$this->messageQueue ()->create ( Message::error, "栏目中有文章,请先转移文章再删除栏目" );
+					return;
+				}
+				$aCategory = new Category($this->modelCategory);
 				$aCategory->delete();
 				$this->messageQueue ()->create ( Message::success, "删除栏目成功" );
 			}
