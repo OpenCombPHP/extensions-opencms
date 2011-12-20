@@ -25,5 +25,6 @@ class OpenCMS extends Extension
 		
 		//菜单
 		AOP::singleton()->register('org\\opencomb\\opencms\\aspect\\ControlPanelFrameAspect') ;
+		AOP::singleton()->register('org\\opencomb\\opencms\\aspect\\MainMenuAspect') ;
 	}
 }
