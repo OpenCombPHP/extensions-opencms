@@ -9,7 +9,7 @@ return array(
 				array(
 					'title'=>'文章管理',
 					'link'=>'?c=org.opencomb.opencms.article.ArticleManage',
-					'query'=>array(
+					'query'=>array(  //query可以让以下几个页面也带有侧边菜单
 						'c=org.opencomb.opencms.article.ArticleManage' ,
 						'c=org.opencomb.opencms.article.CreateArticle' ,
 						'c=org.opencomb.opencms.article.EditArticle' ,
@@ -21,6 +21,8 @@ return array(
 					'query'=> array(
 						'c=org.opencomb.opencms.category.CategoryManage' ,
 						'c=org.opencomb.opencms.category.CreateCategory' ,
+						'c=org.opencomb.opencms.category.EditCategory' ,
+						'c=org.opencomb.opencms.category.DeleteCategory' ,
 					)
 				),
 				array(
