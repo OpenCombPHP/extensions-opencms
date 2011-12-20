@@ -39,7 +39,10 @@ class MenuManage extends ControlPanel
 			$arrMenus = array();
 			foreach( $this->params->get('cat') as $sCid => $arrMenu){
 				if(isset($arrMenu['mainmenu'])){
-					$arrMenus[ (int)$sCid ] = $arrMenu;
+					$arrMenus[ (int)$sCid ] = array(
+							'title'=>$this->modelCategoryTree->findChildBy($sCid,"cid")->data('title'),
+							'link'=>'?c=org.opencomb.opencms.article.ArticleList&cid='.$sCid ,
+					);
 				}
 			}
 			$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
