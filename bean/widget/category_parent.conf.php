@@ -1,8 +1,6 @@
 <?php
 return array(
 	'id'=>'category_parent',
-	'class'=>'text',
-	'type'=>'hidden',
+	'class'=>'select',
 	'title'=>'分类关系',
-	'verifier:notempty'=>array()
 );

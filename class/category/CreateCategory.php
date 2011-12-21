@@ -14,7 +14,7 @@ class CreateCategory extends ControlPanel
 			'view:category'=>array(
 				'template'=>'CategoryForm.html',
 				'class'=>'form',
-				'model'=>'categoryTree',
+				'model'=>'category',
 				'widgets'=>array(
 					array(
 						'config'=>'widget/category_title'
@@ -28,10 +28,12 @@ class CreateCategory extends ControlPanel
 				)
 			),
 			'model:categoryTree'=>array(
+				'config'=>'model/categoryTree',
+			),
+			'model:category'=>array(
 				'class'=>'model',
 				'orm'=>array(
 					'table'=>'category',
-					'name'=>'category',
 				)
 			)
 		);
@@ -39,11 +41,22 @@ class CreateCategory extends ControlPanel
 	
 	public function process()
 	{
-		if($this->params->has('target')){
-			$this->viewCategory->widget("category_parent")->setValue($this->params->get('target'));
-		}else{
-			$this->messageQueue ()->create ( Message::error, "没有设置父分类" );
+		//准备分类信息
+		$this->modelCategoryTree->prototype()->criteria()->setLimit(-1);
+		$this->modelCategoryTree->load();
+		
+		Category::buildTree($this->modelCategoryTree);
+		
+		$aCatSelectWidget = $this->viewCategory->widget("category_parent");
+		$aCatSelectWidget->addOption("顶级分类",null,true);
+		foreach($this->modelCategoryTree->childIterator() as $aCat)
+		{
+			$bSelect = $aCat->rgt == $this->params->get('target') ? true : false;
+			$aCatSelectWidget->addOption(str_repeat("--", Category::depth($aCat)).$aCat->title,$aCat->cid.":".$aCat->rgt,$bSelect);
 		}
+		
+		$this->viewCategory->variables()->set('sPageTitle','新建栏目') ;
+		
 		//如果是提交请求...
 		if ($this->viewCategory->isSubmit ( $this->params )) //前面定义了名为article的视图,之后就可以用$this->viewCategory来取得这个视图.控制器把视图当作自己的成员来管理,通过"viewCategory","viewCategory","article"这3种成员变量名都可以访问到这个view,推荐第一种
 		{
@@ -57,16 +70,16 @@ class CreateCategory extends ControlPanel
 					break;
 				}
 				$this->viewCategory->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
-				if ($this->modelCategoryTree->save ())
+				if ($this->modelCategory->save ())
 				{
-					$target = $this->viewCategory->widget("category_parent")->value();
-					$aCategory = new Category($this->modelCategoryTree);
-					if($target == 'end'){
+					$target = explode(":",$this->viewCategory->widget("category_parent")->value());
+					$aCategory = new Category($this->modelCategory);
+					if(count($target) == 1){
 						//添加顶级栏目
 						$aCategory->insertCategoryToPoint();
 					}else{
 						//添加子栏目
-						$aCategory->insertCategoryToPoint((int)$target);
+						$aCategory->insertCategoryToPoint((int)$target[1]);
 					}
 					$this->viewCategory->hideForm ();
 					$this->messageQueue ()->create ( Message::success, "栏目保存成功" );
