@@ -62,6 +62,7 @@ class TopList extends Controller
 			$this->messageQueue ()->create ( Message::error, "无效的分类编号" );
 		}
 		$this->viewArticle->variables()->set('sCategoryTitle',$this->modelCategory->data('title')) ;
+		$this->viewArticle->variables()->set('nCid',$this->params->get("cid")) ;
 		
 		$aWhere = clone $this->modelArticles->prototype()->criteria()->where();
 		
