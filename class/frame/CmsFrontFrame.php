@@ -16,7 +16,7 @@ class CmsFrontFrame extends FrontFrame
 			) ,
 			'controllers' => array() ,
 		) ;
-		
+		/*
 		$nCid = $this->params->get('cid');
 		
 		$arrBean['controllers']['topListNew'] = array(
@@ -26,7 +26,7 @@ class CmsFrontFrame extends FrontFrame
 		$arrBean['controllers']['topListHot'] = array(
 				'class' => 'org\\opencomb\\opencms\\article\\TopList' ,
 				'params' => array('cid'=>$nCid , 'orderby'=>'views'),
-		);
+		);*/
 		
 // 		var_dump($arrBean);exit;
 		
