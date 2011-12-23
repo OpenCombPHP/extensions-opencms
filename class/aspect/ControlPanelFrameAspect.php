@@ -2,7 +2,6 @@
 namespace org\opencomb\opencms\aspect ;
 
 use org\jecat\framework\bean\BeanFactory;
-
 use org\jecat\framework\lang\aop\jointpoint\JointPointMethodDefine;
 
 class ControlPanelFrameAspect
