@@ -2,13 +2,14 @@
 namespace org\opencomb\opencms\article;
 
 
+use org\opencomb\opencms\frame\CmsFrontController;
+
 use org\jecat\framework\db\DB;
 use org\jecat\framework\mvc\model\db\Category;
 use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
-use org\opencomb\coresystem\mvc\controller\Controller;
 
-class ArticleList extends Controller
+class ArticleList extends CmsFrontController
 {
 	public function createBeanConfig()
 	{
@@ -71,6 +72,9 @@ class ArticleList extends Controller
 			}
 			
 			$this->modelArticles->load($aWhere);
+			
+			//把cid传给frame
+			$this->frame()->params()->set('cid',$this->params->get("cid"));
 			
 		}else{
 			$this->messageQueue ()->create ( Message::error, "未指定分类" );
