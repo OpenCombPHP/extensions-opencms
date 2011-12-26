@@ -9,7 +9,13 @@ class CmsFrontFrame extends FrontFrame
 {
 	public function createBeanConfig()
 	{
-		return array(
+		$arrConfig = array(
+				
+			'frameview:frameView' => array(
+				'template' => 'coresystem:FrontFrame.html' ,
+				'widget:mainMenu' => array( 'config'=>'coresystem:widget/front-frame-menu' ) ,
+			) ,
+				
 			'frameview:CmsFrameView' => array(
 				'template' => 'CmsFrame.html' ,
 				'widget:mainMenu' => array( 'config'=>'coresystem:widget/front-frame-menu' ) ,
@@ -27,6 +33,8 @@ class CmsFrontFrame extends FrontFrame
 				'params' => array('orderby'=>'views'),
 			) ,
 		) ;
+		
+		return $arrConfig ;
 	}
 }
 ?>
