@@ -74,7 +74,7 @@ class ArticleList extends CmsFrontController
 			$this->modelArticles->load($aWhere);
 			
 			//把cid传给frame
-			$this->frame()->params()->set('cid',$this->params->get("cid"));
+			$this->params()->set('cid',$this->params->get("cid"));
 			
 		}else{
 			$this->messageQueue ()->create ( Message::error, "未指定分类" );

@@ -33,6 +33,8 @@ class ArticleContent extends CmsFrontController
 			$this->messageQueue ()->create ( Message::error, "未指定文章" );
 		}
 		
+		$this->params()->set('cid',$this->modelArticle->cid) ;
+		
 		//浏览次数
 		$this->modelArticle->setData("views",(int)$this->modelArticle->data("views")+1);
 		$this->modelArticle->save();
