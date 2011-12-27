@@ -1,12 +1,13 @@
 <div class='topList'>
 	<msgqueue for="$theController->messageQueue()" />
-	<a href="?c=org.opencomb.opencms.article.ArticleList&cid=3" class="frontframe-more">更多</a>
-	<h3>{=$sCategoryTitle}</h3>
+	
+	<h3>{=$sCategoryTitle}<a href="?c=org.opencomb.opencms.article.ArticleList&cid=3" class="frontframe-more">更多</a></h3>
 	<ul>
 		<model:foreach>
 		<li>
-			<a href="/?c=org.opencomb.opencms.article.ArticleContent&aid={=$theModel['aid']}">{=$theModel['title']}</a>
 			<span>{=date("Y年m月d日", $theModel['createTime'])}</span>
+			<a href="/?c=org.opencomb.opencms.article.ArticleContent&aid={=$theModel['aid']}">{=$theModel['title']}</a>
+			
 		</li>
 		</model:foreach>
 	</ul>
