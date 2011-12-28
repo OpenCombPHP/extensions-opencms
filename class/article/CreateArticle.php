@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\opencms\article;
 
+use org\jecat\framework\lang\Exception;
+
 use org\jecat\framework\db\DB;
 
 use org\jecat\framework\mvc\model\db\Category;

@@ -1,3 +1,4 @@
+<lib name='jquery'/>
 <div class='topList'>
 	<msgqueue for="$theController->messageQueue()" />
 	<a href="?c=org.opencomb.opencms.article.ArticleList&cid={=$nCid}" class="frontframe-more">更多</a>
@@ -5,10 +6,11 @@
 	<ul>
 		<model:foreach>
 		<li>
-			<a href="/?c=org.opencomb.opencms.article.ArticleContent&aid={=$theModel['aid']}">{=$theModel['title']}</a>
+			<a href="/?c=org.opencomb.opencms.article.ArticleContent&aid={=$theModel['aid']}" title="{=$theModel['title']}">{=$theModel['title']}</a>
 			<span>{=date("Y年m月d日", $theModel['createTime'])}</span>
 		</li>
 		</model:foreach>
 	</ul>
 </div>
+<!-- <script src='extensions/opencms/0.1/public/js/topListShortTitle.js' ></script> -->
 <views/>
