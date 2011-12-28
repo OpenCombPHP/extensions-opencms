@@ -9,26 +9,32 @@ class CmsFrontFrame extends FrontFrame
 {
 	public function createBeanConfig()
 	{
-		$arrBean =  array(
-				'frameview:CmsFrameView' => array(
-					'template' => 'CmsFrame.html' ,
-				) ,
+		$arrConfig = array(
 				
-				// 控制器栏目内最新内容
-				'controller:topListNew' => array(
-					'class' => 'org\\opencomb\\opencms\\article\\TopList' ,
-					'params' => array('orderby'=>'createTime'),
-				) ,
-					
-					// 控制器栏目内最热内容
-				'controller:topListHot' => array(
-					'class' => 'org\\opencomb\\opencms\\article\\TopList' ,
-					'params' => array('orderby'=>'views'),
-				) ,
-			);
-		$arrParentBean = parent::createBeanConfig();
-		BeanFactory::mergeConfig( $arrParentBean ,$arrBean );
-		return $arrParentBean;
+			'frameview:frameView' => array(
+				'template' => 'coresystem:FrontFrame.html' ,
+				'widget:mainMenu' => array( 'config'=>'coresystem:widget/front-frame-menu' ) ,
+			) ,
+				
+			'frameview:CmsFrameView' => array(
+				'template' => 'CmsFrame.html' ,
+				'widget:mainMenu' => array( 'config'=>'coresystem:widget/front-frame-menu' ) ,
+			) ,
+			
+			// 控制器栏目内最新内容
+			'controller:topListNew' => array(
+				'class' => 'org\\opencomb\\opencms\\article\\TopList' ,
+				'params' => array('orderby'=>'createTime'),
+			) ,
+				
+				// 控制器栏目内最热内容
+			'controller:topListHot' => array(
+				'class' => 'org\\opencomb\\opencms\\article\\TopList' ,
+				'params' => array('orderby'=>'views'),
+			) ,
+		) ;
+		
+		return $arrConfig ;
 	}
 }
 ?>
