@@ -51,7 +51,6 @@ class CreateArticle extends ControlPanel
 	
 	public function process()
 	{
-		throw new Exception("fdfsd");
 		//为分类select添加option
 		$aCatSelectWidget = $this->viewArticle->widget("article_cat");
 		
