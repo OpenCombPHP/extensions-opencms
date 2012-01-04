@@ -1,7 +1,10 @@
 <div style="float:left; width:800px">
+	<a href="/">首页</a>
+	<foreach for='$arrBreadcrumbNavigation' key='sKey' item='sItem'>
+		>> <a href="{=$sItem}">{=$sKey}</a>
+	</foreach>
 	<views />
 </div>
-
 <div class="sidebar" style="float:left; width:400px">
 	<view for="$theController->topListHot->mainView()" />
 	<view for="$theController->topListNew->mainView()" />

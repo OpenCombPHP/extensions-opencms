@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\opencms\article;
 
+use org\jecat\framework\mvc\model\db\Category;
+
 use org\opencomb\opencms\frame\CmsFrontController;
 use org\jecat\framework\message\Message;
 
@@ -32,8 +34,6 @@ class ArticleContent extends CmsFrontController
 		}else{
 			$this->messageQueue ()->create ( Message::error, "未指定文章" );
 		}
-		
-		$this->params()->set('cid',$this->modelArticle->cid) ;
 		
 		//浏览次数
 		$this->modelArticle->setData("views",(int)$this->modelArticle->data("views")+1);
