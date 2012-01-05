@@ -79,6 +79,7 @@ class ArticleList extends CmsFrontController
 		}else{
 			$this->messageQueue ()->create ( Message::error, "未指定分类" );
 		}
+		
 	}
 }
 
