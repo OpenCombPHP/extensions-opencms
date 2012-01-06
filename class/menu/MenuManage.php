@@ -11,6 +11,7 @@ class MenuManage extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
+				'title'=>'菜单管理',
 			'view:menuManage'=>array(
 				'template' => 'MenuManage.html',
 				'class' => 'form',

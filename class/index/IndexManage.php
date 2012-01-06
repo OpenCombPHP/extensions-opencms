@@ -17,6 +17,7 @@ class IndexManage extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
+				'title'=>'首页管理',
 			'view:index'=>array(
 				'template' => 'IndexManage.html',
 				'class' => 'form',

@@ -11,6 +11,7 @@ class DeleteArticle extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
+				'title'=>'删除文章',
 			'view:article'=>array(
 				'template'=>'DeleteArticle.html',
 				'class'=>'view'

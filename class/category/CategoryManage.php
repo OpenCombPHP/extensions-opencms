@@ -12,6 +12,7 @@ class CategoryManage extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
+				'title'=>'分类管理',
 			'view:category'=>array(
 				'template'=>'CategoryManage.html',
 				'class'=>'view',

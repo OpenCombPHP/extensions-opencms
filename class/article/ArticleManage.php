@@ -13,6 +13,7 @@ class ArticleManage extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
+			'title'=>'文章管理',
 			'view:article'=>array(
 				'template'=>'ArticleManage.html',
 				'class'=>'view',

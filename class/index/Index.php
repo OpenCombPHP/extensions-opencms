@@ -12,6 +12,7 @@ class Index extends Controller
 	public function createBeanConfig()
 	{
 		$arrBean = array(
+				'title'=>'首页',
 				'view:index'=>array(
 					'template'=>'Index.html',
 					'class'=>'view',

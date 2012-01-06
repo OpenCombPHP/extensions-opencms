@@ -12,6 +12,7 @@ class EditCategory extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
+				'title'=>'编辑分类',
 			'view:category'=>array(
 				'template'=>'CategoryForm.html',
 				'class'=>'form',
@@ -66,6 +67,9 @@ class EditCategory extends ControlPanel
 			$this->messageQueue ()->create ( Message::error, "未指定栏目" );
 			return;
 		}
+		
+		$this->setTitle($this->modelCategory->title . " - " . $this->title());
+		
 		$this->viewCategory->variables()->set('sPageTitle','编辑栏目') ;
 		
 		//如果是提交请求...

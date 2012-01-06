@@ -12,6 +12,7 @@ class EditArticle extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
+				'title'=>'编辑文章',
 			'view:article'=>array(
 				'template'=>'ArticleForm.html',
 				'class'=>'form',
@@ -68,6 +69,8 @@ class EditArticle extends ControlPanel
 		}else{
 			$this->messageQueue ()->create ( Message::error, "未指定文章" );
 		}
+		
+		$this->setTitle($this->modelArticle->title . " - " . $this->title());
 		
 		$this->viewArticle->variables()->set('page_h1',"编辑文章") ;
 		

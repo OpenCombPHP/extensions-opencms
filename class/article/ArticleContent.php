@@ -11,6 +11,7 @@ class ArticleContent extends CmsFrontController
 	public function createBeanConfig()
 	{
 		return array(
+			'title'=> '文章内容',
 			'view:article'=>array(
 				'template'=>'ArticleContent.html',
 				'class'=>'view',
@@ -40,6 +41,8 @@ class ArticleContent extends CmsFrontController
 		$this->modelArticle->save();
 		
 		$this->viewArticle->variables()->set('article',$this->modelArticle) ;
+		
+		$this->setTitle($this->modelArticle->title);
 		
 		//把cid传给frame
 		$this->frame()->params()->set('cid',$this->modelArticle->cid);

@@ -16,6 +16,7 @@ class CreateArticle extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
+				'title'=>'新建文章',
 			'view:article'=>array(
 				'template'=>'ArticleForm.html',
 				'class'=>'form',

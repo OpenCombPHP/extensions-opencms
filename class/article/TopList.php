@@ -84,8 +84,10 @@ class TopList extends Controller
 		
 		//排序,默认按照时间反序排列
 		$bOrder = true;
+		$this->setTitle("最新文章");
 		if($this->params->has('order') and $this->params->get('order') == "asc"){
 			$bOrder = false;
+			$this->setTitle("最热文章");
 		}
 		$this->modelArticles->prototype()->criteria()->addOrderBy($sOrderBy,$bOrder);
 		

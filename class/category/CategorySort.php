@@ -15,6 +15,7 @@ class CategorySort extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array (
+				'title'=>'分类排序',
 			'view:category'=>array(
 				'template'=>'CategorySort.html',
 				'class'=>'view',

@@ -14,6 +14,7 @@ class ArticleList extends CmsFrontController
 	public function createBeanConfig()
 	{
 		return array(
+			'title'=>'文章列表',
 			'view:article'=>array(
 				'template'=>'ArticleList.html',
 				'class'=>'view',
@@ -24,7 +25,7 @@ class ArticleList extends CmsFrontController
 			),
 			'model:category'=>array(
 				'orm'=>array(
-					'columns' => array('lft','rgt') ,
+					'columns' => array('title','lft','rgt') ,
 					'table'=>'category',
 				)
 			),
@@ -50,6 +51,8 @@ class ArticleList extends CmsFrontController
 			if(!$this->modelCategory->load(array($this->params->get("cid")),array('cid'))){
 				$this->messageQueue ()->create ( Message::error, "无效的分类编号" );
 			}
+			
+			$this->setTitle($this->modelCategory->title . " - " . $this->title());
 			
 			$aWhere = clone $this->modelArticles->prototype()->criteria()->where();
 			

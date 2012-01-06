@@ -11,6 +11,7 @@ class CreateCategory extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
+				'title'=>'新建分类',
 			'view:category'=>array(
 				'template'=>'CategoryForm.html',
 				'class'=>'form',

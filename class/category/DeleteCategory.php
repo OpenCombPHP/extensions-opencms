@@ -11,6 +11,7 @@ class DeleteCategory extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
+				'title'=>'删除分类',
 			'view:category'=>array(
 				'template'=>'DeleteCategory.html',
 				'class'=>'view'

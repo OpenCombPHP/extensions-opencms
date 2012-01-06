@@ -12,6 +12,7 @@ class MoveArticles extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
+				'title'=>'转移文章',
 			'view:article'=>array(
 				'template'=>'MoveArticles.html',
 				'class'=>'view',
