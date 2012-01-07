@@ -38,10 +38,10 @@ h4{ font-size:12px; font-weight:bold; color:#333}
 		.topList li{ line-height:24px;}
 		.topList li a{color:#666;}
 		.topList li span{ float:right; color:#999;}
-		/* 缩短toplist 文字的长度
+		/* 缩短toplist 文字的长度*/
 		.topList li{ line-height:24px;clear:both;}
 		.topList li a{color:#666;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;vertical-align:top;display:block;float:left;}
-		.topList li span{ float:right; color:#999;}*/
+		.topList li span{ float:right; color:#999;}
 
 
 /*尾部*/
