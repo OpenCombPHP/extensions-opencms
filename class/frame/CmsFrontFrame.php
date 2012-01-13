@@ -15,7 +15,6 @@ class CmsFrontFrame extends FrontFrame
 		$arrBean =  array(
 			'frameview:CmsFrameView' => array(
 				'template' => 'CmsFrame.html' ,
-				'modle' => 'categoryList'
 			) ,
 			// 控制器栏目内最新内容
 			'controller:topListNew' => array(
