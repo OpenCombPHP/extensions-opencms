@@ -21,6 +21,7 @@ class MenuManage extends ControlPanel
 				'class'=>'model',
 				'list'=>true,
 				'orm'=>array(
+					'limit'=>-1,
 					'table'=>'category',
 					'name'=>'category',
 				)
@@ -31,7 +32,6 @@ class MenuManage extends ControlPanel
 	public function process()
 	{
 		//准备分类信息
-		$this->modelCategoryTree->prototype()->criteria()->setLimit(-1);
 		$this->modelCategoryTree->load();
 		Category::buildTree($this->modelCategoryTree);
 		

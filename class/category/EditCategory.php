@@ -44,7 +44,6 @@ class EditCategory extends ControlPanel
 	public function process()
 	{
 		//准备分类信息
-		$this->modelCategoryTree->prototype()->criteria()->setLimit(-1);
 		$this->modelCategoryTree->load();
 		
 		Category::buildTree($this->modelCategoryTree);

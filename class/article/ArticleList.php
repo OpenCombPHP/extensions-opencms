@@ -33,6 +33,7 @@ class ArticleList extends CmsFrontController
 				'list'=>true,
 				'orm'=>array(
 					'table'=>'article',
+					'limit'=>20,
 					'hasOne:category'=>array(
 						'fromkeys'=>'cid',
 						'tokeys'=>'cid',
@@ -70,8 +71,6 @@ class ArticleList extends CmsFrontController
 			//页面显示结果数,默认20
 			if($this->params->has("limit")){
 				$this->modelArticles->prototype()->criteria()->setLimit($this->params->get("limit"));
-			}else{
-				$this->modelArticles->prototype()->criteria()->setLimit(20);
 			}
 			
 			$this->modelArticles->load($aWhere);
