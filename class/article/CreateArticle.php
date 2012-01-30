@@ -13,17 +13,30 @@ use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
 class CreateArticle extends ControlPanel
 {
+	/**
+	 * @example /校验器/字符长度校验器(Length):name[1]
+	 * @forwiki /校验器/字符长度校验器(Length)
+	 *
+	 * 字符长度校验器的bean配置数组的写法
+	 */
 	public function createBeanConfig()
 	{
 		return array(
-				'title'=>'新建文章',
+			'title'=>'新建文章',
 			'view:article'=>array(
 				'template'=>'ArticleForm.html',
 				'class'=>'form',
 				'model'=>'article',
 				'widgets'=>array(
 					array(
-						'config'=>'widget/article_title'
+						'id'=>'article_title',
+						'class'=>'text',
+						'title'=>'文章标题',
+						'exchange'=>'title',
+						'verifier:notempty'=>array(),
+						'verifier:length'=>array(
+								'min'=>2,
+								'max'=>255)
 					),
 					array(
 						'config'=>'widget/article_cat'
