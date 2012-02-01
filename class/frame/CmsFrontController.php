@@ -1,14 +1,13 @@
 <?php
 namespace org\opencomb\opencms\frame ;
 
-use org\opencomb\opencms\frame\CmsFrontFrame;
 use org\opencomb\coresystem\mvc\controller\Controller;
 
 class CmsFrontController extends Controller
 {
-    public function createFrame()
+    public function defaultFrameConfig()
     {
-    	return new CmsFrontFrame($this->params()) ;
+    	return array('class'=>'org\\opencomb\\opencms\\frame\\CmsFrontFrame') ;
     }
 }
 ?>
