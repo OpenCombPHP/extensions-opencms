@@ -8,27 +8,46 @@ use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
 class CreateCategory extends ControlPanel
 {
+	/**
+	 * @example /mvc/视图(View)
+	 * @forwiki /mvc/视图(View)
+	 * @forwiki /mvc/视图/表单视图(FormView)
+	 * @forwiki /mvc/视图/表单控件/下拉菜单(Select)
+	 * @forwiki /mvc/视图/表单控件/表单控件(FormWidget)
+	 * 
+	 * 演示如何设置一个view的bean
+	 */
 	public function createBeanConfig()
 	{
 		return array(
-				'title'=>'新建分类',
-			'view:category'=>array(
+			'title'=>'新建分类',  //视图的标题
+			'view:category'=>array( //view的name属性,格式是view:(name属性)
 				'template'=>'CategoryForm.html',
-				'class'=>'form',
-				'model'=>'category',
+				'class'=>'form',    //指定初始化view对象的类,这里使用Formview类,form是Formview的别名
+				'model'=>'category', //绑定model
 				'widgets'=>array(
 					array(
-						'config'=>'widget/category_title'
+						'config'=>'widget/category_title'  //引用外部的bean配置文件,以便重复使用相同的配置
 					),
 					array(
 						'config'=>'widget/category_dec'
 					),
 					array(
-						'config'=>'widget/category_parent'
+						'id'=>'category_parent',
+						'class'=>'select',    //select widget的bean配置
+						'title'=>'分类关系',
+						/*
+						'options'=>array(     //options 配置方法
+						  	array('0','请选择..',true),
+						     array('value1','text1',false),
+						     array('value2','text2',false),
+						     array('value3','text3',false)
+						)
+						*/
 					)
 				)
 			),
-			'model:categoryTree'=>array(
+			'model:categoryTree'=>array(   //model的bean,model的name是categoryTree
 				'config'=>'model/categoryTree',
 			),
 			'model:category'=>array(

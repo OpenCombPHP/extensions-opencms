@@ -10,6 +10,12 @@ use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
 class ArticleManage extends ControlPanel
 {
+	/**
+	 * @example /mvc/视图/控件/分页器(Paginator)
+	 * @forwiki /mvc/视图/控件/分页器(Paginator)
+	 *
+	 * 分页器bean配置方法
+	 */
 	public function createBeanConfig()
 	{
 		return array(
@@ -18,8 +24,10 @@ class ArticleManage extends ControlPanel
 				'template'=>'ArticleManage.html',
 				'class'=>'view',
 				'model'=>'articles',
-				'widget:paginator' => array(
+				'widget:paginator' => array(  //分页器bean
 					'class' => 'paginator' ,
+					'count' => 10, //每页10项
+					'nums' => 5   //显示5个页码
 				) ,
 			),
 			'model:articles'=>array(
