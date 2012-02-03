@@ -18,6 +18,7 @@ class CreateArticle extends ControlPanel
 	/**
 	 * @example /校验器/字符长度校验器(Length):Bean格式演示[1]
 	 * @forwiki /校验器/字符长度校验器(Length)
+	 * @forwiki /mvc/视图/表单控件/文件上传(File)
 	 *
 	 * 字符长度校验器的bean配置数组的写法
 	 */
@@ -46,12 +47,13 @@ class CreateArticle extends ControlPanel
 					array(
 						'config'=>'widget/article_content'
 					),
+						/*
 					array(
-						'id'=>'article_img',
+						'id'=>'article_img',    //文件控件bean设置的例子
 						'class'=>'file',
-						'folder'=>Extension::flyweight('opencms')->publicFolder()->path(),
+						'folder'=>Extension::flyweight('opencms')->publicFolder()->path(),  //取得扩展专用的文件保存路径,作为文件上传控件初始化的参数之一,这样控件就会知道应该把文件放在服务器的哪个文件夹下
 						'title'=>'文章图片',
-							)
+					)*/
 				)
 			),
 			'model:article'=>array(

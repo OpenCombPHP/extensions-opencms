@@ -2,8 +2,7 @@
 
 	<name>opencms</name>
 	<version>0.1</version>
-	<title>OpenCMS 内容管理系统</title>
-
+	<title>内容管理系统</title>
 
 	<class>org.opencomb.opencms.OpenCMS</class>
 	<package folder="/class" namespace="org.opencomb.opencms" />

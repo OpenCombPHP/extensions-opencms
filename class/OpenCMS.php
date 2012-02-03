@@ -5,7 +5,13 @@ namespace org\opencomb\opencms;
 use org\jecat\framework\system\AccessRouter;
 use org\jecat\framework\lang\aop\AOP;
 use org\opencomb\platform\ext\Extension ;
-
+/**
+ * 
+ * @wiki /蜂巢/Opencms
+ * @author anubis
+ *
+ * Opencms是基于蜂巢系统的cms系统.
+ */
 class OpenCMS extends Extension
 {
 	const PURVIEW_ADMIN = 'purview:admin' ;
