@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\opencms\article;
 
+use org\opencomb\platform\ext\Extension;
+
 use org\jecat\framework\lang\Exception;
 
 use org\jecat\framework\db\DB;
@@ -14,7 +16,7 @@ use org\opencomb\coresystem\mvc\controller\ControlPanel;
 class CreateArticle extends ControlPanel
 {
 	/**
-	 * @example /校验器/字符长度校验器(Length):name[1]
+	 * @example /校验器/字符长度校验器(Length):Bean格式演示[1]
 	 * @forwiki /校验器/字符长度校验器(Length)
 	 *
 	 * 字符长度校验器的bean配置数组的写法
@@ -43,7 +45,13 @@ class CreateArticle extends ControlPanel
 					),
 					array(
 						'config'=>'widget/article_content'
-					)
+					),
+					array(
+						'id'=>'article_img',
+						'class'=>'file',
+						'folder'=>Extension::flyweight('opencms')->publicFolder()->path(),
+						'title'=>'文章图片',
+							)
 				)
 			),
 			'model:article'=>array(
