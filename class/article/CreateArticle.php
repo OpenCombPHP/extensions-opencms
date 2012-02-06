@@ -18,7 +18,7 @@ class CreateArticle extends ControlPanel
 	/**
 	 * @example /校验器/字符长度校验器(Length):Bean格式演示[1]
 	 * @forwiki /校验器/字符长度校验器(Length)
-	 * @forwiki /mvc/视图/表单控件/文件上传(File)
+	 * @forwiki /MVC模式/视图/表单控件/文件上传(File)
 	 *
 	 * 字符长度校验器的bean配置数组的写法
 	 */

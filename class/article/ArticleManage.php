@@ -11,8 +11,8 @@ use org\opencomb\coresystem\mvc\controller\ControlPanel;
 class ArticleManage extends ControlPanel
 {
 	/**
-	 * @example /mvc/视图/控件/分页器(Paginator)
-	 * @forwiki /mvc/视图/控件/分页器(Paginator)
+	 * @example /MVC模式/视图/控件/分页器(Paginator)
+	 * @forwiki /MVC模式/视图/控件/分页器(Paginator)
 	 *
 	 * 分页器bean配置方法
 	 */

@@ -9,11 +9,11 @@ use org\opencomb\coresystem\mvc\controller\ControlPanel;
 class CreateCategory extends ControlPanel
 {
 	/**
-	 * @example /mvc/视图(View)
-	 * @forwiki /mvc/视图(View)
-	 * @forwiki /mvc/视图/表单视图(FormView)
-	 * @forwiki /mvc/视图/表单控件/下拉菜单(Select)
-	 * @forwiki /mvc/视图/表单控件/表单控件(FormWidget)
+	 * @example /MVC模式/视图(View)
+	 * @forwiki /MVC模式/视图(View)
+	 * @forwiki /MVC模式/视图/表单视图(FormView)
+	 * @forwiki /MVC模式/视图/表单控件/下拉菜单(Select)
+	 * @forwiki /MVC模式/视图/表单控件/表单控件(FormWidget)
 	 * 
 	 * 演示如何设置一个view的bean
 	 */
