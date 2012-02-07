@@ -77,7 +77,7 @@ class TopList extends Controller
 		}
 		
 		//排序依据(列)
-		$sOrderBy = "creatTime";
+		$sOrderBy = "createTime";
 		if($this->params->has('orderby')){
 			$sOrderBy = $this->params->get('orderby');
 		}
