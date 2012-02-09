@@ -5,8 +5,6 @@ use org\opencomb\platform\ext\Extension;
 
 use org\jecat\framework\lang\Exception;
 
-use org\jecat\framework\db\DB;
-
 use org\jecat\framework\mvc\model\db\Category;
 
 use org\jecat\framework\mvc\view\DataExchanger;
@@ -104,6 +102,8 @@ class CreateArticle extends ControlPanel
 				{
 					break;
 				}
+				//权限
+				$this->requirePurview('purview:admin_category','opencms',$this->viewArticle->widget('article_cat')->value(),'您没有这个分类的管理权限,无法继续浏览');
 				
 				//记录创建时间
 				$this->modelArticle->setData('createTime',time());
@@ -112,7 +112,6 @@ class CreateArticle extends ControlPanel
 				
 				if ($this->modelArticle->save ())
 				{
-// 					DB::singleton()->executeLog();
 					$this->viewArticle->hideForm ();
 					$this->messageQueue ()->create ( Message::success, "文章保存成功" );
 				}

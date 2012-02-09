@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\opencms\index;
 
+use org\opencomb\coresystem\auth\PurviewQuery;
+
 use org\opencomb\opencms\OpenCMS;
 
 use org\opencomb\platform\system\PlatformFactory;
@@ -17,7 +19,7 @@ class IndexManage extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
-				'title'=>'首页管理',
+			'title'=>'首页管理',
 			'view:index'=>array(
 				'template' => 'IndexManage.html',
 				'class' => 'form',
@@ -32,11 +34,19 @@ class IndexManage extends ControlPanel
 					'name'=>'category',
 				)
 			),
+			'perms' => array(
+					// 权限类型的许可
+					'perm.purview'=>array(
+							'name' => 'purview:admin_category',
+							'target'=>PurviewQuery::all
+					) ,
+			) ,
 		);
 	}
 	
 	public function process()
 	{
+		$this->checkPermissions('您没有这个功能的权限,无法继续浏览',array()) ;
 		//准备分类信息
 		$this->modelCategoryTree->load();
 		Category::buildTree($this->modelCategoryTree);

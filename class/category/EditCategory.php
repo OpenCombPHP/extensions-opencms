@@ -12,7 +12,7 @@ class EditCategory extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
-				'title'=>'编辑分类',
+			'title'=>'编辑分类',
 			'view:category'=>array(
 				'template'=>'CategoryForm.html',
 				'class'=>'form',
@@ -66,6 +66,9 @@ class EditCategory extends ControlPanel
 			$this->messageQueue ()->create ( Message::error, "未指定栏目" );
 			return;
 		}
+		
+		//权限
+		$this->requirePurview('purview:admin_category','opencms',$this->params->get('cid'),'您没有这个分类的管理权限,无法继续浏览');
 		
 		$this->setTitle($this->modelCategory->title . " - " . $this->title());
 		

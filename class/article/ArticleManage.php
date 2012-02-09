@@ -1,7 +1,7 @@
 <?php
 namespace org\opencomb\opencms\article;
 
-use org\jecat\framework\db\DB;
+use org\jecat\framework\auth\IdManager;
 
 use org\jecat\framework\mvc\model\db\Category;
 use org\jecat\framework\mvc\view\DataExchanger;
@@ -30,6 +30,12 @@ class ArticleManage extends ControlPanel
 					'nums' => 5   //显示5个页码
 				) ,
 			),
+			'perms' => array(
+				// 权限类型的许可
+				'perm.purview'=>array(
+					'name' => 'purview:admin_category',
+				) ,
+			) ,
 			'model:articles'=>array(
 				'class'=>'model',
 				'list'=>true,
@@ -58,6 +64,8 @@ class ArticleManage extends ControlPanel
 	
 	public function process()
 	{
+		$this->checkPermissions('您没有这个分类的管理权限,无法继续浏览',array()) ;
+		
 		//准备分类信息
 		$this->modelCategoryTree->load();
 		
