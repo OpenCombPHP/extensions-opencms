@@ -35,11 +35,11 @@ class IndexManage extends ControlPanel
 				)
 			),
 			'perms' => array(
-					// 权限类型的许可
-					'perm.purview'=>array(
-							'name' => 'purview:admin_category',
-							'target'=>PurviewQuery::all
-					) ,
+				// 权限类型的许可
+				'perm.purview'=>array(
+						'name' => 'purview:admin_category',
+						'target'=>PurviewQuery::all
+				) ,
 			) ,
 		);
 	}
