@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\opencms\menu;
 
+use org\opencomb\coresystem\auth\PurviewQuery;
+
 use org\jecat\framework\mvc\model\db\Category;
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
@@ -11,7 +13,7 @@ class MenuManage extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
-				'title'=>'菜单管理',
+			'title'=>'菜单管理',
 			'view:menuManage'=>array(
 				'template' => 'MenuManage.html',
 				'class' => 'form',
@@ -26,11 +28,19 @@ class MenuManage extends ControlPanel
 					'name'=>'category',
 				)
 			),
+			'perms' => array(
+					// 权限类型的许可
+					'perm.purview'=>array(
+							'name' => 'purview:admin_category',
+							'target'=>PurviewQuery::all
+					) ,
+			) ,
 		);
 	}
 	
 	public function process()
 	{
+		$this->checkPermissions('您没有这个功能的权限,无法继续浏览',array()) ;
 		//准备分类信息
 		$this->modelCategoryTree->load();
 		Category::buildTree($this->modelCategoryTree);

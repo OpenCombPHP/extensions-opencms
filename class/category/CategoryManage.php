@@ -12,7 +12,7 @@ class CategoryManage extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
-				'title'=>'分类管理',
+			'title'=>'分类管理',
 			'view:category'=>array(
 				'template'=>'CategoryManage.html',
 				'class'=>'view',
@@ -23,6 +23,12 @@ class CategoryManage extends ControlPanel
 					),
 				'model'=>'categoryTree',
 			),
+			'perms' => array(
+					// 权限类型的许可
+					'perm.purview'=>array(
+							'name' => 'purview:admin_category',
+					) ,
+			) ,
 			'model:categoryTree'=>array(
 				'class'=>'model',
 				'list'=>true,
@@ -37,6 +43,7 @@ class CategoryManage extends ControlPanel
 	
 	public function process()
 	{
+		$this->checkPermissions('您没有这个分类的管理权限,无法继续浏览',array()) ;
 		//准备分类信息
 		$this->modelCategoryTree->load();
 		

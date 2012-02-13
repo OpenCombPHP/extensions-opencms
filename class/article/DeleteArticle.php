@@ -11,7 +11,7 @@ class DeleteArticle extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
-				'title'=>'删除文章',
+			'title'=>'删除文章',
 			'view:article'=>array(
 				'template'=>'DeleteArticle.html',
 				'class'=>'view'
@@ -33,6 +33,10 @@ class DeleteArticle extends ControlPanel
 			$arrToDelete = is_array ( $this->params->get ( "aid" ) ) ? $this->params->get ( "aid" ) : ( array ) $this->params->get ( "aid" );
 			$this->modelArticle->prototype ()->criteria ()->where ()->in ( "aid", $arrToDelete );
 			$this->modelArticle->load ();
+			
+			//权限
+			$this->requirePurview('purview:admin_category','opencms',$this->modelArticle->cid,'您没有这个分类的管理权限,无法继续浏览');
+			
 			if ($this->modelArticle->delete ())
 			{
 				$this->messageQueue ()->create ( Message::success, "删除文章成功" );

@@ -1,9 +1,9 @@
 <?php
 namespace org\opencomb\opencms\article;
 
-use org\jecat\framework\lang\Exception;
+use org\opencomb\platform\ext\Extension;
 
-use org\jecat\framework\db\DB;
+use org\jecat\framework\lang\Exception;
 
 use org\jecat\framework\mvc\model\db\Category;
 
@@ -14,8 +14,9 @@ use org\opencomb\coresystem\mvc\controller\ControlPanel;
 class CreateArticle extends ControlPanel
 {
 	/**
-	 * @example /校验器/字符长度校验器(Length):name[1]
+	 * @example /校验器/字符长度校验器(Length):Bean格式演示[1]
 	 * @forwiki /校验器/字符长度校验器(Length)
+	 * @forwiki /MVC模式/视图/表单控件/文件上传(File)
 	 *
 	 * 字符长度校验器的bean配置数组的写法
 	 */
@@ -43,7 +44,14 @@ class CreateArticle extends ControlPanel
 					),
 					array(
 						'config'=>'widget/article_content'
-					)
+					),
+						/*
+					array(
+						'id'=>'article_img',    //文件控件bean设置的例子
+						'class'=>'file',
+						'folder'=>Extension::flyweight('opencms')->publicFolder()->path(),  //取得扩展专用的文件保存路径,作为文件上传控件初始化的参数之一,这样控件就会知道应该把文件放在服务器的哪个文件夹下
+						'title'=>'文章图片',
+					)*/
 				)
 			),
 			'model:article'=>array(
@@ -94,6 +102,8 @@ class CreateArticle extends ControlPanel
 				{
 					break;
 				}
+				//权限
+				$this->requirePurview('purview:admin_category','opencms',$this->viewArticle->widget('article_cat')->value(),'您没有这个分类的管理权限,无法继续浏览');
 				
 				//记录创建时间
 				$this->modelArticle->setData('createTime',time());
@@ -102,7 +112,6 @@ class CreateArticle extends ControlPanel
 				
 				if ($this->modelArticle->save ())
 				{
-// 					DB::singleton()->executeLog();
 					$this->viewArticle->hideForm ();
 					$this->messageQueue ()->create ( Message::success, "文章保存成功" );
 				}
