@@ -2,7 +2,7 @@
 return array(
 	array(
 		'title'=>'cms管理',
-		'link'=>'?c=org.opencomb.opencms.index.IndexManage',
+		'link'=>'?c=org.opencomb.opencms.article.ArticleManage',
 		'menu'=>array(
 			'direction'=>'v',
 			'items'=>array(
