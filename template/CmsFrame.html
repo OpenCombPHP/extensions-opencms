@@ -1,11 +1,11 @@
-<div style="float:left; width:800px">
+<div class="cms_left">
 	<a href="/">首页</a>
 	<foreach for='$arrBreadcrumbNavigation' key='sKey' item='sItem'>
 		>> <a href="{=$sItem}">{=$sKey}</a>
 	</foreach>
 	<views />
 </div>
-<div class="sidebar" style="float:left; width:400px">
+<div class="cms_sidebar">
 	<view for="$theController->topListHot->mainView()" />
 	<view for="$theController->topListNew->mainView()" />
 </div>

@@ -1,7 +1,7 @@
 body{ background:#F6F8F7;font:12px "微软雅黑","宋体"; color:#333; }
 
 a{color:#09c; text-decoration:none}
-a:hover{ text-decoration:underline;}
+a:hover{ text-decoration:underline; -moz-transition: all 0.1s linear;-webkit-transition: all 0.5s linear ; color:#066585}
 
 
 h2{ font-size:14px; font-weight:bold; color:#333}
@@ -24,7 +24,7 @@ h4{ font-size:12px; font-weight:bold; color:#333}
 .frontframe-main{min-height:1000px; width:100%;}
 /*内容内部*/
 .frontframe-main-inner{ padding:10px;}
-	.frontframe-mainnav{ height:30px; background:url(../images/line.gif) repeat-x 0 bottom; padding:5px 0}
+	.frontframe-mainnav{ height:30px; background:url(../images/line.gif) repeat-x 0 bottom; padding:5px 0;margin-bottom:10px;}
 		.frontframe-slogan{width:220px; height:30px; background:url(../images/slogan.gif) no-repeat right 0; float:left}
 		.jc-widget-menu-depth-1{margin-left:300px;}
 		.jc-widget-menu-item-depth-1{ float:left; font-size:14px; margin-right:20px;}
@@ -38,6 +38,15 @@ h4{ font-size:12px; font-weight:bold; color:#333}
 		.topList li{ line-height:24px;}
 		.topList li a{color:#666;}
 		.topList li span{ float:right; color:#999;}
+		
+/* 2012-2-15  cms_left & cms_sidebar */
+.cms_left{float:left; margin-right:406px; background:#fff; border:1px solid #dfdfdf; border-radius:2px; box-shadow:0 0 4px rgba(0,0,0,0.1);padding:10px;}
+.articleList table{margin:10px 0;}
+.articleList table th{ font-weight:bold; text-align:center; background:#eee;}
+.articleList table td{padding:4px; vertical-align:top}
+.article_time{width:160px; color:#999}
+
+.cms_sidebar{ float:left; margin-left:-400px; width:400px;}
 
 
 /*尾部*/

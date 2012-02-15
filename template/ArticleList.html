@@ -1,17 +1,17 @@
-<div id='articleList'>
+<div id='articleList' class="articleList">
 	<msgqueue for="$theController->messageQueue()" />
-	<table border="1" width='100%'>
+	<table width='100%'>
 		<thead>
 			<tr height="30">
 				<th>文章名称</th>
-				<th width="300">日期</th>
+				<th>日期</th>
 			</tr>
 		</thead>
 		<tbody id="tableStyle">
 			<model:foreach>
 			<tr>
 				<td><a href="/?c=org.opencomb.opencms.article.ArticleContent&aid={=$theModel['aid']}"><data>title</data></a></td>
-				<td>{=date("Y年m月d日 H:m:s", $theModel['createTime'])}</td>
+				<td class="article_time">{=date("Y年m月d日 H:m:s", $theModel['createTime'])}</td>
 			</tr>
 			</model:foreach>
 		</tbody>
