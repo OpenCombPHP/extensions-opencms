@@ -2,14 +2,12 @@
 namespace org\opencomb\opencms\article;
 
 
-use org\opencomb\opencms\frame\CmsFrontController;
-
-use org\jecat\framework\db\DB;
+use org\opencomb\coresystem\mvc\controller\Controller;
 use org\jecat\framework\mvc\model\db\Category;
 use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
 
-class ArticleList extends CmsFrontController
+class ArticleList extends Controller
 {
 	public function createBeanConfig()
 	{
@@ -82,6 +80,11 @@ class ArticleList extends CmsFrontController
 			$this->messageQueue ()->create ( Message::error, "未指定分类" );
 		}
 		
+	}
+	
+	public function defaultFrameConfig()
+	{
+		return array('class'=>'org\\opencomb\\opencms\\frame\\ArticleFrontFrame') ;
 	}
 }
 

@@ -2,7 +2,6 @@
 namespace org\opencomb\opencms\article;
 
 use org\jecat\framework\mvc\model\db\Category;
-
 use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
@@ -12,7 +11,7 @@ class EditArticle extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
-				'title'=>'编辑文章',
+			'title'=>'编辑文章',
 			'view:article'=>array(
 				'template'=>'ArticleForm.html',
 				'class'=>'form',
@@ -86,11 +85,14 @@ class EditArticle extends ControlPanel
 				{
 					break;
 				}
+				
+				//权限
+				$this->requirePurview('purview:admin_category','opencms',$this->viewArticle->widget('article_cat')->value(),'您没有这个分类的管理权限,无法继续浏览');
+				
 				$this->viewArticle->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
 				
 				if ($this->modelArticle->save ())
 				{
-// 					DB::singleton()->executeLog();
 					$this->viewArticle->hideForm ();
 					$this->messageQueue ()->create ( Message::success, "文章保存成功" );
 				}

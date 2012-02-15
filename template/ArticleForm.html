@@ -1,6 +1,6 @@
 <h2>{=$page_h1}</h2>
-<msgqueue for="$theController->messageQueue()" />
-<form  method="post">   {*action="/?c=org.opencomb.opencms.article.CreateArticle"}
+<msgqueue />
+<form  method="post" enctype="multipart/form-data">   {*action="/?c=org.opencomb.opencms.article.CreateArticle"}
 	<label><div class="coresystem-form-title"><span>文章标题</span><widget id="article_title" /></div></label>
 	<label><div class="coresystem-form-select"><span>所属分类</span><widget id="article_cat" /></div></label>
 	<label><div class="coresystem-form-textarea"><!--<span>文章内容</span>--><widget id="article_content" /></div></label>

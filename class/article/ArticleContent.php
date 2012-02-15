@@ -1,12 +1,11 @@
 <?php
 namespace org\opencomb\opencms\article;
 
+use org\opencomb\coresystem\mvc\controller\Controller;
 use org\jecat\framework\mvc\model\db\Category;
-
-use org\opencomb\opencms\frame\CmsFrontController;
 use org\jecat\framework\message\Message;
 
-class ArticleContent extends CmsFrontController
+class ArticleContent extends Controller
 {
 	public function createBeanConfig()
 	{
@@ -46,6 +45,11 @@ class ArticleContent extends CmsFrontController
 		
 		//把cid传给frame
 		$this->frame()->params()->set('cid',$this->modelArticle->cid);
+	}
+	
+	public function defaultFrameConfig()
+	{
+		return array('class'=>'org\\opencomb\\opencms\\frame\\ArticleFrontFrame') ;
 	}
 }
 ?>

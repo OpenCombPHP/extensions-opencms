@@ -12,7 +12,7 @@ class MoveArticles extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
-				'title'=>'转移文章',
+			'title'=>'转移文章',
 			'view:article'=>array(
 				'template'=>'MoveArticles.html',
 				'class'=>'view',
@@ -30,10 +30,15 @@ class MoveArticles extends ControlPanel
 	
 	public function process()
 	{
+			
 		if(!$this->params->has('from') || !$this->params->has('to')){
 			$this->messageQueue ()->create ( Message::error, "提供的参数不完整" );
 			return;
 		}
+		//权限
+		$this->requirePurview('purview:admin_category','opencms',$this->params->get('from'),'您没有这个分类的管理权限,无法继续浏览');
+		$this->requirePurview('purview:admin_category','opencms',$this->params->get('to'),'您没有这个分类的管理权限,无法继续浏览');
+			
 		$arrFromCategorys = explode('_', $this->params->get('from'));
 		$nToCategory = (int)$this->params->get('to');
 		

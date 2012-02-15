@@ -7,7 +7,7 @@ use org\opencomb\coresystem\mvc\controller\FrontFrame;
 use org\jecat\framework\bean\BeanFactory;
 use org\jecat\framework\mvc\view\View;
 
-class CmsFrontFrame extends FrontFrame
+class ArticleFrontFrame extends FrontFrame
 {
 	public function createBeanConfig()
 	{

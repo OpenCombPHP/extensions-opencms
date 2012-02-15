@@ -2,10 +2,18 @@
 namespace org\opencomb\opencms;
 
 // use org\jecat\framework\auth\PurviewManager;
+use org\opencomb\coresystem\auth\PurviewSetting;
+
 use org\jecat\framework\system\AccessRouter;
 use org\jecat\framework\lang\aop\AOP;
 use org\opencomb\platform\ext\Extension ;
-
+/**
+ * 
+ * @wiki /蜂巢/Opencms
+ * @author anubis
+ *
+ * Opencms是基于蜂巢系统的cms系统.
+ */
 class OpenCMS extends Extension
 {
 	const PURVIEW_ADMIN = 'purview:admin' ;
@@ -27,4 +35,9 @@ class OpenCMS extends Extension
 		AOP::singleton()->register('org\\opencomb\\opencms\\aspect\\ControlPanelFrameAspect') ;
 		AOP::singleton()->register('org\\opencomb\\opencms\\aspect\\MainMenuAspect') ;
 	}
+	
+// 	public function active()
+// 	{
+// 		PurviewSetting::registerPurview(xxxxx) ;   //追加权限
+// 	}
 }
