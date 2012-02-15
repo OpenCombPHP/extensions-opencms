@@ -1,6 +1,5 @@
 <?php
 return array(
-	array(
 		'title'=>'cms管理',
 		'link'=>'?c=org.opencomb.opencms.article.ArticleManage',
 		'menu'=>array(
@@ -37,5 +36,4 @@ return array(
 				),
 			)
 		)
-	)
 );
