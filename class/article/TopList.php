@@ -25,12 +25,16 @@ class TopList extends Controller
 			),
 		);
 		
+		/**
+		 * @example /MVC模式/模型/查询/正序排列
+		 */
 		//遍历范围,仅第一层
 		if($this->params->has('subCat') and $this->params->get('subCat') == 1){
 			$arrBean['model:articles'] = array(
 				'list'=>true,
 				'orm'=>array(
 					'table'=>'article',
+					'orderAsc'=>array('createTime'),  //按照日期正序排列
 				)
 			);
 		}else{  //遍历范围,所有层
@@ -38,6 +42,7 @@ class TopList extends Controller
 				'list'=>true,
 				'orm'=>array(
 					'table'=>'article',
+					'orderAsc'=>array('createTime'),
 					'hasOne:category'=>array(
 						'fromkeys'=>'cid',
 						'tokeys'=>'cid',
