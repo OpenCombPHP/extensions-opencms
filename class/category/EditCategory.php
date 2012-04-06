@@ -1,7 +1,7 @@
 <?php
 namespace org\opencomb\opencms\category;
 
-use org\jecat\framework\mvc\model\db\IModel;
+use org\jecat\framework\mvc\model\db\Model;
 use org\jecat\framework\mvc\model\db\Category;
 use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
@@ -117,11 +117,11 @@ class EditCategory extends ControlPanel
 	/**
 	 * 查找直接父分类
 	 * 原理:A分类的父分类(包括父分类的分类等等)的左脚位置都比A分类的左脚小,右脚都比A分类的右脚大,在这些分类中,左脚最大的就是A分类最直接的父分类
-	 * @param IModel $aCategory 子分类(查询的起点)
-	 * @param IModel $aCategoryTree 分类集(查询集合)
-	 * @return IModel 父分类,如果自身是顶级分类(没有父分类),就返回null
+	 * @param Model $aCategory 子分类(查询的起点)
+	 * @param Model $aCategoryTree 分类集(查询集合)
+	 * @return Model 父分类,如果自身是顶级分类(没有父分类),就返回null
 	 */
-	public function parentCategory(IModel $aCategory, IModel $aCategoryTree){
+	public function parentCategory(Model $aCategory, Model $aCategoryTree){
 		$aParent = null; //直接父分类
 		foreach($aCategoryTree->childIterator() as $aCat){
 			if($aCategory->lft > $aCat->lft && $aCategory->rgt < $aCat->rgt){ 
