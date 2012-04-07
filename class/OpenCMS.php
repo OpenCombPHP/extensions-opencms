@@ -27,9 +27,9 @@ class OpenCMS extends Extension
 	{
 		$aAccessRouter = AccessRouter::singleton() ;
 		//给控制器起别名
-// 		$aAccessRouter->addController("org\\opencomb\\opencms\\category\\CreateCategory",'createcategory','') ;
+ 		$aAccessRouter->addController("org\\opencomb\\opencms\\category\\CreateCategory",'createcategory','') ;
 		//设置首页控制器
-// 		$aAccessRouter->setDefaultController("org\\opencomb\\opencms\\index\\Index") ;
+ 		$aAccessRouter->setDefaultController("org\\opencomb\\opencms\\index\\Index") ;
 		
 		//菜单
 		AOP::singleton()->register('org\\opencomb\\opencms\\aspect\\ControlPanelFrameAspect') ;
