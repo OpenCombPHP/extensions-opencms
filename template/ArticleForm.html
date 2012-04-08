@@ -4,5 +4,22 @@
 	<label><div class="coresystem-form-title"><span>文章标题</span><widget id="article_title" /></div></label>
 	<label><div class="coresystem-form-select"><span>所属分类</span><widget id="article_cat" /></div></label>
 	<label><div class="coresystem-form-textarea"><!--<span>文章内容</span>--><widget id="article_content" /></div></label>
+	
+	<input id='article_file_1' class='' type='file' value="文章附件" />
+		<br/>
+	
+	<input id='add_file' type="button" value="添加附件" />
+	
 	<input type='submit' value="发布文章" class="coresystem-form-button" />
 </form>
+
+
+<lib name='jquery'/>
+<script>
+jquery(function(){
+	//动态增加传文件框体
+	jquery('#add_file').click(function(){
+		
+	});
+});
+</script>

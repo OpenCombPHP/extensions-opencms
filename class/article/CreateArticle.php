@@ -40,6 +40,12 @@ class CreateArticle extends ControlPanel
 								'max'=>255)
 					),
 					array(
+						'id'=>'article_',
+						'class'=>'file',
+						'title'=>'文章附件',
+						)
+					),
+					array(
 						'config'=>'widget/article_cat'
 					),
 					array(
