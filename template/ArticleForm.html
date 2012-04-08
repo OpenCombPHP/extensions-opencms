@@ -1,25 +1,37 @@
 <h2>{=$page_h1}</h2>
 <msgqueue />
-<form  method="post" enctype="multipart/form-data">   {*action="/?c=org.opencomb.opencms.article.CreateArticle"}
+<form method="post" enctype="multipart/form-data">   {*action="/?c=org.opencomb.opencms.article.CreateArticle"}
 	<label><div class="coresystem-form-title"><span>文章标题</span><widget id="article_title" /></div></label>
 	<label><div class="coresystem-form-select"><span>所属分类</span><widget id="article_cat" /></div></label>
 	<label><div class="coresystem-form-textarea"><!--<span>文章内容</span>--><widget id="article_content" /></div></label>
 	
-	<input id='article_file_1' class='' type='file' value="文章附件" />
-		<br/>
+	<div class='article_files_list'>
+		<!-- 上传文件的容器 -->
+	</div>
 	
 	<input id='add_file' type="button" value="添加附件" />
 	
 	<input type='submit' value="发布文章" class="coresystem-form-button" />
 </form>
 
-
+<!-- 上传文件的部分,只是模板,js根据情况动态添加到容器中 -->
+<div class='article_file_template' style='display:none'>
+	<input name='article_files[]' class='article_file_input' type='file' value="文章附件" />
+	<a href='#' class='article_files_into_content' title='将附件插入到文档中,如果是图片就当作插图显示,如果是文件就插入链接'>插入到文章</a>
+	<label>显示在附件列表<input name="article_list[]" class='article_list' type='checkbox' value='1' checked/></label>
+</div>
+<!-- end 上传文件的部分,只是模板 -->
+		
 <lib name='jquery'/>
 <script>
 jquery(function(){
 	//动态增加传文件框体
+	var article_file = jquery('.article_file_template').clone();
+	article_file.removeClass('article_file_template').addClass('article_file').css({'display':'block'});
+	//添加默认的一个文件上传框体
+	jquery('.article_files_list').append(article_file.clone());
 	jquery('#add_file').click(function(){
-		
+		jquery('.article_files_list').append(article_file.clone());
 	});
 });
 </script>

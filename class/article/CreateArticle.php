@@ -1,12 +1,13 @@
 <?php
 namespace org\opencomb\opencms\article;
 
+use org\jecat\framework\fs\File;
+
+use org\jecat\framework\fs\archive\DateAchiveStrategy;
+use org\jecat\framework\fs\Folder;
 use org\opencomb\platform\ext\Extension;
-
 use org\jecat\framework\lang\Exception;
-
 use org\jecat\framework\mvc\model\db\Category;
-
 use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
@@ -40,12 +41,6 @@ class CreateArticle extends ControlPanel
 								'max'=>255)
 					),
 					array(
-						'id'=>'article_',
-						'class'=>'file',
-						'title'=>'文章附件',
-						)
-					),
-					array(
 						'config'=>'widget/article_cat'
 					),
 					array(
@@ -58,13 +53,18 @@ class CreateArticle extends ControlPanel
 						'folder'=>Extension::flyweight('opencms')->publicFolder()->path(),  //取得扩展专用的文件保存路径,作为文件上传控件初始化的参数之一,这样控件就会知道应该把文件放在服务器的哪个文件夹下
 						'title'=>'文章图片',
 					)*/
-				)
+				),
 			),
 			'model:article'=>array(
 				'class'=>'model',
 				'orm'=>array(
-					'table'=>'article'
-				)
+					'table'=>'article',
+					'hasMany:attachments' => array (
+						'fromkeys' => array ( 'aid',),
+						'tokeys' => array ( 'aid', ),
+						'table' => 'attachment',
+					)
+				),
 			),
 			'model:categoryTree'=>array(
 				'class'=>'model',
@@ -72,8 +72,8 @@ class CreateArticle extends ControlPanel
 				'orm'=>array(
 					'table'=>'category',
 					'name'=>'category',
-				)
-			)
+				),
+			),
 		);
 	}
 	
@@ -116,6 +116,63 @@ class CreateArticle extends ControlPanel
 				
 				$this->viewArticle->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
 				
+				/*           处理附件             */
+				if($this->params->has('article_files'))
+				{
+					$arrArticleFiles = $this->params->get('article_files');
+					$path = Extension::flyweight('opencms')->publicFolder()->path();
+					$aStoreFolder = Folder::singleton()->findFolder($path,Folder::FIND_AUTO_CREATE);
+					$aAchiveStrategy = DateAchiveStrategy::flyweight ( Array (true, true, true ) );
+					
+					$aAttachmentsModel = $this->modelArticle->child('attachments');
+					
+					foreach($arrArticleFiles['name'] as $nKey=>$sFileName)
+					{
+						$sFileTempName = $arrArticleFiles['tmp_name'][$nKey];
+						$sFileType = $arrArticleFiles['type'][$nKey];
+						$sFileSize = $arrArticleFiles['size'][$nKey];
+						//文件是否上传成功
+						if( empty($sFileTempName) || empty($sFileType) || empty($sFileSize) )
+						{
+							continue;
+						}
+							
+						//移动文件
+						if (empty ( $aStoreFolder ))
+						{
+							throw new Exception ( "非法的路径属性,无法依赖此路径属性创建对应的文件夹对象" );
+						}
+							
+						if (! $aStoreFolder->exists ())
+						{
+							$aStoreFolder = $aStoreFolder->create ();
+						}
+							
+						// 保存文件
+						$sSavedFile = $aAchiveStrategy->makeFilePath ( array(), $aStoreFolder );
+							
+						// 创建保存目录
+						$aFolderOfSavedFile = new Folder( $sSavedFile ) ;
+						if( ! $aFolderOfSavedFile->exists() ){
+							if (! $aFolderOfSavedFile->create() )
+							{
+								throw new Exception ( __CLASS__ . "的" . __METHOD__ . "在创建路径\"%s\"时出错", array ($aFolderOfSavedFile->path () ) );
+							}
+						}
+							
+						$sSavedFile = $aAchiveStrategy->makeFilename ( array('tmp_name'=> $sFileTempName, 'name'=> $sFileName) ) ;
+							
+						move_uploaded_file($sFileTempName,$sSavedFile);
+						
+						$aNewFileModel = $aAttachmentsModel->createChild();
+						$aNewFileModel->setData('orginname' , $sFileName);
+						$aNewFileModel->setData('storepath' , $sSavedFile);
+						$aNewFileModel->setData('size' , $sFileSize );
+						$aNewFileModel->setData('type' , $sFileType );
+					}
+				}
+				/*           end 处理附件             */
+				
 				if ($this->modelArticle->save ())
 				{
 					$this->viewArticle->hideForm ();
@@ -130,4 +187,70 @@ class CreateArticle extends ControlPanel
 	}
 }
 
-?>
+
+/*array(5) {
+  ["name"]=>
+  array(3) {
+    [0]=>
+    string(9) "test1.jpg"
+    [1]=>
+    string(9) "test3.jpg"
+    [2]=>
+    string(0) ""
+  }
+  ["type"]=>
+  array(3) {
+    [0]=>
+    string(10) "image/jpeg"
+    [1]=>
+    string(10) "image/jpeg"
+    [2]=>
+    string(0) ""
+  }
+  ["tmp_name"]=>
+  array(3) {
+    [0]=>
+    string(14) "/tmp/phpfhyRm4"
+    [1]=>
+    string(14) "/tmp/phpkLPuVI"
+    [2]=>
+    string(0) ""
+  }
+  ["error"]=>
+  array(3) {
+    [0]=>
+    int(0)
+    [1]=>
+    int(0)
+    [2]=>
+    int(4)
+  }
+  ["size"]=>
+  array(3) {
+    [0]=>
+    int(26882)
+    [1]=>
+    int(26737)
+    [2]=>
+    int(0)
+  }
+}
+
+
+
+
+
+
+
+array(4) {
+  [0]=>
+  string(1) "1"
+  [1]=>
+  string(1) "1"
+  [2]=>
+  string(1) "1"
+  [3]=>
+  string(1) "1"
+}
+
+*/
