@@ -6,7 +6,7 @@ use org\opencomb\coresystem\auth\PurviewQuery;
 use org\opencomb\opencms\OpenCMS;
 
 use org\opencomb\platform\system\PlatformFactory;
-use org\opencomb\platform\Platform;
+use org\opencomb\platform\service\Service;
 use org\jecat\framework\mvc\model\db\Category;
 use org\jecat\framework\lang\oop\ClassLoader;
 use org\jecat\framework\mvc\view\DataExchanger;
