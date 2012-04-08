@@ -63,19 +63,7 @@ class TopList extends Controller
 		}
 		$this->viewArticle->variables()->set('sCategoryTitle',$this->modelCategory->data('title')) ;
 		$this->viewArticle->variables()->set('nCid',$this->params->get("cid")) ;
-		
-		$aWhere = clone $this->modelArticles->prototype()->criteria()->where();
-		
-		//遍历范围,仅第一层
-		if($this->params->has('subCat') and $this->params->get('subCat') == 1){
-			$aWhere->eq("cid",$this->params->get('cid'));
-		}else{ //遍历范围,所有层
-			$aWhere->ge("category.lft",$this->modelCategory->data('lft'));
-			$aWhere->le("category.lft",$this->modelCategory->data('rgt'));
-			$aWhere->ge("category.rgt",$this->modelCategory->data('lft'));
-			$aWhere->le("category.rgt",$this->modelCategory->data('rgt'));
-		}
-		
+				
 		//排序依据(列)
 		$sOrderBy = "createTime";
 		if($this->params->has('orderby')){
@@ -98,7 +86,23 @@ class TopList extends Controller
 			$this->modelArticles->prototype()->criteria()->setLimit(20);
 		}
 		
-		$this->modelArticles->load($aWhere);
+		//遍历范围,仅第一层
+		if($this->params->has('subCat') and $this->params->get('subCat') == 1)
+		{
+			$this->modelArticles->loadSql("cid=@1",$this->params->get('cid')) ;
+		}
+		
+		//遍历范围,所有层
+		else
+		{
+			$this->modelArticles->loadSql(
+					"category.lft>=@1 and category.lft<=@2 and category.rgt>=@3 and category.rgt<=@4"
+						,$this->modelCategory->lft
+						,$this->modelCategory->rgt
+						,$this->modelCategory->lft
+						,$this->modelCategory->rgt
+			) ;
+		}
 	}
 }
 
