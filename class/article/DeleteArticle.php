@@ -20,6 +20,11 @@ class DeleteArticle extends ControlPanel
 				'class'=>'model',
 				'orm'=>array(
 					'table'=>'article',
+					'hasMany:attachments' => array (
+							'fromkeys' => array ( 'aid',),
+							'tokeys' => array ( 'aid', ),
+							'table' => 'attachment',
+					)
 				)
 			)
 		);
@@ -50,5 +55,3 @@ class DeleteArticle extends ControlPanel
 		}
 	}
 }
-
-?>

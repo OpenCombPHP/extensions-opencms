@@ -161,7 +161,12 @@ class CreateArticle extends ControlPanel
 						}
 							
 						$sSavedFile = $sSavedFile . $aAchiveStrategy->makeFilename ( array('tmp_name'=> $sFileTempName, 'name'=> $sFileName) ) ;
-							
+						
+						//转换成相对路径
+						if( strpos($sSavedFile , $aStoreFolder->path()) === 0 ){
+							$sSavedFileRelativePath = substr($sSavedFile,strlen($aStoreFolder->path()));	
+						}
+						
 						if(!move_uploaded_file($sFileTempName,$sSavedFile))
 						{
 							throw new Exception ( "上传文件失败,move_uploaded_file , 临时路径:" . $sFileTempName . ", 目的路径:" .$sSavedFile );
@@ -169,11 +174,11 @@ class CreateArticle extends ControlPanel
 						
 						$aNewFileModel = $aAttachmentsModel->createChild();
 						$aNewFileModel->setData('orginname' , $sFileName);
-						$aNewFileModel->setData('storepath' , $sSavedFile); //httpURL()
+						$aNewFileModel->setData('storepath' , $sSavedFileRelativePath); //httpURL()
 						$aNewFileModel->setData('size' , $sFileSize );
 						$aNewFileModel->setData('type' , $sFileType );
 						$aNewFileModel->setData('index' , $nKey+1 );
-						if(!in_array((string)$nKey, $arrArticleFilesList))
+						if(!in_array((string)($nKey+1), $arrArticleFilesList))
 						{
 							$aNewFileModel->setData('displayInList' , 0);
 						}

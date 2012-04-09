@@ -1,6 +1,12 @@
 <?php
 namespace org\opencomb\opencms\article;
 
+use org\opencomb\platform\ext\Extension;
+
+use org\jecat\framework\fs\Folder;
+
+use org\jecat\framework\fs\File;
+
 use org\opencomb\coresystem\mvc\controller\Controller;
 use org\jecat\framework\mvc\model\db\Category;
 use org\jecat\framework\message\Message;
@@ -24,6 +30,7 @@ class ArticleContent extends Controller
 						'fromkeys' => array ( 'aid' ),
 						'tokeys' => array ( 'aid' ),
 						'table' => 'attachment',
+						'orderby' => 'index'
 					)
 				)
 			),
@@ -56,5 +63,27 @@ class ArticleContent extends Controller
 	public function defaultFrameConfig()
 	{
 		return array('class'=>'org\\opencomb\\opencms\\frame\\ArticleFrontFrame') ;
+	}
+	
+	static public function getHttpUrl($sFilePath)
+	{
+		return Extension::flyweight('opencms')->FilesFolder()->httpUrl() . $sFilePath;
+	}
+	
+	static public function getContentWithAttachmentUrl( $sContent , $aAttachmentModel )
+	{
+		foreach($aAttachmentModel as $aModel)
+		{
+			$sReplace = '';
+			//如果是图片就直接显示图片
+			if(strpos( $aModel['type'] , 'image' ) !== false)
+			{
+				$sReplace = '<img src="' . self::getHttpUrl($aModel['storepath']) . '"/>';
+			}else{//不是图片就显示超链接
+				$sReplace = '<a href="' . self::getHttpUrl($aModel['storepath']) . '">' . $aModel['orginname'] . '</a>';
+			}
+			$sContent = str_replace("[attachment {$aModel['index']}]", $sReplace, $sContent);
+		}
+		return $sContent;
 	}
 }

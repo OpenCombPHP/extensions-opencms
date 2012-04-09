@@ -19,6 +19,7 @@
 	<input name='article_files[]' class='article_file_input' type='file' value="文章附件" />
 	<a href='#' class='article_files_into_content' index='1' title='将附件插入到文档中,如果是图片就当作插图显示,如果是文件就插入链接'>插入到文章</a>
 	<label>显示在附件列表<input name="article_list[]" class='article_list' type='checkbox' value='1' checked/></label>
+	<a href='#' class='article_files_delete'>删除</a>
 </div>
 <!-- end 上传文件的部分,只是模板 -->
 		
@@ -41,7 +42,7 @@ jquery(function(){
 	
 	//附件插入正文
 	jquery('.article_files_into_content').live('click',function(){
-		CKEDITOR.instances.article_content.insertText('[attachment'+jquery(this).attr('index')+']');
+		CKEDITOR.instances.article_content.insertText('[attachment '+jquery(this).attr('index')+']');
 	});
 });
 </script>

@@ -106,5 +106,3 @@ class EditArticle extends ControlPanel
 		}
 	}
 }
-
-?>

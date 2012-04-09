@@ -2,15 +2,23 @@
 	<msgqueue for="$theController->messageQueue()" />
 	<h1 class="article_title">{=$article['title']}</h1>
 	<div class="article_createTime">{=date("Y年m月d日 H:m:s", $article['createTime'])}</div>
-	<div class="article_content">{=$article['text']}</div>
-	
-	<div class='article_attachment_list'>
-		<foreach for='$theModel->child("attachments")' item='attachment'>
-			<if "!$attachment['displayInList']">
-				<continue/>
-			</if>
-			{=$attachment['size']}
-		</foreach>
+	<div class="article_content">
+		{=$theController->getContentWithAttachmentUrl($article['text'] , $theModel->child("attachments"))}
 	</div>
+	
+	<if '$theModel->child("attachments")->childrenCount() > 0 '>
+		<div class='article_attachment_list'>
+			<span>附件列表:</span>
+			<foreach for='$theModel->child("attachments")' item='attachment'>
+				<if "!$attachment['displayInList']">
+					<continue/>
+				</if>
+				<div class='article_attachment'>
+					<a href="{=$theController->getHttpUrl($attachment['storepath'])}">{=$attachment['orginname']}</a>
+					{=$attachment['size']/1000}KB
+				</div>
+			</foreach>
+		</div>
+	</if>
 </div>
 <views/>
