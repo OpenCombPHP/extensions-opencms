@@ -102,7 +102,7 @@ class EditArticle extends ControlPanel
 				$sAttaMaxIndex = $aAttaModel['index']; 
 			}
 			//调整附件计数
-			$sAttaMaxIndex = (int)$sAttaMaxIndex + 2;
+			$sAttaMaxIndex = (int)$sAttaMaxIndex + 1;
 			$sAttaListHtml.="
 				<script>
 					file_num = {$sAttaMaxIndex};

@@ -32,11 +32,12 @@
 <script>
 jquery(function(){
 	//动态增加传文件框体
-	file_num = 2; //附件计数
+	if(typeof file_num == 'undefined'){
+		file_num = 2; //附件计数
+	}
 	var article_file = jquery('.article_file_template').clone();
 	article_file.removeClass('article_file_template').addClass('article_file').css({'display':'block'});
-	//添加默认的一个文件上传框体
-	jquery('.article_files_list').append(article_file.clone());
+	
 	jquery('#add_file').click(function(){
 		var article_file_clone = article_file.clone();
 		article_file_clone.find('.article_list').val(file_num);
@@ -44,6 +45,7 @@ jquery(function(){
 		file_num++;
 		jquery('.article_files_list').append(article_file_clone);
 	});
+	jquery('#add_file').click();//添加默认的一个文件上传框体
 	
 	//附件插入正文
 	jquery('.article_files_into_content , .article_exist_files_into_content').live('click',function(){
