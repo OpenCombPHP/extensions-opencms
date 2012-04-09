@@ -19,7 +19,12 @@ class ArticleContent extends Controller
 			'model:article'=>array(
 				'class'=>'model',
 				'orm'=>array(
-					'table'=>'article'
+					'table'=>'article',
+					'hasMany:attachments' => array (
+						'fromkeys' => array ( 'aid' ),
+						'tokeys' => array ( 'aid' ),
+						'table' => 'attachment',
+					)
 				)
 			),
 		);
@@ -27,16 +32,17 @@ class ArticleContent extends Controller
 	
 	public function process()
 	{
-		if($this->params->has("aid")){
-			if(!$this->modelArticle->load(array($this->params->get("aid")),array('aid'))){
+		if($this->params->has("aid"))
+		{
+			if(!$this->modelArticle->load(array($this->params->get("aid")),array('aid')))
+			{
 				$this->messageQueue ()->create ( Message::error, "错误的文章编号" );
 			}
 		}else{
 			$this->messageQueue ()->create ( Message::error, "未指定文章" );
 		}
-		
 		//浏览次数
-		$this->modelArticle->setData("views",(int)$this->modelArticle->data("views")+1);
+		$this->modelArticle->setData( "views",(int)$this->modelArticle->data("views") + 1 );
 		$this->modelArticle->save();
 		
 		$this->viewArticle->variables()->set('article',$this->modelArticle) ;
@@ -52,4 +58,3 @@ class ArticleContent extends Controller
 		return array('class'=>'org\\opencomb\\opencms\\frame\\ArticleFrontFrame') ;
 	}
 }
-?>

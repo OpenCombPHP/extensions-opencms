@@ -17,7 +17,7 @@
 <!-- 上传文件的部分,只是模板,js根据情况动态添加到容器中 -->
 <div class='article_file_template' style='display:none'>
 	<input name='article_files[]' class='article_file_input' type='file' value="文章附件" />
-	<a href='#' class='article_files_into_content' title='将附件插入到文档中,如果是图片就当作插图显示,如果是文件就插入链接'>插入到文章</a>
+	<a href='#' class='article_files_into_content' index='1' title='将附件插入到文档中,如果是图片就当作插图显示,如果是文件就插入链接'>插入到文章</a>
 	<label>显示在附件列表<input name="article_list[]" class='article_list' type='checkbox' value='1' checked/></label>
 </div>
 <!-- end 上传文件的部分,只是模板 -->
@@ -26,12 +26,22 @@
 <script>
 jquery(function(){
 	//动态增加传文件框体
+	var file_num = 2; //附件计数
 	var article_file = jquery('.article_file_template').clone();
 	article_file.removeClass('article_file_template').addClass('article_file').css({'display':'block'});
 	//添加默认的一个文件上传框体
 	jquery('.article_files_list').append(article_file.clone());
 	jquery('#add_file').click(function(){
-		jquery('.article_files_list').append(article_file.clone());
+		var article_file_clone = article_file.clone();
+		article_file_clone.find('.article_list').val(file_num);
+		article_file_clone.find('.article_files_into_content').attr('index',file_num);
+		file_num++;
+		jquery('.article_files_list').append(article_file_clone);
+	});
+	
+	//附件插入正文
+	jquery('.article_files_into_content').live('click',function(){
+		CKEDITOR.instances.article_content.insertText('[attachment'+jquery(this).attr('index')+']');
 	});
 });
 </script>

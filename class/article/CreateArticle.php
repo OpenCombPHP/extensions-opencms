@@ -120,8 +120,8 @@ class CreateArticle extends ControlPanel
 				if($this->params->has('article_files'))
 				{
 					$arrArticleFiles = $this->params->get('article_files');
-					$path = Extension::flyweight('opencms')->publicFolder()->path();
-					$aStoreFolder = Folder::singleton()->findFolder($path,Folder::FIND_AUTO_CREATE);
+					$arrArticleFilesList = $this->params->get('article_list');
+					$aStoreFolder = Extension::flyweight('opencms')->FilesFolder();
 					$aAchiveStrategy = DateAchiveStrategy::flyweight ( Array (true, true, true ) );
 					
 					$aAttachmentsModel = $this->modelArticle->child('attachments');
@@ -160,15 +160,23 @@ class CreateArticle extends ControlPanel
 							}
 						}
 							
-						$sSavedFile = $aAchiveStrategy->makeFilename ( array('tmp_name'=> $sFileTempName, 'name'=> $sFileName) ) ;
+						$sSavedFile = $sSavedFile . $aAchiveStrategy->makeFilename ( array('tmp_name'=> $sFileTempName, 'name'=> $sFileName) ) ;
 							
-						move_uploaded_file($sFileTempName,$sSavedFile);
+						if(!move_uploaded_file($sFileTempName,$sSavedFile))
+						{
+							throw new Exception ( "上传文件失败,move_uploaded_file , 临时路径:" . $sFileTempName . ", 目的路径:" .$sSavedFile );
+						}
 						
 						$aNewFileModel = $aAttachmentsModel->createChild();
 						$aNewFileModel->setData('orginname' , $sFileName);
-						$aNewFileModel->setData('storepath' , $sSavedFile);
+						$aNewFileModel->setData('storepath' , $sSavedFile); //httpURL()
 						$aNewFileModel->setData('size' , $sFileSize );
 						$aNewFileModel->setData('type' , $sFileType );
+						$aNewFileModel->setData('index' , $nKey+1 );
+						if(!in_array((string)$nKey, $arrArticleFilesList))
+						{
+							$aNewFileModel->setData('displayInList' , 0);
+						}
 					}
 				}
 				/*           end 处理附件             */
