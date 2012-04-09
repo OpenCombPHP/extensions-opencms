@@ -87,5 +87,3 @@ class ArticleList extends Controller
 		return array('class'=>'org\\opencomb\\opencms\\frame\\ArticleFrontFrame') ;
 	}
 }
-
-?>
