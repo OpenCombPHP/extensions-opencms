@@ -31,7 +31,13 @@ class EditArticle extends ControlPanel
 			'model:article'=>array(
 				'class'=>'model',
 				'orm'=>array(
-					'table'=>'article'
+					'table'=>'article',
+					'hasMany:attachments' => array (
+						'fromkeys' => array ( 'aid',),
+						'tokeys' => array ( 'aid', ),
+						'table' => 'attachment',
+						'orderby' => 'index'
+					)
 				)
 			),
 			'model:categoryTree'=>array(
@@ -72,6 +78,40 @@ class EditArticle extends ControlPanel
 		$this->setTitle($this->modelArticle->title . " - " . $this->title());
 		
 		$this->viewArticle->variables()->set('page_h1',"编辑文章") ;
+		
+		//还原附件信息
+		$aAttaModelList = $this->modelArticle->child('attachments');
+		if($aAttaModelList->childrenCount() > 0)
+		{
+			$sAttaListHtml = '';
+			$sAttaMaxIndex = '';
+			foreach($aAttaModelList as $aAttaModel)
+			{
+				$sAttaUrl = ArticleContent::getHttpUrl($aAttaModel['storepath']);
+				$sAttaSize = (string)($aAttaModel['size']/1000) . 'KB';
+				$sAttaDisplayInList = $aAttaModel['displayInList']==1? 'checked':'';
+				$sAttaListHtml.="
+					<div class='article_exist_file'>
+						<a href='{$sAttaUrl}'>{$aAttaModel['orginname']}</a>
+						{$sAttaSize}
+						<a href='#' class='article_exist_files_into_content' index='{$aAttaModel['index']}' title='将附件插入到文档中,如果是图片就当作插图显示,如果是文件就插入链接'>插入到文章</a>
+						<label>显示在附件列表<input name='article_list[]' class='article_exist_list' type='checkbox' value='{$aAttaModel['index']}' {$sAttaDisplayInList}/></label>
+						<a href='#' class='article_exist_files_delete'>删除</a>
+					</div>
+				";
+				$sAttaMaxIndex = $aAttaModel['index']; 
+			}
+			//调整附件计数
+			$sAttaMaxIndex = (int)$sAttaMaxIndex + 2;
+			$sAttaListHtml.="
+				<script>
+					file_num = {$sAttaMaxIndex};
+				</script>
+			";
+			
+			$this->viewArticle->variables()->set('sAttaListHtml',$sAttaListHtml) ;
+		}
+		
 		
 		//如果是提交请求...
 		if ($this->viewArticle->isSubmit ( $this->params ))

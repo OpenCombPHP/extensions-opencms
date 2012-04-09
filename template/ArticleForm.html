@@ -5,8 +5,13 @@
 	<label><div class="coresystem-form-select"><span>所属分类</span><widget id="article_cat" /></div></label>
 	<label><div class="coresystem-form-textarea"><!--<span>文章内容</span>--><widget id="article_content" /></div></label>
 	
+	<div class='article_exist_files_list'>
+		<!-- 已上传文件的容器 -->
+		{=$sAttaListHtml}
+	</div>
+	
 	<div class='article_files_list'>
-		<!-- 上传文件的容器 -->
+		<!-- 上传新文件的容器 -->
 	</div>
 	
 	<input id='add_file' type="button" value="添加附件" />
@@ -27,7 +32,7 @@
 <script>
 jquery(function(){
 	//动态增加传文件框体
-	var file_num = 2; //附件计数
+	file_num = 2; //附件计数
 	var article_file = jquery('.article_file_template').clone();
 	article_file.removeClass('article_file_template').addClass('article_file').css({'display':'block'});
 	//添加默认的一个文件上传框体
@@ -41,8 +46,21 @@ jquery(function(){
 	});
 	
 	//附件插入正文
-	jquery('.article_files_into_content').live('click',function(){
+	jquery('.article_files_into_content , .article_exist_files_into_content').live('click',function(){
 		CKEDITOR.instances.article_content.insertText('[attachment '+jquery(this).attr('index')+']');
+		return false;
 	});
+	
+	function insertContent(){
+		
+	}
+	
+	//删除新增附件(未上传)
+	jquery('.article_files_delete').live('click',function(){
+		jquery(this).parents('.article_file:first').remove();
+		return false;
+	});
+	
+	//删除已存在附件
 });
 </script>
