@@ -50,7 +50,7 @@ class CreateArticle extends ControlPanel
 					array(
 						'id'=>'article_img',    //文件控件bean设置的例子
 						'class'=>'file',
-						'folder'=>Extension::flyweight('opencms')->publicFolder()->path(),  //取得扩展专用的文件保存路径,作为文件上传控件初始化的参数之一,这样控件就会知道应该把文件放在服务器的哪个文件夹下
+						'folder'=>Extension::flyweight('opencms')->filesFolder()->path(),  //取得扩展专用的文件保存路径,作为文件上传控件初始化的参数之一,这样控件就会知道应该把文件放在服务器的哪个文件夹下
 						'title'=>'文章图片',
 					)*/
 				),
