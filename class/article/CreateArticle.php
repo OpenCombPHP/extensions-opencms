@@ -79,6 +79,9 @@ class CreateArticle extends ControlPanel
 	
 	public function process()
 	{
+		//权限
+		$this->requirePurview('purview:admin_category','opencms',$this->viewArticle->widget('article_cat')->value(),'您没有这个分类的管理权限,无法继续浏览');
+		
 		//为分类select添加option
 		$aCatSelectWidget = $this->viewArticle->widget("article_cat");
 		
@@ -109,8 +112,6 @@ class CreateArticle extends ControlPanel
 				{
 					break;
 				}
-				//权限
-				$this->requirePurview('purview:admin_category','opencms',$this->viewArticle->widget('article_cat')->value(),'您没有这个分类的管理权限,无法继续浏览');
 				
 				//记录创建时间
 				$this->modelArticle->setData('createTime',time());
@@ -151,7 +152,6 @@ class CreateArticle extends ControlPanel
 							
 						// 保存文件
 						$sSavedFile = $aAchiveStrategy->makeFilePath ( array(), $aStoreFolder );
-							
 						// 创建保存目录
 						$aFolderOfSavedFile = new Folder( $sSavedFile ) ;
 						if( ! $aFolderOfSavedFile->exists() ){
@@ -160,7 +160,6 @@ class CreateArticle extends ControlPanel
 								throw new Exception ( __CLASS__ . "的" . __METHOD__ . "在创建路径\"%s\"时出错", array ($aFolderOfSavedFile->path () ) );
 							}
 						}
-							
 						$sSavedFile = $sSavedFile . $aAchiveStrategy->makeFilename ( array('tmp_name'=> $sFileTempName, 'name'=> $sFileName) ) ;
 						
 						//转换成相对路径

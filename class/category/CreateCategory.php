@@ -122,5 +122,3 @@ class CreateCategory extends ControlPanel
 		}
 	}
 }
-
-?>

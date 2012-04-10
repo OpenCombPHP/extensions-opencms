@@ -34,15 +34,16 @@ class DeleteArticle extends ControlPanel
 	
 	public function process()
 	{
+		
+		//权限
+		$this->requirePurview('purview:admin_category','opencms',$this->modelArticle->cid,'您没有这个分类的管理权限,无法继续浏览');
+		
 		//要删除哪些项?把这些项数组一起删除,如果只有一项,也把也要保证它是数组
 		if ($this->params->has ( "aid" ))
 		{
 			$arrToDelete = is_array ( $this->params->get ( "aid" ) ) ? $this->params->get ( "aid" ) : ( array ) $this->params->get ( "aid" );
 			$this->modelArticle->prototype ()->criteria ()->where ()->in ( "aid", $arrToDelete );
 			$this->modelArticle->load ();
-			
-			//权限
-			$this->requirePurview('purview:admin_category','opencms',$this->modelArticle->cid,'您没有这个分类的管理权限,无法继续浏览');
 			
 			if ($this->modelArticle->delete ())
 			{
@@ -65,7 +66,5 @@ class DeleteArticle extends ControlPanel
 	static public function deleteAttachments(array $arrFilePaths){
 		$aStoreFolder = Extension::flyweight('opencms')->FilesFolder();
 		var_dump($aStoreFolder->path());
-		
-		
 	}
 }

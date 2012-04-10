@@ -33,11 +33,12 @@ class DeleteCategory extends ControlPanel
 	
 	public function process()
 	{
+		//权限
+		$this->requirePurview('purview:admin_category','opencms',$this->params->get('cid'),'您没有这个分类的管理权限,无法继续浏览');
+		
 		//要删除哪些项?把这些项数组一起删除,如果只有一项,也把也要保证它是数组
 		if ($this->params->has ( "cid" ))
 		{
-			//权限
-			$this->requirePurview('purview:admin_category','opencms',$this->params->get('cid'),'您没有这个分类的管理权限,无法继续浏览');
 			
 			$arrToDelete = is_array ( $this->params->get ( "cid" ) ) ? $this->params->get ( "cid" ) : ( array ) $this->params->get ( "cid" );
 			$this->modelCategory->prototype ()->criteria ()->where ()->in ( "cid", $arrToDelete );

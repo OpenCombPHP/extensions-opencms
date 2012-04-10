@@ -60,6 +60,9 @@ class EditArticle extends ControlPanel
 	
 	public function process()
 	{
+		//权限
+		$this->requirePurview('purview:admin_category','opencms',$this->viewArticle->widget('article_cat')->value(),'您没有这个分类的管理权限,无法继续浏览');
+		
 		//为分类select添加option
 		$aCatSelectWidget = $this->viewArticle->widget("article_cat");
 		
@@ -87,40 +90,6 @@ class EditArticle extends ControlPanel
 		$this->viewArticle->variables()->set('page_h1',"编辑文章") ;
 		$this->viewArticle->variables()->set('save_button',"保存修改") ;
 		
-		//还原附件信息
-		$aAttaModelList = $this->modelArticle->child('attachments');
-		if($aAttaModelList->childrenCount() > 0)
-		{
-			$sAttaListHtml = '';
-			$sAttaMaxIndex = '';
-			foreach($aAttaModelList as $aAttaModel)
-			{
-				$sAttaUrl = ArticleContent::getHttpUrl($aAttaModel['storepath']);
-				$sAttaSize = (string)($aAttaModel['size']/1000) . 'KB';
-				$sAttaDisplayInList = $aAttaModel['displayInList']==1? 'checked':'';
-				$sAttaListHtml.="
-					<div class='article_exist_file'>
-						<a href='{$sAttaUrl}'>{$aAttaModel['orginname']}</a>
-						{$sAttaSize}
-						<a href='#' class='article_exist_files_into_content' index='{$aAttaModel['index']}' title='将附件插入到文档中,如果是图片就当作插图显示,如果是文件就插入链接'>插入到文章</a>
-						<label><input name='article_exist_list[]' class='article_exist_list' type='checkbox' value='{$aAttaModel['index']}' {$sAttaDisplayInList}/>显示在附件列表</label>
-						<label><input name='article_exist_file_delete[]' class='article_exist_files_delete' type='checkbox' value='{$aAttaModel['index']}'/>删除此附件</label>
-					</div>
-				";
-				$sAttaMaxIndex = $aAttaModel['index']; 
-			}
-			//调整附件计数
-			$sAttaMaxIndex = (int)$sAttaMaxIndex + 1;
-			$sAttaListHtml.="
-				<script>
-					file_num = {$sAttaMaxIndex};
-				</script>
-			";
-			
-			$this->viewArticle->variables()->set('sAttaListHtml',$sAttaListHtml) ;
-		}
-		
-		
 		//如果是提交请求...
 		if ($this->viewArticle->isSubmit ( $this->params ))
 		{
@@ -133,9 +102,6 @@ class EditArticle extends ControlPanel
 				{
 					break;
 				}
-				
-				//权限
-				$this->requirePurview('purview:admin_category','opencms',$this->viewArticle->widget('article_cat')->value(),'您没有这个分类的管理权限,无法继续浏览');
 				
 				/*已经存在的附件的处理*/
 				
@@ -193,5 +159,20 @@ class EditArticle extends ControlPanel
 		}else{
 			
 		}
+	}
+	
+	public function getAttachmentUrl($aAttaModel)
+	{
+		return ArticleContent::getHttpUrl($aAttaModel['storepath']);
+	}
+	
+	public function getAttachmentSize($aAttaModel)
+	{
+		return (string)($aAttaModel['size']/1000) . 'KB';
+	}
+	
+	public function getIsDisplayInList($aAttaModel)
+	{
+		return $aAttaModel['displayInList']==1? 'checked':'';
 	}
 }

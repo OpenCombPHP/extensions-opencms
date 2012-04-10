@@ -17,18 +17,18 @@
 		</tbody>
 	</table>
 	<script type="text/javascript">
-var TbRow = document.getElementById("tableStyle");
-if (TbRow != null){
-	for (var i=0;i<TbRow.rows.length ;i++ ){
-		if (TbRow.rows[i].rowIndex%2==1){
-			TbRow.rows[i].style.backgroundColor="";
-		}
-		else{
-			TbRow.rows[i].style.backgroundColor="#F1F1F1";
+	var TbRow = document.getElementById("tableStyle");
+	if (TbRow != null){
+		for (var i=0;i<TbRow.rows.length ;i++ ){
+			if (TbRow.rows[i].rowIndex%2==1){
+				TbRow.rows[i].style.backgroundColor="";
+			}
+			else{
+				TbRow.rows[i].style.backgroundColor="#F1F1F1";
+			}
 		}
 	}
-}
-</script>
+	</script>
 </div>
 
 <widget id="paginator" attr.nums="5" attr.showFirst="1" attr.showLast="1" attr.showTotal="1" attr.showPre="1" attr.showNext="1" />

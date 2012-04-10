@@ -43,6 +43,9 @@ class EditCategory extends ControlPanel
 	
 	public function process()
 	{
+		//权限
+		$this->requirePurview('purview:admin_category','opencms',$this->params->get('cid'),'您没有这个分类的管理权限,无法继续浏览');
+		
 		//准备分类信息
 		$this->modelCategoryTree->load();
 		
@@ -66,9 +69,6 @@ class EditCategory extends ControlPanel
 			$this->messageQueue ()->create ( Message::error, "未指定栏目" );
 			return;
 		}
-		
-		//权限
-		$this->requirePurview('purview:admin_category','opencms',$this->params->get('cid'),'您没有这个分类的管理权限,无法继续浏览');
 		
 		$this->setTitle($this->modelCategory->title . " - " . $this->title());
 		

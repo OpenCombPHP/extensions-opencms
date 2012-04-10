@@ -28,6 +28,9 @@ class CategorySort extends ControlPanel
 	
 	public function process()
 	{
+		//权限
+		$this->requirePurview('purview:admin_category','opencms',$nCid,'您没有这个分类的管理权限,无法继续浏览');
+		
 		//向哪?
 		if ($this->params->has ( 'to' ))
 		{
@@ -45,9 +48,6 @@ class CategorySort extends ControlPanel
 			$this->messageQueue ()->create ( Message::error, "缺少信息,栏目排序失败" );
 			return;
 		}
-		
-		//权限
-		$this->requirePurview('purview:admin_category','opencms',$nCid,'您没有这个分类的管理权限,无法继续浏览');
 		
 		//准备分类信息
 		$this->modelCategoryTree->load();
