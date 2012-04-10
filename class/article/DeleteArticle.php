@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\opencms\article;
 
+use org\opencomb\platform\ext\Extension;
+
 use org\jecat\framework\mvc\model\db\Article;
 use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
@@ -61,6 +63,9 @@ class DeleteArticle extends ControlPanel
 	 * @param array $arrFilePaths 文件的相对路径数组,
 	 */
 	static public function deleteAttachments(array $arrFilePaths){
+		$aStoreFolder = Extension::flyweight('opencms')->FilesFolder();
+		var_dump($aStoreFolder->path());
+		
 		
 	}
 }

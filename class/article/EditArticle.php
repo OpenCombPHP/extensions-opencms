@@ -1,6 +1,13 @@
 <?php
 namespace org\opencomb\opencms\article;
 
+use org\jecat\framework\db\DB;
+
+use org\jecat\framework\lang\Exception;
+
+use org\opencomb\platform\ext\Extension;
+use org\jecat\framework\fs\archive\DateAchiveStrategy;
+use org\jecat\framework\fs\Folder;
 use org\jecat\framework\mvc\model\db\Category;
 use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
@@ -131,11 +138,6 @@ class EditArticle extends ControlPanel
 				$this->requirePurview('purview:admin_category','opencms',$this->viewArticle->widget('article_cat')->value(),'您没有这个分类的管理权限,无法继续浏览');
 				
 				/*已经存在的附件的处理*/
-				$this->modelArticle->child('attachments')->printStruct();
-				
-				var_dump($this->params->get('article_exist_list'));
-				
-				var_dump($this->params->get('article_exist_file_delete'));
 				
 				if(!$this->params->has('article_exist_list') OR $this->params->get('article_exist_list') == null)
 				{
@@ -153,16 +155,13 @@ class EditArticle extends ControlPanel
 				
 				$aAttaModelList = $this->modelArticle->child('attachments');
 				$arrFilesToDelete = array();
-				foreach( $aAttaModelList->childIterator() as $aAttaModel)
+				foreach( $aAttaModelList as $aAttaModel)
 				{
 					//是否删除已有附件
 					if( in_array( (string)$aAttaModel['index'] , $arrExistFileDelete ) )
 					{
-						$aAttaModelList->removeChild($aAttaModel);
+						$aAttaModel->delete();
 						$arrFilesToDelete[] = $aAttaModel['storepath'];
-////////
-// $aAttaModelList->save();
-////////
 					}else{
 						//是否显示在附件列表中
 						if(in_array( (string)$aAttaModel['index'] , $arrExistFileList ))
@@ -171,17 +170,16 @@ class EditArticle extends ControlPanel
 						}else{
 							$aAttaModel->setData('displayInList' , 0);
 						}
-/////////
-// 	$aAttaModel->save();
-///////////
 					}
 				}
 				
 				/* end 已经存在的附件的处理*/
 				
-				$this->viewArticle->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
-				$this->modelArticle->printStruct();
+				/* 新附件的处理*/
+				/* end 新附件的处理*/
 				
+				$this->viewArticle->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
+				$this->viewArticle->printStruct();
 				if ($this->modelArticle->save ())
 				{
 					$this->viewArticle->hideForm ();
