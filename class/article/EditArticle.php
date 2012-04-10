@@ -78,6 +78,7 @@ class EditArticle extends ControlPanel
 		$this->setTitle($this->modelArticle->title . " - " . $this->title());
 		
 		$this->viewArticle->variables()->set('page_h1',"编辑文章") ;
+		$this->viewArticle->variables()->set('save_button',"保存修改") ;
 		
 		//还原附件信息
 		$aAttaModelList = $this->modelArticle->child('attachments');
@@ -95,8 +96,8 @@ class EditArticle extends ControlPanel
 						<a href='{$sAttaUrl}'>{$aAttaModel['orginname']}</a>
 						{$sAttaSize}
 						<a href='#' class='article_exist_files_into_content' index='{$aAttaModel['index']}' title='将附件插入到文档中,如果是图片就当作插图显示,如果是文件就插入链接'>插入到文章</a>
-						<label>显示在附件列表<input name='article_list[]' class='article_exist_list' type='checkbox' value='{$aAttaModel['index']}' {$sAttaDisplayInList}/></label>
-						<a href='#' class='article_exist_files_delete'>删除</a>
+						<label><input name='article_exist_list[]' class='article_exist_list' type='checkbox' value='{$aAttaModel['index']}' {$sAttaDisplayInList}/>显示在附件列表</label>
+						<label><input name='article_exist_file_delete[]' class='article_exist_files_delete' type='checkbox' value='{$aAttaModel['index']}'/>删除此附件</label>
 					</div>
 				";
 				$sAttaMaxIndex = $aAttaModel['index']; 
@@ -129,7 +130,57 @@ class EditArticle extends ControlPanel
 				//权限
 				$this->requirePurview('purview:admin_category','opencms',$this->viewArticle->widget('article_cat')->value(),'您没有这个分类的管理权限,无法继续浏览');
 				
+				/*已经存在的附件的处理*/
+				$this->modelArticle->child('attachments')->printStruct();
+				
+				var_dump($this->params->get('article_exist_list'));
+				
+				var_dump($this->params->get('article_exist_file_delete'));
+				
+				if(!$this->params->has('article_exist_list') OR $this->params->get('article_exist_list') == null)
+				{
+					$arrExistFileList = array();
+				}else{
+					$arrExistFileList = $this->params->get('article_exist_list');
+				}
+				
+				if(!$this->params->has('article_exist_file_delete') OR $this->params->get('article_exist_file_delete') == null)
+				{
+					$arrExistFileDelete = array();
+				}else{
+					$arrExistFileDelete = $this->params->get('article_exist_file_delete');
+				}
+				
+				$aAttaModelList = $this->modelArticle->child('attachments');
+				$arrFilesToDelete = array();
+				foreach( $aAttaModelList->childIterator() as $aAttaModel)
+				{
+					//是否删除已有附件
+					if( in_array( (string)$aAttaModel['index'] , $arrExistFileDelete ) )
+					{
+						$aAttaModelList->removeChild($aAttaModel);
+						$arrFilesToDelete[] = $aAttaModel['storepath'];
+////////
+// $aAttaModelList->save();
+////////
+					}else{
+						//是否显示在附件列表中
+						if(in_array( (string)$aAttaModel['index'] , $arrExistFileList ))
+						{
+							$aAttaModel->setData('displayInList' , 1);
+						}else{
+							$aAttaModel->setData('displayInList' , 0);
+						}
+/////////
+// 	$aAttaModel->save();
+///////////
+					}
+				}
+				
+				/* end 已经存在的附件的处理*/
+				
 				$this->viewArticle->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
+				$this->modelArticle->printStruct();
 				
 				if ($this->modelArticle->save ())
 				{

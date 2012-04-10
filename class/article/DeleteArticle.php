@@ -54,4 +54,13 @@ class DeleteArticle extends ControlPanel
 			$this->messageQueue ()->create ( Message::error, "未指定文章" );
 		}
 	}
+	
+	/**
+	 * 批量附件删除
+	 * 
+	 * @param array $arrFilePaths 文件的相对路径数组,
+	 */
+	static public function deleteAttachments(array $arrFilePaths){
+		
+	}
 }
