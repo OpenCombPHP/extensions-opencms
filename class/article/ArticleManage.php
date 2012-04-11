@@ -66,7 +66,7 @@ class ArticleManage extends ControlPanel
 		
 		if($this->params->get('cid'))
 		{
-			$arrBean['model:articles']['orm']['belongsTo:category']['where'] = array("category.cid=@1",$this->params->get('cid'));
+			$arrBean['model:articles']['orm']['where'] = array("category.cid=@1",$this->params->get('cid'));
 		}
 		
 // 		var_dump($arrBean);
@@ -83,12 +83,16 @@ class ArticleManage extends ControlPanel
 		Category::buildTree($this->modelCategoryTree);
 		$this->viewArticle->variables ()->set ( 'aCatIter', $this->modelCategoryTree );
 		
-		$this->modelArticles->load ();
+		//搜索文章用的title模糊检索
+		if($this->params->get('title'))
+		{
+			$this->modelArticles->loadSql("`title` like @1", '%'. $this->params->get('title').'%' );
+		}else{
+			$this->modelArticles->load ();
+		}
 		
 // 		DB::singleton()->executeLog();
 		
 		$this->viewArticle->variables()->set('aArtIter',$this->modelArticles->childIterator()) ;
 	}
 }
-
-?>

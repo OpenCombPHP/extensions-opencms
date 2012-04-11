@@ -1,6 +1,10 @@
+<lib name='jquery'/>
 <div id='artList'>
 	<h2>文章管理</h2>
-	<div class="coresystem-submenu"><a href='?c=org.opencomb.opencms.article.CreateArticle'>+ 新建文章</a></div>
+	<div class="coresystem-submenu">
+		<a href='?c=org.opencomb.opencms.article.CreateArticle'>+ 新建文章</a>
+		<input type='text' class='search_text' value=""/><a href='/?c=org.opencomb.opencms.article.ArticleManage&title=' class='search_button' title='依据文章部分标题搜索文章'>搜索</a>
+	</div>
 	<script type="text/javascript">
 		function confirmDel(){
 			if(!confirm("确认删除文章吗?")){
@@ -11,6 +15,7 @@
 	<table>
 		<thead>
 			<tr>
+				<th width="25px">选中</th>
 				<th width="50px">id</th>
 				<th>文章名称</th>
 				<th>文章栏目</th>
@@ -22,6 +27,7 @@
 		<tbody id="tableStyle">
 			<foreach for="$aArtIter" item="aArt">
 			<tr>
+				<td><input type="checkbox" class='art_select' value='{=$aArt["aid"]}'/></td>
 				<td>{=$aArt['aid']}</td>
 				<td><a href="?c=org.opencomb.opencms.article.ArticleContent&aid={=$aArt['aid']}">{=$aArt['title']}</a></td>
 				<td><a href="?c=org.opencomb.opencms.article.ArticleManage&cid={=$aArt['cid']}">{=$aArt['category.title']}</a></td>
@@ -32,7 +38,14 @@
 			</foreach>
 		</tbody>
 	</table>
-	<script type="text/javascript">
+</div>
+
+<a href='#' class='select_all'>全选</a>/<a class='unselect_all' href='#'>反选</a>
+<a href='/?c=org.opencomb.opencms.article.DeleteArticle&aid=' class='delete_articles'>批量删除</a>
+<widget id="paginator" attr.nums="10" attr.showFirst="1" attr.showLast="1" attr.showTotal="1" attr.showPre="1" attr.showNext="1" />
+
+
+<script type="text/javascript">
 	var TbRow = document.getElementById("tableStyle");
 	if (TbRow != null){
 		for (var i=0;i<TbRow.rows.length ;i++ ){
@@ -44,7 +57,41 @@
 			}
 		}
 	}
-	</script>
-</div>
-
-<widget id="paginator" attr.nums="10" attr.showFirst="1" attr.showLast="1" attr.showTotal="1" attr.showPre="1" attr.showNext="1" />
+	//搜索文章
+	jquery(function(){
+		jquery('.search_button').click(function(){
+			 location.href = jquery(this).attr('href') + jquery('.search_text').val() ;
+			 return false;
+		});
+	});
+	
+	//全选
+	jQuery('.select_all').click(function(e){
+		jQuery('.art_select').attr('checked',true);
+		e.stopPropagation();
+	});
+	//反选
+	jQuery('.unselect_all').click(function(e){
+		jQuery('.art_select').each(function(b,v){
+			jQuery(v).attr('checked',!jQuery(v).attr('checked'));
+		});
+		e.stopPropagation();
+	});
+	
+	//批量删除
+	jQuery('.delete_articles').click(function(){
+		var sArtToDelete = [];
+		jquery('.art_select').each(function(b,v){
+			if(!v.checked){
+				return ;
+			}
+			sArtToDelete.push(jquery(v).val());
+		});
+		sArtToDelete = sArtToDelete.join(',');
+		if(confirm('确定删除文章:' + sArtToDelete + "吗?"))
+		{
+			location.href=jquery(this).attr('href') + sArtToDelete;
+		}
+		return false;
+	});
+</script>
