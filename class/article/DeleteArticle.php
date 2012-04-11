@@ -45,8 +45,16 @@ class DeleteArticle extends ControlPanel
 			$this->modelArticle->prototype ()->criteria ()->where ()->in ( "aid", $arrToDelete );
 			$this->modelArticle->load ();
 			
+			//删除附件
+			$arrFilePaths = array();
+			foreach($this->modelArticle->child('attachments') as $aAttaModel)
+			{
+				$arrFilePaths[] = $aAttaModel['storepath'];
+			}
+			
 			if ($this->modelArticle->delete ())
 			{
+				$this->deleteAttachments($arrFilePaths);
 				$this->messageQueue ()->create ( Message::success, "删除文章成功" );
 			}
 			else
@@ -62,9 +70,20 @@ class DeleteArticle extends ControlPanel
 	 * 批量附件删除
 	 * 
 	 * @param array $arrFilePaths 文件的相对路径数组,
+	 * 
+	 * @return boolean 如果有一个文件删除失败就返回false
 	 */
-	static public function deleteAttachments(array $arrFilePaths){
-		$aStoreFolder = Extension::flyweight('opencms')->FilesFolder();
-		var_dump($aStoreFolder->path());
+	static public function deleteAttachments(array $arrFilePaths , $sExtension = 'opencms'){
+		if(!$arrFilePaths)
+		{
+			return true;
+		}
+		$sStorePath = Extension::flyweight($sExtension)->FilesFolder()->path();
+		$bSuccess = true;
+		foreach($arrFilePaths as $sFilePath)
+		{
+			$bSuccess = $bSuccess && @unlink( $sStorePath . $sFilePath );
+		}
+		return $bSuccess;
 	}
 }

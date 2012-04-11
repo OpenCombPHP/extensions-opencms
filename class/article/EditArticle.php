@@ -126,8 +126,8 @@ class EditArticle extends ControlPanel
 					//是否删除已有附件
 					if( in_array( (string)$aAttaModel['index'] , $arrExistFileDelete ) )
 					{
-						$aAttaModel->delete();
 						$arrFilesToDelete[] = $aAttaModel['storepath'];
+						$aAttaModel->delete();
 					}else{
 						//是否显示在附件列表中
 						if(in_array( (string)$aAttaModel['index'] , $arrExistFileList ))
@@ -218,6 +218,8 @@ class EditArticle extends ControlPanel
 				$this->viewArticle->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
 				if ($this->modelArticle->save ())
 				{
+					//删除用户要删除的已存在附件
+					DeleteArticle::deleteAttachments($arrFilesToDelete);
 					$this->viewArticle->hideForm ();
 					$this->messageQueue ()->create ( Message::success, "文章保存成功" );
 				}
