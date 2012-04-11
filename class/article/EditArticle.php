@@ -57,6 +57,12 @@ class EditArticle extends ControlPanel
 							'title'=>'标题颜色',
 							'exchange'=>'title_color',
 					),
+					array(
+							'id'=>'article_url',
+							'class'=>'text',
+							'title'=>'文章链接',
+							'exchange'=>'url',
+					),
 				)
 			),
 			'model:article'=>array(

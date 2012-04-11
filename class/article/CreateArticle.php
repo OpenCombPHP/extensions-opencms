@@ -65,6 +65,12 @@ class CreateArticle extends ControlPanel
 						'exchange'=>'title_color',
 					),
 					array(
+						'id'=>'article_url',
+						'class'=>'text',
+						'title'=>'文章链接',
+						'exchange'=>'url',
+					),
+					array(
 						'config'=>'widget/article_cat'
 					),
 					array(
