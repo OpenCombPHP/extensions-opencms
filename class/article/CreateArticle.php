@@ -41,6 +41,30 @@ class CreateArticle extends ControlPanel
 								'max'=>255)
 					),
 					array(
+						'id'=>'article_title_bold',
+						'class'=>'checkbox',
+						'title'=>'标题加粗',
+						'exchange'=>'title_bold',
+					),
+					array(
+						'id'=>'article_title_italic',
+						'class'=>'checkbox',
+						'title'=>'标题斜体',
+						'exchange'=>'title_italic',
+					),
+					array(
+						'id'=>'article_title_strikethrough',
+						'class'=>'checkbox',
+						'title'=>'标题删除线',
+						'exchange'=>'title_strikethrough',
+					),
+					array(
+						'id'=>'article_title_color',
+						'class'=>'text',
+						'title'=>'标题颜色',
+						'exchange'=>'title_color',
+					),
+					array(
 						'config'=>'widget/article_cat'
 					),
 					array(

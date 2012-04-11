@@ -7,7 +7,14 @@
 		<model:foreach>
 		<li class='shorttext_{=$nCid}'>
 			<span>{=date("Y年m月d日", $theModel['createTime'])}</span>
-			<a class='ellipsis_text' href="?c=org.opencomb.opencms.article.ArticleContent&aid={=$theModel['aid']}">{=$theModel['title']}</a>
+			{#?
+				$sStyle = '';
+				$sStyle.=$theModel['title_bold']==1 ? 'font-weight: bold;' : '';
+				$sStyle.=$theModel['title_italic']==1 ? 'font-style: italic;' : '';
+				$sStyle.=$theModel['title_strikethrough']==1 ? 'text-decoration:line-through;' : '';
+				$sStyle.=$theModel['title_color']!='' ? 'color:'.$theModel['title_color'].';' : '';
+			#}
+			<a class='ellipsis_text' href="?c=org.opencomb.opencms.article.ArticleContent&aid={=$theModel['aid']}" style='{=$sStyle}'>{=$theModel['title']}</a>
 		</li>
 		</model:foreach>
 		<li class='block'></li>
