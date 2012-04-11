@@ -1,15 +1,15 @@
 <h2>{=$page_h1}</h2>
 <msgqueue />
 <form method="post" enctype="multipart/form-data">
-	<label>
-		<div class="coresystem-form-title"><span>文章标题</span>
-			<widget id="article_title" /> 
-			<widget id="article_title_bold" /> 
-			<widget id="article_title_italic" /> 
-			<widget id="article_title_strikethrough" /> 
-			<label>颜色: <widget id="article_title_color" /></label> 
-		</div>
-	</label>
+	<div class="coresystem-form-title">
+		<span>文章标题</span>
+		<widget id="article_title" /> 
+		<widget id="article_title_bold" /> 
+		<widget id="article_title_italic" /> 
+		<widget id="article_title_strikethrough" /> 
+		<label>颜色: <widget id="article_title_color"/></label> 
+		<div id='article_color_selecter'></div>
+	</div>
 	<label><div class="coresystem-form-url"><span>文章链接</span><widget id="article_url" /></div></label>
 	<label><div class="coresystem-form-select"><span>所属分类</span><widget id="article_cat" /></div></label>
 	<label><div class="coresystem-form-textarea"><!--<span>文章内容</span>--><widget id="article_content" /></div></label>
@@ -56,6 +56,7 @@
 <!-- end 上传文件的部分,只是模板 -->
 
 <lib name='jquery'/>
+<lib name='jquery.farbtastic'/>
 <script>
 jquery(function(){
 	//动态增加传文件框体
@@ -97,5 +98,20 @@ jquery(function(){
 		
 		jquery('#article_files_index').val(arrIndexs.join(','));
 	}
+	
+	//颜色选择器
+    jquery('#article_color_selecter').farbtastic('#article_title_color');
+	jquery('#article_title_color').focusin(function(){
+		jquery('#article_color_selecter')
+		.css({
+			'top':jquery(this).position().top + jquery(this).outerHeight(),
+			'left':jquery(this).position().left,
+		})
+		.show();
+		console.log(jquery(this).position().top);
+	});
+	jquery('#article_title_color').focusout(function(){
+		jquery('#article_color_selecter').hide();
+	});
 });
 </script>

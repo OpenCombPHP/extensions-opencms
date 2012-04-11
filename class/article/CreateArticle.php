@@ -62,6 +62,7 @@ class CreateArticle extends ControlPanel
 						'id'=>'article_title_color',
 						'class'=>'text',
 						'title'=>'标题颜色',
+						'value'=>'#09C',
 						'exchange'=>'title_color',
 					),
 					array(

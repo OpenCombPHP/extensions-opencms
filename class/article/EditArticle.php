@@ -2,9 +2,7 @@
 namespace org\opencomb\opencms\article;
 
 use org\jecat\framework\db\DB;
-
 use org\jecat\framework\lang\Exception;
-
 use org\opencomb\platform\ext\Extension;
 use org\jecat\framework\fs\archive\DateAchiveStrategy;
 use org\jecat\framework\fs\Folder;
@@ -55,6 +53,7 @@ class EditArticle extends ControlPanel
 							'id'=>'article_title_color',
 							'class'=>'text',
 							'title'=>'标题颜色',
+							'value'=>'#09C',
 							'exchange'=>'title_color',
 					),
 					array(
