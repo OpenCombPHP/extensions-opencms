@@ -142,10 +142,80 @@ class EditArticle extends ControlPanel
 				/* end 已经存在的附件的处理*/
 				
 				/* 新附件的处理*/
+			if($this->params->has('article_files'))
+				{
+					$arrArticleFiles = $this->params->get('article_files');
+					$arrArticleFilesList = $this->params->get('article_list');
+					if(!$arrArticleFilesList)
+					{
+						$arrArticleFilesList = array();
+					}
+					$aStoreFolder = Extension::flyweight('opencms')->FilesFolder();
+					$aAchiveStrategy = DateAchiveStrategy::flyweight ( Array (true, true, true ) );
+					
+					$aAttachmentsModel = $this->modelArticle->child('attachments');
+					
+					foreach($arrArticleFiles['name'] as $nKey=>$sFileName)
+					{
+						$sFileTempName = $arrArticleFiles['tmp_name'][$nKey];
+						$sFileType = $arrArticleFiles['type'][$nKey];
+						$sFileSize = $arrArticleFiles['size'][$nKey];
+						//文件是否上传成功
+						if( empty($sFileTempName) || empty($sFileType) || empty($sFileSize) )
+						{
+							continue;
+						}
+							
+						//移动文件
+						if (empty ( $aStoreFolder ))
+						{
+							throw new Exception ( "非法的路径属性,无法依赖此路径属性创建对应的文件夹对象" );
+						}
+							
+						if (! $aStoreFolder->exists ())
+						{
+							$aStoreFolder = $aStoreFolder->create ();
+						}
+							
+						// 保存文件
+						$sSavedFile = $aAchiveStrategy->makeFilePath ( array(), $aStoreFolder );
+						// 创建保存目录
+						$aFolderOfSavedFile = new Folder( $sSavedFile ) ;
+						if( ! $aFolderOfSavedFile->exists() ){
+							if (! $aFolderOfSavedFile->create() )
+							{
+								throw new Exception ( __CLASS__ . "的" . __METHOD__ . "在创建路径\"%s\"时出错", array ($aFolderOfSavedFile->path () ) );
+							}
+						}
+						$sSavedFile = $sSavedFile . $aAchiveStrategy->makeFilename ( array('tmp_name'=> $sFileTempName, 'name'=> $sFileName) ) ;
+						
+						//转换成相对路径
+						if( strpos($sSavedFile , $aStoreFolder->path()) === 0 ){
+							$sSavedFileRelativePath = substr($sSavedFile,strlen($aStoreFolder->path()));	
+						}
+						
+						if(!move_uploaded_file($sFileTempName,$sSavedFile))
+						{
+							throw new Exception ( "上传文件失败,move_uploaded_file , 临时路径:" . $sFileTempName . ", 目的路径:" .$sSavedFile );
+						}
+						
+						$arrIndexs = explode(',', $this->params->get('article_files_index'));
+						
+						$aNewFileModel = $aAttachmentsModel->createChild();
+						$aNewFileModel->setData('orginname' , $sFileName);
+						$aNewFileModel->setData('storepath' , $sSavedFileRelativePath); //httpURL()
+						$aNewFileModel->setData('size' , $sFileSize );
+						$aNewFileModel->setData('type' , $sFileType );
+						$aNewFileModel->setData('index' , $arrIndexs[$nKey] );
+						if(!in_array((string)( $arrIndexs[$nKey]), $arrArticleFilesList))
+						{
+							$aNewFileModel->setData('displayInList' , 0);
+						}
+					}
+				}
 				/* end 新附件的处理*/
 				
 				$this->viewArticle->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
-				$this->viewArticle->printStruct();
 				if ($this->modelArticle->save ())
 				{
 					$this->viewArticle->hideForm ();

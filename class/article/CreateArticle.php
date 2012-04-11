@@ -123,6 +123,10 @@ class CreateArticle extends ControlPanel
 				{
 					$arrArticleFiles = $this->params->get('article_files');
 					$arrArticleFilesList = $this->params->get('article_list');
+					if(!$arrArticleFilesList)
+					{
+						$arrArticleFilesList = array();
+					}
 					$aStoreFolder = Extension::flyweight('opencms')->FilesFolder();
 					$aAchiveStrategy = DateAchiveStrategy::flyweight ( Array (true, true, true ) );
 					
@@ -172,13 +176,15 @@ class CreateArticle extends ControlPanel
 							throw new Exception ( "上传文件失败,move_uploaded_file , 临时路径:" . $sFileTempName . ", 目的路径:" .$sSavedFile );
 						}
 						
+						$arrIndexs = explode(',', $this->params->get('article_files_index'));
+						
 						$aNewFileModel = $aAttachmentsModel->createChild();
 						$aNewFileModel->setData('orginname' , $sFileName);
 						$aNewFileModel->setData('storepath' , $sSavedFileRelativePath); //httpURL()
 						$aNewFileModel->setData('size' , $sFileSize );
 						$aNewFileModel->setData('type' , $sFileType );
-						$aNewFileModel->setData('index' , $nKey+1 );
-						if(!in_array((string)($nKey+1), $arrArticleFilesList))
+						$aNewFileModel->setData('index' , $arrIndexs[$nKey] );
+						if(!in_array((string)( $arrIndexs[$nKey]), $arrArticleFilesList))
 						{
 							$aNewFileModel->setData('displayInList' , 0);
 						}

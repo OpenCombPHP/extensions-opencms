@@ -32,6 +32,7 @@
 	</div>
 	
 	<input id='add_file' type="button" value="添加附件" />
+	<input id='article_files_index' name='article_files_index' type="hidden" />
 	<br/>
 	<input type='submit' value="{=$save_button}" class="coresystem-form-button" />
 </form>
@@ -61,8 +62,10 @@ jquery(function(){
 		article_file_clone.find('.article_files_into_content').attr('index',file_num);
 		file_num++;
 		jquery('.article_files_list').append(article_file_clone);
+		serializeFilesIndex();
 	});
 	jquery('#add_file').click();//添加默认的一个文件上传框体
+	serializeFilesIndex();
 	
 	//附件插入正文
 	jquery('.article_files_into_content , .article_exist_files_into_content').live('click',function(){
@@ -73,7 +76,17 @@ jquery(function(){
 	//删除新增附件(未上传)
 	jquery('.article_files_delete').live('click',function(){
 		jquery(this).parents('.article_file:first').remove();
+		serializeFilesIndex();
 		return false;
 	});
+	
+	function serializeFilesIndex(){
+		var arrIndexs = new Array();
+		jquery('.article_file').each(function(b,v){
+			arrIndexs.push(jquery(v).find('.article_files_into_content').attr('index'));
+		});
+		
+		jquery('#article_files_index').val(arrIndexs.join(','));
+	}
 });
 </script>

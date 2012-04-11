@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\opencms\article;
 
+use org\jecat\framework\db\DB;
+
 use org\jecat\framework\auth\IdManager;
 
 use org\jecat\framework\mvc\model\db\Category;
@@ -18,7 +20,7 @@ class ArticleManage extends ControlPanel
 	 */
 	public function createBeanConfig()
 	{
-		return array(
+		$arrBean = array(
 			'title'=>'文章管理',
 			'view:article'=>array(
 				'template'=>'ArticleManage.html',
@@ -47,6 +49,7 @@ class ArticleManage extends ControlPanel
 						'tokeys'=>'cid',
 						'table'=>'category',
 						'name'=>'category',
+// 						'where'=>array("category.cid=@1",$this->params->get('cid'))
 					)
 				)
 			),
@@ -60,6 +63,14 @@ class ArticleManage extends ControlPanel
 				)
 			)
 		);
+		
+		if($this->params->get('cid'))
+		{
+			$arrBean['model:articles']['orm']['belongsTo:category']['where'] = array("category.cid=@1",$this->params->get('cid'));
+		}
+		
+// 		var_dump($arrBean);
+		return $arrBean;
 	}
 	
 	public function process()
@@ -73,6 +84,9 @@ class ArticleManage extends ControlPanel
 		$this->viewArticle->variables ()->set ( 'aCatIter', $this->modelCategoryTree );
 		
 		$this->modelArticles->load ();
+		
+// 		DB::singleton()->executeLog();
+		
 		$this->viewArticle->variables()->set('aArtIter',$this->modelArticles->childIterator()) ;
 	}
 }

@@ -24,7 +24,7 @@
 			<tr>
 				<td>{=$aArt['aid']}</td>
 				<td><a href="?c=org.opencomb.opencms.article.ArticleContent&aid={=$aArt['aid']}">{=$aArt['title']}</a></td>
-				<td><a href="?c=org.opencomb.opencms.article.ArticleList&cid={=$aArt['cid']}">{=$aArt['category.title']}</a></td>
+				<td><a href="?c=org.opencomb.opencms.article.ArticleManage&cid={=$aArt['cid']}">{=$aArt['category.title']}</a></td>
 				<td>{=$aArt['views']}</td>
 				<td><a href="?c=org.opencomb.opencms.article.EditArticle&aid={=$aArt['aid']}">编辑</a></td>
 				<td><a href="?c=org.opencomb.opencms.article.DeleteArticle&aid={=$aArt['aid']}" onclick="javascript:return confirmDel();">删除</a></td>
