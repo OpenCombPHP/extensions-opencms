@@ -16,7 +16,7 @@ class CategorySort extends ControlPanel
 	{
 		return array (
 			'title'=>'分类排序',
-			'view:category'=>array(
+			'view'=>array(
 				'template'=>'CategorySort.html',
 				'class'=>'view',
 			),
@@ -28,9 +28,6 @@ class CategorySort extends ControlPanel
 	
 	public function process()
 	{
-		//权限
-		$this->requirePurview('purview:admin_category','opencms',$nCid,'您没有这个分类的管理权限,无法继续浏览');
-		
 		//向哪?
 		if ($this->params->has ( 'to' ))
 		{
@@ -49,25 +46,28 @@ class CategorySort extends ControlPanel
 			return;
 		}
 		
+		//权限
+		$this->requirePurview('purview:admin_category','opencms',$nCid,'您没有这个分类的管理权限,无法继续浏览');
+		
 		//准备分类信息
-		$this->modelCategoryTree->load();
+		$this->categoryTree->load();
 		
-		Category::buildTree($this->modelCategoryTree);
+		Category::buildTree($this->categoryTree);
 		
-		$aHandleCategoryModel = $this->modelCategoryTree->findChildBy($nCid,'cid');
+		$aHandleCategoryModel = $this->categoryTree->findChildBy($nCid,'cid');
 		if(!$aHandleCategoryModel){
 			$this->messageQueue ()->create ( Message::error, "没有找到对应的栏目,栏目排序失败" );
 			return;
 		}
 		
-		$aParentCategory = $this->parentCategory($aHandleCategoryModel , $this->modelCategoryTree);
+		$aParentCategory = $this->parentCategory($aHandleCategoryModel , $this->categoryTree);
 		//
 		
 		$aChildren = array();
 		if($aParentCategory){
 			$aBrotherCategorys = Category::categoryChildren($aParentCategory)->childIterator();
 		}else{
-			$aBrotherCategorys = $this->modelCategoryTree->childIterator();
+			$aBrotherCategorys = $this->categoryTree->childIterator();
 		}
 		foreach( $aBrotherCategorys as $aCat){
 			if(Category::depth($aHandleCategoryModel) == Category::depth($aCat)){

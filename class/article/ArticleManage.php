@@ -2,9 +2,7 @@
 namespace org\opencomb\opencms\article;
 
 use org\jecat\framework\db\DB;
-
 use org\jecat\framework\auth\IdManager;
-
 use org\jecat\framework\mvc\model\db\Category;
 use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
@@ -22,7 +20,7 @@ class ArticleManage extends ControlPanel
 	{
 		$arrBean = array(
 			'title'=>'文章管理',
-			'view:article'=>array(
+			'view'=>array(
 				'template'=>'ArticleManage.html',
 				'class'=>'view',
 				'model'=>'articles',
@@ -78,21 +76,21 @@ class ArticleManage extends ControlPanel
 		$this->checkPermissions('您没有这个分类的管理权限,无法继续浏览',array()) ;
 		
 		//准备分类信息
-		$this->modelCategoryTree->load();
+		$this->categoryTree->load();
 		
-		Category::buildTree($this->modelCategoryTree);
-		$this->viewArticle->variables ()->set ( 'aCatIter', $this->modelCategoryTree );
+		Category::buildTree($this->categoryTree);
+		$this->view->variables ()->set ( 'aCatIter', $this->categoryTree );
 		
 		//搜索文章用的title模糊检索
 		if($this->params->get('title'))
 		{
-			$this->modelArticles->loadSql("`title` like @1", '%'. $this->params->get('title').'%' );
+			$this->articles->loadSql("`title` like @1", '%'. $this->params->get('title').'%' );
 		}else{
-			$this->modelArticles->load ();
+			$this->articles->load ();
 		}
 		
 // 		DB::singleton()->executeLog();
 		
-		$this->viewArticle->variables()->set('aArtIter',$this->modelArticles->childIterator()) ;
+		$this->view->variables()->set('aArtIter',$this->articles->childIterator()) ;
 	}
 }

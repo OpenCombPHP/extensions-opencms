@@ -47,17 +47,17 @@ class ArticleFrontFrame extends FrontFrame
 	}
 	
 	public function process(){
-		$this->modelCategory->load($this->params->get('cid'),'cid');
+		$this->category->load($this->params->get('cid'),'cid');
 		
-		$aWhere = clone $this->modelCategoryList->prototype()->criteria()->where();
+		$aWhere = clone $this->categoryList->prototype()->criteria()->where();
 		
-		$aWhere->le("lft",$this->modelCategory->data('lft'));
-		$aWhere->ge("rgt",$this->modelCategory->data('rgt'));
+		$aWhere->le("lft",$this->category->data('lft'));
+		$aWhere->ge("rgt",$this->category->data('rgt'));
 		
-		$this->modelCategoryList->load($aWhere);
+		$this->categoryList->load($aWhere);
 		
 		$arrBreadcrumbNavigation = array();
-		foreach($this->modelCategoryList->childIterator() as $aCat){
+		foreach($this->categoryList->childIterator() as $aCat){
 			$arrBreadcrumbNavigation[$aCat->title] = "?c=org.opencomb.opencms.article.ArticleList&cid=".$aCat->cid;
 		}
 		

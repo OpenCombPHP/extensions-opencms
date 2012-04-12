@@ -25,7 +25,7 @@ class CreateArticle extends ControlPanel
 	{
 		return array(
 			'title'=>'新建文章',
-			'view:article'=>array(
+			'view'=>array(
 				'template'=>'ArticleForm.html',
 				'class'=>'form',
 				'model'=>'article',
@@ -111,43 +111,43 @@ class CreateArticle extends ControlPanel
 	public function process()
 	{
 		//权限
-		$this->requirePurview('purview:admin_category','opencms',$this->viewArticle->widget('article_cat')->value(),'您没有这个分类的管理权限,无法继续浏览');
+		$this->requirePurview('purview:admin_category','opencms',$this->view->widget('article_cat')->value(),'您没有这个分类的管理权限,无法继续浏览');
 		
 		//为分类select添加option
-		$aCatSelectWidget = $this->viewArticle->widget("article_cat");
+		$aCatSelectWidget = $this->view->widget("article_cat");
 		
 		$aCatSelectWidget->addOption("文章分类...",null,true);
 		
-		$this->modelCategoryTree->prototype()->criteria()->setLimit(-1);
-		$this->modelCategoryTree->load();
+		$this->categoryTree->prototype()->criteria()->setLimit(-1);
+		$this->categoryTree->load();
 		
-		Category::buildTree($this->modelCategoryTree);
+		Category::buildTree($this->categoryTree);
 		
-		foreach($this->modelCategoryTree->childIterator() as $aCat)
+		foreach($this->categoryTree->childIterator() as $aCat)
 		{
 			$aCatSelectWidget->addOption(str_repeat("--", Category::depth($aCat)).$aCat->title,$aCat->cid,false);
 		}
 		
-		$this->viewArticle->variables()->set('page_h1',"新建文章") ;
-		$this->viewArticle->variables()->set('save_button',"发布文章") ;
+		$this->view->variables()->set('page_h1',"新建文章") ;
+		$this->view->variables()->set('save_button',"发布文章") ;
 		
 		//如果是提交请求...
-		if ($this->viewArticle->isSubmit ( $this->params )) //前面定义了名为article的视图,之后就可以用$this->viewArticle来取得这个视图.控制器把视图当作自己的成员来管理,通过"viewArticle","viewarticle","article"这3种成员变量名都可以访问到这个view,推荐第一种
+		if ($this->view->isSubmit ( $this->params )) //前面定义了名为article的视图,之后就可以用$this->view来取得这个视图.控制器把视图当作自己的成员来管理,通过"view","view","article"这3种成员变量名都可以访问到这个view,推荐第一种
 		{
 			do
 			{
 				//加载所有控件的值
-				$this->viewArticle->loadWidgets ( $this->params );
+				$this->view->loadWidgets ( $this->params );
 				//校验所有控件的值
-				if (! $this->viewArticle->verifyWidgets ())
+				if (! $this->view->verifyWidgets ())
 				{
 					break;
 				}
 				
 				//记录创建时间
-				$this->modelArticle->setData('createTime',time());
+				$this->article->setData('createTime',time());
 				
-				$this->viewArticle->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
+				$this->view->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
 				
 				/*           处理附件             */
 				if($this->params->has('article_files'))
@@ -161,7 +161,7 @@ class CreateArticle extends ControlPanel
 					$aStoreFolder = Extension::flyweight('opencms')->FilesFolder();
 					$aAchiveStrategy = DateAchiveStrategy::flyweight ( Array (true, true, true ) );
 					
-					$aAttachmentsModel = $this->modelArticle->child('attachments');
+					$aAttachmentsModel = $this->article->child('attachments');
 					
 					foreach($arrArticleFiles['name'] as $nKey=>$sFileName)
 					{
@@ -223,9 +223,9 @@ class CreateArticle extends ControlPanel
 				}
 				/*           end 处理附件             */
 				
-				if ($this->modelArticle->save ())
+				if ($this->article->save ())
 				{
-					$this->viewArticle->hideForm ();
+// 					$this->view->hideForm ();
 					$this->messageQueue ()->create ( Message::success, "文章保存成功" );
 				}
 				else

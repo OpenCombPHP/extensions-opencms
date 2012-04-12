@@ -20,7 +20,7 @@ class IndexManage extends ControlPanel
 	{
 		return array(
 			'title'=>'首页管理',
-			'view:index'=>array(
+			'view'=>array(
 				'template' => 'IndexManage.html',
 				'class' => 'form',
 				'model' => 'categoryTree',
@@ -48,10 +48,10 @@ class IndexManage extends ControlPanel
 	{
 		$this->checkPermissions('您没有这个功能的权限,无法继续浏览',array()) ;
 		//准备分类信息
-		$this->modelCategoryTree->load();
-		Category::buildTree($this->modelCategoryTree);
+		$this->categoryTree->load();
+		Category::buildTree($this->categoryTree);
 		
-		if( $this->viewIndex->isSubmit($this->params) )
+		if( $this->view->isSubmit($this->params) )
 		{
 			$arrTopLists = array();
 			foreach( $this->params->get('cat') as $sCid => $arrTopList){
@@ -62,16 +62,14 @@ class IndexManage extends ControlPanel
 			$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
 			$aSetting->setItem('/index/toplist','toplist',$arrTopLists) ;
 			
-			$this->viewIndex->variables()->set('arrTopLists',$arrTopLists) ;
+			$this->view->variables()->set('arrTopLists',$arrTopLists) ;
 			
 			$this->messageQueue ()->create(Message::success,"首页设置保存成功");
 		}else{
 			$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
 			$arrTopLists = $aSetting->item('/index/toplist','toplist',array()) ;
 			
-			$this->viewIndex->variables()->set('arrTopLists',$arrTopLists) ;
+			$this->view->variables()->set('arrTopLists',$arrTopLists) ;
 		}
 	}
-	
-
 }

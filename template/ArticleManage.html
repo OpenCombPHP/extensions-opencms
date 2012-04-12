@@ -1,9 +1,21 @@
 <lib name='jquery'/>
 <div id='artList'>
-	<h1>文章管理</h1>
+	<h2>文章管理</h2>
 	<div class="coresystem-submenu">
+		<div class='art_search'>
+			<select id='art_cat_select'>
+				<option value='0'>全部</option>
+				<foreach for='$aCatIter' item="aCatModel">
+				<option value='{=$aCatModel['cid']}' {=$theParams->get('cid')==$aCatModel['cid'] ? "selected":''}>
+					{=str_repeat("-", \org\jecat\framework\mvc\model\db\Category::depth($aCatModel))}
+					{=$aCatModel['title']}
+				</option>
+				</foreach>
+			</select>
+			<input type='text' class='search_text' value="{=$theParams['title']}"/>
+			<a href='/?c=org.opencomb.opencms.article.ArticleManage&title=' class='search_button' title='依据文章部分标题搜索文章'>搜索</a>
+		</div>
 		<a href='?c=org.opencomb.opencms.article.CreateArticle'>+ 新建文章</a>
-		<input type='text' class='search_text' value=""/><a href='/?c=org.opencomb.opencms.article.ArticleManage&title=' class='search_button' title='依据文章部分标题搜索文章'>搜索</a>
 	</div>
 	<script type="text/javascript">
 		function confirmDel(){
@@ -64,11 +76,30 @@
 			}
 		}
 	}
+	
+	//分类选择文章
+	jquery('#art_cat_select').change(function(){
+		var href='/?c=org.opencomb.opencms.article.ArticleManage';
+		if(jquery(this).val() != '0')
+		{
+			href+="&cid=" + jquery(this).val();
+		}
+		if(jquery('.search_text').val()!=''){
+			href+="&title="+jquery('.search_text').val()
+		}
+		
+		location.href = href;
+	});
+	
 	//搜索文章
 	jquery(function(){
 		jquery('.search_button').click(function(){
-			 location.href = jquery(this).attr('href') + jquery('.search_text').val() ;
-			 return false;
+			var href = jquery(this).attr('href') + jquery('.search_text').val();
+			if(jquery('#art_cat_select').val()!='0'){
+				href+='&cid='+jquery('#art_cat_select').val();
+			}
+			location.href =  href;
+			return false;
 		});
 	});
 	

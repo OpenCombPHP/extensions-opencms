@@ -23,7 +23,7 @@ class CreateCategory extends ControlPanel
 	{
 		return array(
 			'title'=>'新建分类',  //视图的标题
-			'view:category'=>array( //view的name属性,格式是view:(name属性)
+			'view'=>array( //view的name属性,格式是view:(name属性)
 				'template'=>'CategoryForm.html',
 				'class'=>'form',    //指定初始化view对象的类,这里使用Formview类,form是Formview的别名
 				'model'=>'category', //绑定model
@@ -72,38 +72,38 @@ class CreateCategory extends ControlPanel
 	{
 		$this->checkPermissions('您没有新建分类的权限,无法继续浏览',array()) ;
 		//准备分类信息
-		$this->modelCategoryTree->prototype()->criteria()->setLimit(-1);
-		$this->modelCategoryTree->load();
+		$this->categoryTree->prototype()->criteria()->setLimit(-1);
+		$this->categoryTree->load();
 		
-		Category::buildTree($this->modelCategoryTree);
+		Category::buildTree($this->categoryTree);
 		
-		$aCatSelectWidget = $this->viewCategory->widget("category_parent");
+		$aCatSelectWidget = $this->view->widget("category_parent");
 		$aCatSelectWidget->addOption("顶级分类",null,true);
-		foreach($this->modelCategoryTree->childIterator() as $aCat)
+		foreach($this->categoryTree->childIterator() as $aCat)
 		{
 			$bSelect = $aCat->rgt == $this->params->get('target') ? true : false;
 			$aCatSelectWidget->addOption(str_repeat("--", Category::depth($aCat)).$aCat->title,$aCat->cid.":".$aCat->rgt,$bSelect);
 		}
 		
-		$this->viewCategory->variables()->set('sPageTitle','新建栏目') ;
+		$this->view->variables()->set('sPageTitle','新建栏目') ;
 		
 		//如果是提交请求...
-		if ($this->viewCategory->isSubmit ( $this->params )) //前面定义了名为article的视图,之后就可以用$this->viewCategory来取得这个视图.控制器把视图当作自己的成员来管理,通过"viewCategory","viewCategory","article"这3种成员变量名都可以访问到这个view,推荐第一种
+		if ($this->view->isSubmit ( $this->params )) //前面定义了名为article的视图,之后就可以用$this->view来取得这个视图.控制器把视图当作自己的成员来管理,通过"view","view","article"这3种成员变量名都可以访问到这个view,推荐第一种
 		{
 			do
 			{
 				//加载所有控件的值
-				$this->viewCategory->loadWidgets ( $this->params );
+				$this->view->loadWidgets ( $this->params );
 				//校验所有控件的值
-				if (! $this->viewCategory->verifyWidgets ())
+				if (! $this->view->verifyWidgets ())
 				{
 					break;
 				}
-				$this->viewCategory->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
-				if ($this->modelCategory->save ())
+				$this->view->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
+				if ($this->category->save ())
 				{
-					$target = explode(":",$this->viewCategory->widget("category_parent")->value());
-					$aCategory = new Category($this->modelCategory);
+					$target = explode(":",$this->view->widget("category_parent")->value());
+					$aCategory = new Category($this->category);
 					if(count($target) == 1){
 						//添加顶级栏目
 						$aCategory->insertCategoryToPoint();
@@ -111,7 +111,7 @@ class CreateCategory extends ControlPanel
 						//添加子栏目
 						$aCategory->insertCategoryToPoint((int)$target[1]);
 					}
-					$this->viewCategory->hideForm ();
+// 					$this->view->hideForm ();
 					$this->messageQueue ()->create ( Message::success, "栏目保存成功" );
 				}
 				else
