@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Extension>
 
 	<name>opencms</name>
@@ -5,12 +6,14 @@
 	<title>内容管理系统</title>
 
 	<class>org.opencomb.opencms.OpenCMS</class>
-	<package folder="/class" namespace="org.opencomb.opencms" />
+	<package folder="/class" namespace="org.opencomb.opencms"/>
 
-	<template folder="/template" />
+	<template folder="/template"/>
 
-	<publicFolder folder="/public" />
+	<publicFolder folder="/public"/>
 
-	<beanFolder folder="/bean" />
+	<beanFolder folder="/bean"/>
+
+	<data><installer>org\opencomb\opencms\setup\DataInstaller</installer></data>
 
 </Extension>
