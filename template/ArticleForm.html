@@ -13,8 +13,7 @@
 	<label><div class="coresystem-form-url"><span>文章链接</span><widget id="article_url" /></div></label>
 	<label><div class="coresystem-form-select"><span>所属分类</span><widget id="article_cat" /></div></label>
 	<label><div class="coresystem-form-textarea"><!--<span>文章内容</span>--><widget id="article_content" /></div></label>
-	
-	<if "$theModel->child('attachments')->childrenCount() > 0">
+	<if "$theModel->child('attachments')->childrenCount() > 0 and get_class($theController) == 'org\opencomb\opencms\article\EditArticle'">
 		<div class='article_exist_files_list'>
 			<span>已有附件:</span>
 			<!-- 已上传文件的容器 -->

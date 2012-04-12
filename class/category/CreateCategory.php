@@ -72,7 +72,6 @@ class CreateCategory extends ControlPanel
 	{
 		$this->checkPermissions('您没有新建分类的权限,无法继续浏览',array()) ;
 		//准备分类信息
-		$this->categoryTree->prototype()->criteria()->setLimit(-1);
 		$this->categoryTree->load();
 		
 		Category::buildTree($this->categoryTree);
@@ -87,38 +86,34 @@ class CreateCategory extends ControlPanel
 		
 		$this->view->variables()->set('sPageTitle','新建栏目') ;
 		
-		//如果是提交请求...
-		if ($this->view->isSubmit ( $this->params )) //前面定义了名为article的视图,之后就可以用$this->view来取得这个视图.控制器把视图当作自己的成员来管理,通过"view","view","article"这3种成员变量名都可以访问到这个view,推荐第一种
+		$this->doActions();
+	}
+	
+	public function actionSubmit()
+	{
+		//加载所有控件的值
+		if (! $this->view->loadWidgets ( $this->params ) )
 		{
-			do
-			{
-				//加载所有控件的值
-				$this->view->loadWidgets ( $this->params );
-				//校验所有控件的值
-				if (! $this->view->verifyWidgets ())
-				{
-					break;
-				}
-				$this->view->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
-				if ($this->category->save ())
-				{
-					$target = explode(":",$this->view->widget("category_parent")->value());
-					$aCategory = new Category($this->category);
-					if(count($target) == 1){
-						//添加顶级栏目
-						$aCategory->insertCategoryToPoint();
-					}else{
-						//添加子栏目
-						$aCategory->insertCategoryToPoint((int)$target[1]);
-					}
-// 					$this->view->hideForm ();
-					$this->messageQueue ()->create ( Message::success, "栏目保存成功" );
-				}
-				else
-				{
-					$this->messageQueue ()->create ( Message::error, "栏目保存失败" );
-				}
-			} while ( 0 );
+			return;
+		}
+		$this->view->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
+		if ($this->category->save ())
+		{
+			$target = explode(":",$this->view->widget("category_parent")->value());
+			$aCategory = new Category($this->category);
+			if(count($target) == 1){
+				//添加顶级栏目
+				$aCategory->insertCategoryToPoint();
+			}else{
+				//添加子栏目
+				$aCategory->insertCategoryToPoint((int)$target[1]);
+			}
+			// 					$this->view->hideForm ();
+			$this->messageQueue ()->create ( Message::success, "栏目保存成功" );
+		}
+		else
+		{
+			$this->messageQueue ()->create ( Message::error, "栏目保存失败" );
 		}
 	}
 }

@@ -74,44 +74,42 @@ class EditCategory extends ControlPanel
 		
 		$this->view->variables()->set('sPageTitle','编辑栏目') ;
 		
-		//如果是提交请求...
-		if ($this->view->isSubmit ( $this->params ))
-		{
-			do
-			{
-				//加载所有控件的值
-				$this->view->loadWidgets ( $this->params );
-				//校验所有控件的值
-				if (! $this->view->verifyWidgets ())
-				{
-					break;
-				}
-				$this->view->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
-				//得到父分类的改变,如果改变了,就改变分类的排序
-				$arrNewParent = explode(":",$this->params->get("category_parent")); //数组第一个元素是cid,第2个是rgt
-				if((!$aParentCategory and $arrNewParent[0] != 0)
-					|| ($aParentCategory and $aParentCategory->cid != $arrNewParent[0])){
-					$aCategory = new Category($this->category);
-					$aCategory->insertCategoryToPoint($arrNewParent[0]==0 ? Category::end : $arrNewParent[1]);
-				}
-				if ($this->category->save ())
-				{
-// 					$this->view->hideForm ();
-					$this->messageQueue ()->create ( Message::success, "栏目保存成功" );
-				}
-				else
-				{
-					$this->messageQueue ()->create ( Message::error, "栏目保存失败" );
-				}
-// 				DB::singleton()->executeLog();
-			} while ( 0 );
-		}else{
-			$this->view->exchangeData ( DataExchanger::MODEL_TO_WIDGET);
-			//还原父分类选单的值,如果有父分类
-			if($aParentCategory){
-				$aCatSelectWidget->setValue($aParentCategory->cid.":".$aParentCategory->rgt) ;
-			}
+		$this->view->exchangeData ( DataExchanger::MODEL_TO_WIDGET);
+		//还原父分类选单的值,如果有父分类
+		if($aParentCategory){
+			$aCatSelectWidget->setValue($aParentCategory->cid.":".$aParentCategory->rgt) ;
 		}
+		
+		$this->doActions();
+	}
+	
+	public function actionSubmit()
+	{
+		//加载所有控件的值
+		if (! $this->view->loadWidgets ( $this->params ) )
+		{
+			return;
+		}
+		
+		$this->view->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
+		//得到父分类的改变,如果改变了,就改变分类的排序
+		$arrNewParent = explode(":",$this->params->get("category_parent")); //数组第一个元素是cid,第2个是rgt
+		$aParentCategory = $this->parentCategory($this->category , $this->categoryTree);
+		if((!$aParentCategory and $arrNewParent[0] != 0)
+				|| ($aParentCategory and $aParentCategory->cid != $arrNewParent[0])){
+			$aCategory = new Category($this->category);
+			$aCategory->insertCategoryToPoint($arrNewParent[0]==0 ? Category::end : $arrNewParent[1]);
+		}
+		if ($this->category->save ())
+		{
+			// 					$this->view->hideForm ();
+			$this->messageQueue ()->create ( Message::success, "栏目保存成功" );
+		}
+		else
+		{
+			$this->messageQueue ()->create ( Message::error, "栏目保存失败" );
+		}
+		// 				DB::singleton()->executeLog();
 	}
 	
 	/**

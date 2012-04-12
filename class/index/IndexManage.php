@@ -51,25 +51,27 @@ class IndexManage extends ControlPanel
 		$this->categoryTree->load();
 		Category::buildTree($this->categoryTree);
 		
-		if( $this->view->isSubmit($this->params) )
-		{
-			$arrTopLists = array();
-			foreach( $this->params->get('cat') as $sCid => $arrTopList){
-				if(isset($arrTopList['index_new']) || isset($arrTopList['index_hot'])){
-					$arrTopLists[ (int)$sCid ] = $arrTopList;
-				}
+		$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
+		$arrTopLists = $aSetting->item('/index/toplist','toplist',array()) ;
+		
+		$this->view->variables()->set('arrTopLists',$arrTopLists) ;
+		
+		$this->doActions();
+	}
+	
+	public function actionSubmit()
+	{
+		$arrTopLists = array();
+		foreach( $this->params->get('cat') as $sCid => $arrTopList){
+			if(isset($arrTopList['index_new']) || isset($arrTopList['index_hot'])){
+				$arrTopLists[ (int)$sCid ] = $arrTopList;
 			}
-			$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
-			$aSetting->setItem('/index/toplist','toplist',$arrTopLists) ;
-			
-			$this->view->variables()->set('arrTopLists',$arrTopLists) ;
-			
-			$this->messageQueue ()->create(Message::success,"首页设置保存成功");
-		}else{
-			$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
-			$arrTopLists = $aSetting->item('/index/toplist','toplist',array()) ;
-			
-			$this->view->variables()->set('arrTopLists',$arrTopLists) ;
 		}
+		$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
+		$aSetting->setItem('/index/toplist','toplist',$arrTopLists) ;
+			
+		$this->view->variables()->set('arrTopLists',$arrTopLists) ;
+			
+		$this->messageQueue ()->create(Message::success,"首页设置保存成功");
 	}
 }

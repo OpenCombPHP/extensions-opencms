@@ -45,28 +45,30 @@ class MenuManage extends ControlPanel
 		$this->categoryTree->load();
 		Category::buildTree($this->categoryTree);
 		
-		if( $this->view->isSubmit($this->params) )
-		{
-			$arrMenus = array();
-			foreach( $this->params->get('cat') as $sCid => $arrMenu){
-				if(isset($arrMenu['mainmenu'])){
-					$arrMenus[ (int)$sCid ] = array(
-							'title'=>$this->categoryTree->findChildBy($sCid,"cid")->data('title'),
-							'link'=>'?c=org.opencomb.opencms.article.ArticleList&cid='.$sCid ,
-					);
-				}
+		$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
+		$arrMenus = $aSetting->item('/menu/mainmenu','mainmenu',array()) ;
+		
+		$this->view->variables()->set('arrMenus',$arrMenus) ;
+		
+		$this->doActions();
+	}
+	
+	public function actionSubmit()
+	{
+		$arrMenus = array();
+		foreach( $this->params->get('cat') as $sCid => $arrMenu){
+			if(isset($arrMenu['mainmenu'])){
+				$arrMenus[ (int)$sCid ] = array(
+						'title'=>$this->categoryTree->findChildBy($sCid,"cid")->data('title'),
+						'link'=>'?c=org.opencomb.opencms.article.ArticleList&cid='.$sCid ,
+				);
 			}
-			$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
-			$aSetting->setItem('/menu/mainmenu','mainmenu',$arrMenus) ;
-			
-			$this->view->variables()->set('arrMenus',$arrMenus) ;
-			
-			$this->messageQueue ()->create(Message::success,"菜单列表设置保存成功");
-		}else{
-			$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
-			$arrMenus = $aSetting->item('/menu/mainmenu','mainmenu',array()) ;
-			
-			$this->view->variables()->set('arrMenus',$arrMenus) ;
 		}
+		$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
+		$aSetting->setItem('/menu/mainmenu','mainmenu',$arrMenus) ;
+			
+		$this->view->variables()->set('arrMenus',$arrMenus) ;
+			
+		$this->messageQueue ()->create(Message::success,"菜单列表设置保存成功");
 	}
 }
