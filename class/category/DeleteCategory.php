@@ -66,7 +66,7 @@ class DeleteCategory extends ControlPanel
 		}else{
 			$this->messageQueue ()->create ( Message::error, "未指定栏目" );
 		}
+		
+		$this->location('/?c=org.opencomb.opencms.category.CategoryManage');
 	}
 }
-
-?>

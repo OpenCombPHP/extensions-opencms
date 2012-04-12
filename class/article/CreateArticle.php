@@ -225,7 +225,7 @@ class CreateArticle extends ControlPanel
 				
 				if ($this->article->save ())
 				{
-					$this->view->hideForm ();
+// 					$this->view->hideForm ();
 					$this->messageQueue ()->create ( Message::success, "文章保存成功" );
 				}
 				else

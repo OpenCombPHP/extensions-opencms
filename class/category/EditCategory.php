@@ -96,7 +96,7 @@ class EditCategory extends ControlPanel
 				}
 				if ($this->category->save ())
 				{
-					$this->view->hideForm ();
+// 					$this->view->hideForm ();
 					$this->messageQueue ()->create ( Message::success, "栏目保存成功" );
 				}
 				else

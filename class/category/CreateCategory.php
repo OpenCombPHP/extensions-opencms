@@ -111,7 +111,7 @@ class CreateCategory extends ControlPanel
 						//添加子栏目
 						$aCategory->insertCategoryToPoint((int)$target[1]);
 					}
-					$this->view->hideForm ();
+// 					$this->view->hideForm ();
 					$this->messageQueue ()->create ( Message::success, "栏目保存成功" );
 				}
 				else

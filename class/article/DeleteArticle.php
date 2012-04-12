@@ -1,7 +1,6 @@
 <?php
 namespace org\opencomb\opencms\article;
 
-use org\jecat\framework\db\DB;
 use org\opencomb\platform\ext\Extension;
 use org\jecat\framework\mvc\model\db\Article;
 use org\jecat\framework\mvc\view\DataExchanger;
@@ -75,6 +74,8 @@ class DeleteArticle extends ControlPanel
 		}else{
 			$this->messageQueue ()->create ( Message::error, "未指定文章" );
 		}
+		
+		$this->location('/?c=org.opencomb.opencms.article.ArticleManage');
 	}
 	
 	/**
@@ -95,6 +96,7 @@ class DeleteArticle extends ControlPanel
 		{
 			$bSuccess = $bSuccess && @unlink( $sStorePath . $sFilePath );
 		}
+		
 		return $bSuccess;
 	}
 }

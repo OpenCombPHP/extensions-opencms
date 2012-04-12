@@ -249,7 +249,7 @@ class EditArticle extends ControlPanel
 				{
 					//删除用户要删除的已存在附件
 					DeleteArticle::deleteAttachments($arrFilesToDelete);
-					$this->view->hideForm ();
+// 					$this->view->hideForm ();
 					$this->messageQueue ()->create ( Message::success, "文章保存成功" );
 				}
 				else
