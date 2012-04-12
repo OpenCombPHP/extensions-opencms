@@ -14,7 +14,7 @@ class DeleteArticle extends ControlPanel
 	{
 		return array(
 			'title'=>'删除文章',
-			'view:article'=>array(
+			'view'=>array(
 				'template'=>'DeleteArticle.html',
 				'class'=>'view'
 			),
@@ -37,7 +37,7 @@ class DeleteArticle extends ControlPanel
 	public function process()
 	{
 		//权限
-		$this->requirePurview('purview:admin_category','opencms',$this->modelArticle->cid,'您没有这个分类的管理权限,无法继续浏览');
+		$this->requirePurview('purview:admin_category','opencms',$this->article->cid,'您没有这个分类的管理权限,无法继续浏览');
 		
 		//要删除哪些项?把这些项数组一起删除,如果只有一项,也把也要保证它是数组
 		if ($this->params->get ( "aid" ))
@@ -54,16 +54,16 @@ class DeleteArticle extends ControlPanel
 			}
 			$sSql.=  " )";
 			
-			$this->modelArticle->loadSql ( $sSql , $arrAids);
+			$this->article->loadSql ( $sSql , $arrAids);
 			
 			//删除附件
 			$arrFilePaths = array();
-			foreach($this->modelArticle->child('attachments') as $aAttaModel)
+			foreach($this->article->child('attachments') as $aAttaModel)
 			{
 				$arrFilePaths[] = $aAttaModel['storepath'];
 			}
 			
-			if ($this->modelArticle->delete ())
+			if ($this->article->delete ())
 			{
 				$this->deleteAttachments($arrFilePaths);
 				$this->messageQueue ()->create ( Message::success, "删除文章成功" );

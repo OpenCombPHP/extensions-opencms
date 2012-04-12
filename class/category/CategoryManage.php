@@ -13,7 +13,7 @@ class CategoryManage extends ControlPanel
 	{
 		return array(
 			'title'=>'分类管理',
-			'view:category'=>array(
+			'view'=>array(
 				'template'=>'CategoryManage.html',
 				'class'=>'view',
 				'widgets'=>array(
@@ -45,12 +45,12 @@ class CategoryManage extends ControlPanel
 	{
 		$this->checkPermissions('您没有这个分类的管理权限,无法继续浏览',array()) ;
 		//准备分类信息
-		$this->modelCategoryTree->load();
+		$this->categoryTree->load();
 		
-		Category::buildTree($this->modelCategoryTree);
+		Category::buildTree($this->categoryTree);
 		
-		$aCatSelectWidget = $this->viewCategory->widget("category_cat");
-		foreach($this->modelCategoryTree->childIterator() as $aCat)
+		$aCatSelectWidget = $this->view->widget("category_cat");
+		foreach($this->categoryTree->childIterator() as $aCat)
 		{
 			$aCatSelectWidget->addOption(str_repeat("--", Category::depth($aCat)).$aCat->title,$aCat->cid,false);
 		}

@@ -2,7 +2,6 @@
 namespace org\opencomb\opencms\article;
 
 use org\jecat\framework\db\DB;
-
 use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
@@ -13,7 +12,7 @@ class MoveArticles extends ControlPanel
 	{
 		return array(
 			'title'=>'转移文章',
-			'view:article'=>array(
+			'view'=>array(
 				'template'=>'MoveArticles.html',
 				'class'=>'view',
 				'model'=>'articles',

@@ -14,7 +14,7 @@ class MenuManage extends ControlPanel
 	{
 		return array(
 			'title'=>'菜单管理',
-			'view:menuManage'=>array(
+			'view'=>array(
 				'template' => 'MenuManage.html',
 				'class' => 'form',
 				'model' => 'categoryTree',
@@ -42,16 +42,16 @@ class MenuManage extends ControlPanel
 	{
 		$this->checkPermissions('您没有这个功能的权限,无法继续浏览',array()) ;
 		//准备分类信息
-		$this->modelCategoryTree->load();
-		Category::buildTree($this->modelCategoryTree);
+		$this->categoryTree->load();
+		Category::buildTree($this->categoryTree);
 		
-		if( $this->viewMenuManage->isSubmit($this->params) )
+		if( $this->view->isSubmit($this->params) )
 		{
 			$arrMenus = array();
 			foreach( $this->params->get('cat') as $sCid => $arrMenu){
 				if(isset($arrMenu['mainmenu'])){
 					$arrMenus[ (int)$sCid ] = array(
-							'title'=>$this->modelCategoryTree->findChildBy($sCid,"cid")->data('title'),
+							'title'=>$this->categoryTree->findChildBy($sCid,"cid")->data('title'),
 							'link'=>'?c=org.opencomb.opencms.article.ArticleList&cid='.$sCid ,
 					);
 				}
@@ -59,14 +59,14 @@ class MenuManage extends ControlPanel
 			$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
 			$aSetting->setItem('/menu/mainmenu','mainmenu',$arrMenus) ;
 			
-			$this->viewMenuManage->variables()->set('arrMenus',$arrMenus) ;
+			$this->view->variables()->set('arrMenus',$arrMenus) ;
 			
 			$this->messageQueue ()->create(Message::success,"菜单列表设置保存成功");
 		}else{
 			$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
 			$arrMenus = $aSetting->item('/menu/mainmenu','mainmenu',array()) ;
 			
-			$this->viewMenuManage->variables()->set('arrMenus',$arrMenus) ;
+			$this->view->variables()->set('arrMenus',$arrMenus) ;
 		}
 	}
 }

@@ -2,11 +2,8 @@
 namespace org\opencomb\opencms\article;
 
 use org\opencomb\platform\ext\Extension;
-
 use org\jecat\framework\fs\Folder;
-
 use org\jecat\framework\fs\File;
-
 use org\opencomb\coresystem\mvc\controller\Controller;
 use org\jecat\framework\mvc\model\db\Category;
 use org\jecat\framework\message\Message;
@@ -17,7 +14,7 @@ class ArticleContent extends Controller
 	{
 		return array(
 			'title'=> '文章内容',
-			'view:article'=>array(
+			'view'=>array(
 				'template'=>'ArticleContent.html',
 				'class'=>'view',
 				'model'=>'article',
@@ -41,7 +38,7 @@ class ArticleContent extends Controller
 	{
 		if($this->params->has("aid"))
 		{
-			if(!$this->modelArticle->load(array($this->params->get("aid")),array('aid')))
+			if(!$this->article->load(array($this->params->get("aid")),array('aid')))
 			{
 				$this->messageQueue ()->create ( Message::error, "错误的文章编号" );
 			}
@@ -49,15 +46,15 @@ class ArticleContent extends Controller
 			$this->messageQueue ()->create ( Message::error, "未指定文章" );
 		}
 		//浏览次数
-		$this->modelArticle->setData( "views",(int)$this->modelArticle->data("views") + 1 );
-		$this->modelArticle->save();
+		$this->article->setData( "views",(int)$this->article->data("views") + 1 );
+		$this->article->save();
 		
-		$this->viewArticle->variables()->set('article',$this->modelArticle) ;
+		$this->view->variables()->set('article',$this->article) ;
 		
-		$this->setTitle($this->modelArticle->title);
+		$this->setTitle($this->article->title);
 		
 		//把cid传给frame
-		$this->frame()->params()->set('cid',$this->modelArticle->cid);
+		$this->frame()->params()->set('cid',$this->article->cid);
 	}
 	
 	public function defaultFrameConfig()

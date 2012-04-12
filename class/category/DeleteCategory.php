@@ -12,7 +12,7 @@ class DeleteCategory extends ControlPanel
 	{
 		return array(
 			'title'=>'删除分类',
-			'view:category'=>array(
+			'view'=>array(
 				'template'=>'DeleteCategory.html',
 				'class'=>'view'
 			),
@@ -41,21 +41,21 @@ class DeleteCategory extends ControlPanel
 		{
 			
 			$arrToDelete = is_array ( $this->params->get ( "cid" ) ) ? $this->params->get ( "cid" ) : ( array ) $this->params->get ( "cid" );
-			$this->modelCategory->prototype ()->criteria ()->where ()->in ( "cid", $arrToDelete );
-			if ($this->modelCategory->load ())
+			$this->category->prototype ()->criteria ()->where ()->in ( "cid", $arrToDelete );
+			if ($this->category->load ())
 			{
 				//保证正在删除的分类没有文章
-				if($this->modelArticle->load (array($this->modelCategory->data('cid')),array('cid'))){
+				if($this->article->load (array($this->category->data('cid')),array('cid'))){
 					$this->messageQueue ()->create ( Message::error, "栏目中有文章,请先转移文章再删除栏目" );
 					return;
 				}
 				
 				//保证正在删除的分类没有子分类
-				if(Category::rightPoint($this->modelCategory) - Category::leftPoint($this->modelCategory) > 1){
+				if(Category::rightPoint($this->category) - Category::leftPoint($this->category) > 1){
 					$this->messageQueue ()->create ( Message::error, "栏目中有子栏目,请先转移子栏目再试" );
 					return;
 				}
-				$aCategory = new Category($this->modelCategory);
+				$aCategory = new Category($this->category);
 				$aCategory->delete();
 				$this->messageQueue ()->create ( Message::success, "删除栏目成功" );
 			}

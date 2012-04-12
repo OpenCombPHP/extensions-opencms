@@ -17,7 +17,7 @@ class EditArticle extends ControlPanel
 	{
 		return array(
 			'title'=>'编辑文章',
-			'view:article'=>array(
+			'view'=>array(
 				'template'=>'ArticleForm.html',
 				'class'=>'form',
 				'model'=>'article',
@@ -90,44 +90,44 @@ class EditArticle extends ControlPanel
 	public function process()
 	{
 		//权限
-		$this->requirePurview('purview:admin_category','opencms',$this->viewArticle->widget('article_cat')->value(),'您没有这个分类的管理权限,无法继续浏览');
+		$this->requirePurview('purview:admin_category','opencms',$this->view->widget('article_cat')->value(),'您没有这个分类的管理权限,无法继续浏览');
 		
 		//为分类select添加option
-		$aCatSelectWidget = $this->viewArticle->widget("article_cat");
+		$aCatSelectWidget = $this->view->widget("article_cat");
 		
 		$aCatSelectWidget->addOption("文章分类...",null,true);
 		
-		$this->modelCategoryTree->load();
+		$this->categoryTree->load();
 		
-		Category::buildTree($this->modelCategoryTree);
+		Category::buildTree($this->categoryTree);
 		
-		foreach($this->modelCategoryTree->childIterator() as $aCat)
+		foreach($this->categoryTree->childIterator() as $aCat)
 		{
 			$aCatSelectWidget->addOption(str_repeat("--", Category::depth($aCat)).$aCat->title,$aCat->cid,false);
 		}
 		
 		//还原文章数据
 		if($this->params->has("aid")){
-			$this->modelArticle->load(array($this->params->get("aid")),array("aid"));
-			$this->viewArticle->exchangeData ( DataExchanger::MODEL_TO_WIDGET);
+			$this->article->load(array($this->params->get("aid")),array("aid"));
+			$this->view->exchangeData ( DataExchanger::MODEL_TO_WIDGET);
 		}else{
 			$this->messageQueue ()->create ( Message::error, "未指定文章" );
 		}
 		
-		$this->setTitle($this->modelArticle->title . " - " . $this->title());
+		$this->setTitle($this->article->title . " - " . $this->title());
 		
-		$this->viewArticle->variables()->set('page_h1',"编辑文章") ;
-		$this->viewArticle->variables()->set('save_button',"保存修改") ;
+		$this->view->variables()->set('page_h1',"编辑文章") ;
+		$this->view->variables()->set('save_button',"保存修改") ;
 		
 		//如果是提交请求...
-		if ($this->viewArticle->isSubmit ( $this->params ))
+		if ($this->view->isSubmit ( $this->params ))
 		{
 			do
 			{
 				//加载所有控件的值
-				$this->viewArticle->loadWidgets ( $this->params );
+				$this->view->loadWidgets ( $this->params );
 				//校验所有控件的值
-				if (! $this->viewArticle->verifyWidgets ())
+				if (! $this->view->verifyWidgets ())
 				{
 					break;
 				}
@@ -148,7 +148,7 @@ class EditArticle extends ControlPanel
 					$arrExistFileDelete = $this->params->get('article_exist_file_delete');
 				}
 				
-				$aAttaModelList = $this->modelArticle->child('attachments');
+				$aAttaModelList = $this->article->child('attachments');
 				$arrFilesToDelete = array();
 				foreach( $aAttaModelList as $aAttaModel)
 				{
@@ -182,7 +182,7 @@ class EditArticle extends ControlPanel
 					$aStoreFolder = Extension::flyweight('opencms')->FilesFolder();
 					$aAchiveStrategy = DateAchiveStrategy::flyweight ( Array (true, true, true ) );
 					
-					$aAttachmentsModel = $this->modelArticle->child('attachments');
+					$aAttachmentsModel = $this->article->child('attachments');
 					
 					foreach($arrArticleFiles['name'] as $nKey=>$sFileName)
 					{
@@ -244,12 +244,12 @@ class EditArticle extends ControlPanel
 				}
 				/* end 新附件的处理*/
 				
-				$this->viewArticle->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
-				if ($this->modelArticle->save ())
+				$this->view->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
+				if ($this->article->save ())
 				{
 					//删除用户要删除的已存在附件
 					DeleteArticle::deleteAttachments($arrFilesToDelete);
-					$this->viewArticle->hideForm ();
+					$this->view->hideForm ();
 					$this->messageQueue ()->create ( Message::success, "文章保存成功" );
 				}
 				else
