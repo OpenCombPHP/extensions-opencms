@@ -11,9 +11,9 @@ class ArticleList extends Controller
 {
 	public function createBeanConfig()
 	{
-		return array(
+		$arrBean = array(
 			'title'=>'文章列表',
-			'view:article'=>array(
+			'view'=>array(
 				'template'=>'ArticleList.html',
 				'class'=>'view',
 				'model'=>'articles',
@@ -32,6 +32,7 @@ class ArticleList extends Controller
 				'orm'=>array(
 					'table'=>'article',
 					'limit'=>20,
+					'orderDesc'=>'createTime',
 					'hasOne:category'=>array(
 						'fromkeys'=>'cid',
 						'tokeys'=>'cid',
@@ -40,38 +41,40 @@ class ArticleList extends Controller
 					) ,
 				)
 			)
+		
 		);
+		
+		//页面显示结果数,默认20
+		if($this->params->get("limit")){
+			$arrBean['model:articles']['orm']['limit'] = (int)$this->params->get("limit");
+		}
+		
+		if($this->params->get('order') == 'asc')
+		{
+			unset($arrBean['model:articles']['orm']['orderDesc']);
+			$arrBean['model:articles']['orm']['orderBy'] = 'createTime';
+		}
+		
+		return $arrBean;
 	}
 	
 	public function process()
 	{
 		if($this->params->has("cid")){
 			//准备分类信息
-			if(!$this->modelCategory->load(array($this->params->get("cid")),array('cid'))){
+			if(!$this->category->load(array($this->params->get("cid")),array('cid'))){
 				$this->messageQueue ()->create ( Message::error, "无效的分类编号" );
 			}
 			
-			$this->setTitle($this->modelCategory->title . " - " . $this->title());
+			$this->setTitle($this->category->title . " - " . $this->title());
 			
-			$aWhere = clone $this->modelArticles->prototype()->criteria()->where();
-			
-			$aWhere->ge("category.lft",$this->modelCategory->data('lft'));
-			$aWhere->le("category.lft",$this->modelCategory->data('rgt'));
-			$aWhere->ge("category.rgt",$this->modelCategory->data('lft'));
-			$aWhere->le("category.rgt",$this->modelCategory->data('rgt'));
-			
-			if($this->params->has('order') and $this->params->get('order') == "asc"){
-				$this->modelArticles->prototype()->criteria()->addOrderBy('createTime',false);
-			}else{
-				$this->modelArticles->prototype()->criteria()->addOrderBy('createTime',true);
-			}
-			
-			//页面显示结果数,默认20
-			if($this->params->has("limit")){
-				$this->modelArticles->prototype()->criteria()->setLimit($this->params->get("limit"));
-			}
-			
-			$this->modelArticles->load($aWhere);
+			$this->articles->loadSql(
+					"category.lft>=@1 and category.lft<=@2 and category.rgt>=@3 and category.rgt<=@4"
+					,$this->category->lft
+					,$this->category->rgt
+					,$this->category->lft
+					,$this->category->rgt
+			) ;
 			
 			//把cid传给frame
 			$this->params()->set('cid',$this->params->get("cid"));

@@ -2,7 +2,6 @@
 namespace org\opencomb\opencms\article;
 
 use org\jecat\framework\db\DB;
-
 use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
@@ -13,7 +12,7 @@ class MoveArticles extends ControlPanel
 	{
 		return array(
 			'title'=>'转移文章',
-			'view:article'=>array(
+			'view'=>array(
 				'template'=>'MoveArticles.html',
 				'class'=>'view',
 				'model'=>'articles',
@@ -30,14 +29,15 @@ class MoveArticles extends ControlPanel
 	
 	public function process()
 	{
-			
+
+		//权限
+		$this->requirePurview('purview:admin_category','opencms',$this->params->get('from'),'您没有这个分类的管理权限,无法继续浏览');
+		$this->requirePurview('purview:admin_category','opencms',$this->params->get('to'),'您没有这个分类的管理权限,无法继续浏览');
+		
 		if(!$this->params->has('from') || !$this->params->has('to')){
 			$this->messageQueue ()->create ( Message::error, "提供的参数不完整" );
 			return;
 		}
-		//权限
-		$this->requirePurview('purview:admin_category','opencms',$this->params->get('from'),'您没有这个分类的管理权限,无法继续浏览');
-		$this->requirePurview('purview:admin_category','opencms',$this->params->get('to'),'您没有这个分类的管理权限,无法继续浏览');
 			
 		$arrFromCategorys = explode('_', $this->params->get('from'));
 		$nToCategory = (int)$this->params->get('to');

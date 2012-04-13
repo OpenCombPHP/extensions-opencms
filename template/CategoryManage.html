@@ -1,7 +1,7 @@
 <lib name='jquery' />
 <div id='catList'>
-	<h2>栏目管理</h2>
-	<div class="coresystem-submenu"><a href="?c=org.opencomb.opencms.category.CreateCategory&target=end">+添加顶级栏目</a></div>
+	<h1>栏目管理</h1>
+	<div class="coresystem-submenu"><a href="?c=org.opencomb.opencms.category.CreateCategory&target=end">+新建栏目</a></div>
 	<script type="text/javascript">
 		function confirmDel(){
 			if(!confirm("确认删除栏目吗?")){
@@ -41,12 +41,15 @@
 		<span>批量操作: </span>
 		<select id='operation_select'>
 			<option value='move_articles'>转移文章</option>
+			<option value='del_categorys'>删除分类</option>
 		</select>
 		<widget id='category_cat' />
 		<button class='go_operation'>执行</button>
 		<div id="ajaxMsg"></div>
 	</div>
-	<script type="text/javascript">
+</div>
+
+<script type="text/javascript">
 jQuery(function(){
 	var TbRow = document.getElementById("tableStyle");
 	if (TbRow != null){
@@ -73,12 +76,12 @@ jQuery(function(){
 	});
 	//执行操作
 	jQuery('.go_operation').click(function(){
+		var selectedCat = [];
+		jQuery('.cat_select:checked').each(function(b,v){
+			selectedCat.push(jQuery(v).val());
+		}); 
 		//转移文章
 		if(jQuery("#operation_select").val() == "move_articles"){
-			var selectedCat = [];
-			jQuery('.cat_select:checked').each(function(b,v){
-				selectedCat.push(jQuery(v).val());
-			}); 
 			var targetCid = jQuery("#category_cat").val();
 			jQuery.ajax({
 				url : "?c=org.opencomb.opencms.article.MoveArticles&rspn=msgqueue",
@@ -87,6 +90,8 @@ jQuery(function(){
 					jQuery("#ajaxMsg").html(msg);
 				}
 			});
+		}else if(jQuery("#operation_select").val() == "del_categorys"){
+			location.href='/?c=org.opencomb.opencms.category.DeleteCategory&cid=' + selectedCat.join(',');
 		}
 	});
 	//排序操作
@@ -101,4 +106,3 @@ jQuery(function(){
 	});
 });
 </script>
-</div>

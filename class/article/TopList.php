@@ -12,7 +12,7 @@ class TopList extends Controller
 	public function createBeanConfig()
 	{
 		$arrBean = array(
-			'view:article'=>array(
+			'view'=>array(
 				'template'=>'TopList.html',
 				'class'=>'view',
 				'model'=>'articles',
@@ -75,27 +75,27 @@ class TopList extends Controller
 		}
 		
 		//准备分类信息
-		if(!$this->modelCategory->load(array($this->params->get("cid")),array('cid'))){
+		if(!$this->category->load(array($this->params->get("cid")),array('cid'))){
 			$this->messageQueue ()->create ( Message::error, "无效的分类编号" );
 		}
-		$this->viewArticle->variables()->set('sCategoryTitle',$this->modelCategory->data('title')) ;
-		$this->viewArticle->variables()->set('nCid',$this->params->get("cid")) ;
+		$this->view->variables()->set('sCategoryTitle',$this->category->data('title')) ;
+		$this->view->variables()->set('nCid',$this->params->get("cid")) ;
 				
 		//遍历范围,仅第一层
 		if($this->params->has('subCat') and $this->params->get('subCat') == 1)
 		{
-			$this->modelArticles->loadSql("`cid`=@1",$this->params->get('cid')) ;
+			$this->articles->loadSql("`cid`=@1",$this->params->get('cid')) ;
 		}
 		
 		//遍历范围,所有层
 		else
 		{
-			$this->modelArticles->loadSql(
+			$this->articles->loadSql(
 				"category.lft>=@1 and category.lft<=@2 and category.rgt>=@3 and category.rgt<=@4"
-					,$this->modelCategory->lft
-					,$this->modelCategory->rgt
-					,$this->modelCategory->lft
-					,$this->modelCategory->rgt
+					,$this->category->lft
+					,$this->category->rgt
+					,$this->category->lft
+					,$this->category->rgt
 			) ;
 		}
 	}

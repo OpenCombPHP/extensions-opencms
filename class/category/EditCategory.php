@@ -13,7 +13,7 @@ class EditCategory extends ControlPanel
 	{
 		return array(
 			'title'=>'编辑分类',
-			'view:category'=>array(
+			'view'=>array(
 				'template'=>'CategoryForm.html',
 				'class'=>'form',
 				'model'=>'category',
@@ -43,14 +43,17 @@ class EditCategory extends ControlPanel
 	
 	public function process()
 	{
+		//权限
+		$this->requirePurview('purview:admin_category','opencms',$this->params->get('cid'),'您没有这个分类的管理权限,无法继续浏览');
+		
 		//准备分类信息
-		$this->modelCategoryTree->load();
+		$this->categoryTree->load();
 		
-		Category::buildTree($this->modelCategoryTree);
+		Category::buildTree($this->categoryTree);
 		
-		$aCatSelectWidget = $this->viewCategory->widget("category_parent");
+		$aCatSelectWidget = $this->view->widget("category_parent");
 		$aCatSelectWidget->addOption("顶级分类",null,true);
-		foreach($this->modelCategoryTree->childIterator() as $aCat)
+		foreach($this->categoryTree->childIterator() as $aCat)
 		{
 			if($this->params->get("cid") == $aCat->cid){
 				//在选单中排除自己,以防把自己变成自己的子分类
@@ -60,58 +63,53 @@ class EditCategory extends ControlPanel
 		}
 		//还原数据
 		if($this->params->has("cid")){
-			$this->modelCategory->load(array($this->params->get("cid")),array("cid"));
-			$aParentCategory = $this->parentCategory($this->modelCategory , $this->modelCategoryTree);
+			$this->category->load(array($this->params->get("cid")),array("cid"));
+			$aParentCategory = $this->parentCategory($this->category , $this->categoryTree);
 		}else{
 			$this->messageQueue ()->create ( Message::error, "未指定栏目" );
 			return;
 		}
 		
-		//权限
-		$this->requirePurview('purview:admin_category','opencms',$this->params->get('cid'),'您没有这个分类的管理权限,无法继续浏览');
+		$this->setTitle($this->category->title . " - " . $this->title());
 		
-		$this->setTitle($this->modelCategory->title . " - " . $this->title());
+		$this->view->variables()->set('sPageTitle','编辑栏目') ;
 		
-		$this->viewCategory->variables()->set('sPageTitle','编辑栏目') ;
-		
-		//如果是提交请求...
-		if ($this->viewCategory->isSubmit ( $this->params ))
-		{
-			do
-			{
-				//加载所有控件的值
-				$this->viewCategory->loadWidgets ( $this->params );
-				//校验所有控件的值
-				if (! $this->viewCategory->verifyWidgets ())
-				{
-					break;
-				}
-				$this->viewCategory->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
-				//得到父分类的改变,如果改变了,就改变分类的排序
-				$arrNewParent = explode(":",$this->params->get("category_parent")); //数组第一个元素是cid,第2个是rgt
-				if((!$aParentCategory and $arrNewParent[0] != 0)
-					|| ($aParentCategory and $aParentCategory->cid != $arrNewParent[0])){
-					$aCategory = new Category($this->modelCategory);
-					$aCategory->insertCategoryToPoint($arrNewParent[0]==0 ? Category::end : $arrNewParent[1]);
-				}
-				if ($this->modelCategory->save ())
-				{
-					$this->viewCategory->hideForm ();
-					$this->messageQueue ()->create ( Message::success, "栏目保存成功" );
-				}
-				else
-				{
-					$this->messageQueue ()->create ( Message::error, "栏目保存失败" );
-				}
-// 				DB::singleton()->executeLog();
-			} while ( 0 );
-		}else{
-			$this->viewCategory->exchangeData ( DataExchanger::MODEL_TO_WIDGET);
-			//还原父分类选单的值,如果有父分类
-			if($aParentCategory){
-				$aCatSelectWidget->setValue($aParentCategory->cid.":".$aParentCategory->rgt) ;
-			}
+		$this->view->exchangeData ( DataExchanger::MODEL_TO_WIDGET);
+		//还原父分类选单的值,如果有父分类
+		if($aParentCategory){
+			$aCatSelectWidget->setValue($aParentCategory->cid.":".$aParentCategory->rgt) ;
 		}
+		
+		$this->doActions();
+	}
+	
+	public function actionSubmit()
+	{
+		//加载所有控件的值
+		if (! $this->view->loadWidgets ( $this->params ) )
+		{
+			return;
+		}
+		
+		$this->view->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
+		//得到父分类的改变,如果改变了,就改变分类的排序
+		$arrNewParent = explode(":",$this->params->get("category_parent")); //数组第一个元素是cid,第2个是rgt
+		$aParentCategory = $this->parentCategory($this->category , $this->categoryTree);
+		if((!$aParentCategory and $arrNewParent[0] != 0)
+				|| ($aParentCategory and $aParentCategory->cid != $arrNewParent[0])){
+			$aCategory = new Category($this->category);
+			$aCategory->insertCategoryToPoint($arrNewParent[0]==0 ? Category::end : $arrNewParent[1]);
+		}
+		if ($this->category->save ())
+		{
+			// 					$this->view->hideForm ();
+			$this->messageQueue ()->create ( Message::success, "栏目保存成功" );
+		}
+		else
+		{
+			$this->messageQueue ()->create ( Message::error, "栏目保存失败" );
+		}
+		// 				DB::singleton()->executeLog();
 	}
 	
 	/**
@@ -135,5 +133,3 @@ class EditCategory extends ControlPanel
 		return $aParent;
 	}
 }
-
-?>
