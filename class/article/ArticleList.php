@@ -41,7 +41,6 @@ class ArticleList extends Controller
 					) ,
 				)
 			)
-		
 		);
 		
 		//页面显示结果数,默认20
