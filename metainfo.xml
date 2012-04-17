@@ -18,5 +18,6 @@
 	
 	
 	<require type="extension" item="coresystem"><![CDATA[ >=0.1 ]]></require>
+	<require type="extension" item="advancedcomponent"><![CDATA[ >=0.1 ]]></require>
 
 </Extension>
