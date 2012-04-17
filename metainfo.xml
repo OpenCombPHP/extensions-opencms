@@ -15,5 +15,8 @@
 	<beanFolder folder="/bean"/>
 
 	<data><installer>org\opencomb\opencms\setup\DataInstaller</installer></data>
+	
+	
+	<require type="extension" item="coresystem"><![CDATA[ >=0.1 ]]></require>
 
 </Extension>
