@@ -62,7 +62,7 @@ class CreateCategory extends ControlPanel
 			'model:category'=>array(
 				'class'=>'model',
 				'orm'=>array(
-					'table'=>'category',
+					'table'=>'opencms:category',
 				)
 			)
 		);

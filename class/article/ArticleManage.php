@@ -45,7 +45,7 @@ class ArticleManage extends ControlPanel
 					'belongsTo:category'=>array(
 						'fromkeys'=>'cid',
 						'tokeys'=>'cid',
-						'table'=>'category',
+						'table'=>'opencms:category',
 						'name'=>'category',
 // 						'where'=>array("category.cid=@1",$this->params->get('cid'))
 					)
@@ -56,7 +56,7 @@ class ArticleManage extends ControlPanel
 				'list'=>true,
 				'orm'=>array(
 					'limit'=>-1,
-					'table'=>'category',
+					'table'=>'opencms:category',
 					'name'=>'category',
 				)
 			)

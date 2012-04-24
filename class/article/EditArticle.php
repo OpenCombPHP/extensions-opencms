@@ -18,7 +18,7 @@ class EditArticle extends ControlPanel
 		return array(
 			'title'=>'编辑文章',
 			'view'=>array(
-				'template'=>'ArticleForm.html',
+				'template'=>'opencms:ArticleForm.html',
 				'class'=>'form',
 				'model'=>'article',
 				'widgets'=>array(
@@ -80,7 +80,7 @@ class EditArticle extends ControlPanel
 				'class'=>'model',
 				'list'=>true,
 				'orm'=>array(
-					'table'=>'category',
+					'table'=>'opencms:category',
 					'name'=>'category',
 				)
 			)

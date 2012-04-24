@@ -13,6 +13,9 @@ class ArticleList extends Controller
 	{
 		$arrBean = array(
 			'title'=>'文章列表',
+
+			'frame' => array('config'=>'opencms:article-frame') ,
+				
 			'view'=>array(
 				'template'=>'ArticleList.html',
 				'class'=>'view',
@@ -24,20 +27,20 @@ class ArticleList extends Controller
 			'model:category'=>array(
 				'orm'=>array(
 					'columns' => array('title','lft','rgt') ,
-					'table'=>'category',
+					'table'=>'opencms:category',
 				)
 			),
 			'model:articles'=>array(
 				'list'=>true,
 				'orm'=>array(
-					'table'=>'article',
+					'table'=>'opencms:article',
 					'limit'=>20,
 					'orderDesc'=>'createTime',
 					'hasOne:category'=>array(
 						'fromkeys'=>'cid',
 						'tokeys'=>'cid',
 						'columns' => array('title') ,
-						'table'=>'category',
+						'table'=>'opencms:category',
 					) ,
 				)
 			)
@@ -83,9 +86,9 @@ class ArticleList extends Controller
 		}
 		
 	}
-	
+	/*
 	public function defaultFrameConfig()
 	{
 		return array('class'=>'org\\opencomb\\opencms\\frame\\ArticleFrontFrame') ;
-	}
+	}*/
 }

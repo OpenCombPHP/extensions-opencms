@@ -31,6 +31,8 @@ class ArticleContent extends Controller
 					)
 				)
 			),
+				
+			'frame' => array('config'=>'opencms:article-frame') ,
 		);
 	}
 	
@@ -55,11 +57,6 @@ class ArticleContent extends Controller
 		
 		//把cid传给frame
 		$this->frame()->params()->set('cid',$this->article->cid);
-	}
-	
-	public function defaultFrameConfig()
-	{
-		return array('class'=>'org\\opencomb\\opencms\\frame\\ArticleFrontFrame') ;
 	}
 	
 	static public function getHttpUrl($sFilePath)

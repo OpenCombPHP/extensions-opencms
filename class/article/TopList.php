@@ -13,14 +13,14 @@ class TopList extends Controller
 	{
 		$arrBean = array(
 			'view'=>array(
-				'template'=>'TopList.html',
+				'template'=>'opencms:TopList.html',
 				'class'=>'view',
 				'model'=>'articles',
 			),
 			'model:category'=>array(
 				'orm'=>array(
 					'columns' => array('title','lft','rgt') ,
-					'table'=>'category',
+					'table'=>'opencms:category',
 				)
 			),
 		);
@@ -30,7 +30,7 @@ class TopList extends Controller
 			$arrBean['model:articles'] = array(
 				'list'=>true,
 				'orm'=>array(
-					'table'=>'article',
+					'table'=>'opencms:article',
 					'limit'=>20
 				)
 			);
@@ -38,13 +38,13 @@ class TopList extends Controller
 			$arrBean['model:articles'] = array(
 				'list'=>true,
 				'orm'=>array(
-					'table'=>'article',
+					'table'=>'opencms:article',
 					'limit'=>20,
 					'hasOne:category'=>array(
 						'fromkeys'=>'cid',
 						'tokeys'=>'cid',
 						'columns' => array('title') ,
-						'table'=>'category',
+						'table'=>'opencms:category',
 					) ,
 				)
 			); 

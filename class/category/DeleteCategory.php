@@ -21,7 +21,7 @@ class DeleteCategory extends ControlPanel
 			'model:category'=>array(
 				'class'=>'model',
 				'orm'=>array(
-					'table'=>'category',
+					'table'=>'opencms:category',
 				)
 			),
 			'model:article'=>array(
