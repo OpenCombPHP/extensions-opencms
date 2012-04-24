@@ -2,7 +2,6 @@
 namespace org\opencomb\opencms\menu;
 
 use org\opencomb\coresystem\auth\PurviewQuery;
-
 use org\jecat\framework\mvc\model\db\Category;
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;

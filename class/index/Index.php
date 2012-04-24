@@ -1,11 +1,8 @@
 <?php
 namespace org\opencomb\opencms\index;
 
-use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\Controller;
 use org\jecat\framework\system\Application;
-use org\opencomb\opencms\article\TopList;
-
 
 class Index extends Controller
 {

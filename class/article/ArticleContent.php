@@ -2,10 +2,7 @@
 namespace org\opencomb\opencms\article;
 
 use org\opencomb\platform\ext\Extension;
-use org\jecat\framework\fs\Folder;
-use org\jecat\framework\fs\File;
 use org\opencomb\coresystem\mvc\controller\Controller;
-use org\jecat\framework\mvc\model\db\Category;
 use org\jecat\framework\message\Message;
 
 class ArticleContent extends Controller

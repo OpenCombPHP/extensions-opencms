@@ -1,7 +1,6 @@
 <?php
 namespace org\opencomb\opencms\article;
 
-use org\jecat\framework\db\DB;
 use org\jecat\framework\lang\Exception;
 use org\opencomb\platform\ext\Extension;
 use org\jecat\framework\fs\archive\DateAchiveStrategy;

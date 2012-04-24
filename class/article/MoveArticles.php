@@ -2,7 +2,6 @@
 namespace org\opencomb\opencms\article;
 
 use org\jecat\framework\db\DB;
-use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
@@ -50,4 +49,3 @@ class MoveArticles extends ControlPanel
 		}
 	}
 }
-?>

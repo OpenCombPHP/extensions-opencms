@@ -1,10 +1,7 @@
 <?php
 namespace org\opencomb\opencms\article;
 
-
 use org\opencomb\coresystem\mvc\controller\Controller;
-use org\jecat\framework\mvc\model\db\Category;
-use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
 
 class ArticleList extends Controller

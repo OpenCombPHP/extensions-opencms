@@ -1,10 +1,7 @@
 <?php
 namespace org\opencomb\opencms\category;
 
-use org\opencomb\opencms\OpenCMS;
 use org\jecat\framework\mvc\model\db\Category;
-use org\jecat\framework\mvc\view\DataExchanger;
-use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
 class CategoryManage extends ControlPanel
@@ -56,4 +53,3 @@ class CategoryManage extends ControlPanel
 		}
 	}
 }
-?>
