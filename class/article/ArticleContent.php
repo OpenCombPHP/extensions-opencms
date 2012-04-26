@@ -53,7 +53,10 @@ class ArticleContent extends Controller
 		$this->setTitle($this->article->title);
 		
 		//把cid传给frame
-		$this->frame()->params()->set('cid',$this->article->cid);
+		if($aFrame=$this->frame())
+		{
+			$aFrame->params()->set('cid',$this->article->cid);
+		}
 	}
 	
 	static public function getHttpUrl($sFilePath)
