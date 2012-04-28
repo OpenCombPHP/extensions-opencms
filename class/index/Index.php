@@ -10,10 +10,6 @@ class Index extends Controller
 	{
 		$arrBean = array(
 				'title'=>'首页',
-				'view'=>array(
-					'template'=>'Index.html',
-					'class'=>'view',
-				),
 				'controllers' => array() ,
 		);
 		
