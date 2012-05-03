@@ -1,9 +1,6 @@
 <?php
 namespace org\opencomb\opencms\article;
 
-use org\jecat\framework\db\DB;
-use org\jecat\framework\mvc\model\db\Category;
-use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\Controller;
 
@@ -13,14 +10,14 @@ class TopList extends Controller
 	{
 		$arrBean = array(
 			'view'=>array(
-				'template'=>'TopList.html',
+				'template'=>'opencms:TopList.html',
 				'class'=>'view',
 				'model'=>'articles',
 			),
 			'model:category'=>array(
 				'orm'=>array(
 					'columns' => array('title','lft','rgt') ,
-					'table'=>'category',
+					'table'=>'opencms:category',
 				)
 			),
 		);
@@ -30,7 +27,7 @@ class TopList extends Controller
 			$arrBean['model:articles'] = array(
 				'list'=>true,
 				'orm'=>array(
-					'table'=>'article',
+					'table'=>'opencms:article',
 					'limit'=>20
 				)
 			);
@@ -38,13 +35,13 @@ class TopList extends Controller
 			$arrBean['model:articles'] = array(
 				'list'=>true,
 				'orm'=>array(
-					'table'=>'article',
+					'table'=>'opencms:article',
 					'limit'=>20,
 					'hasOne:category'=>array(
 						'fromkeys'=>'cid',
 						'tokeys'=>'cid',
 						'columns' => array('title') ,
-						'table'=>'category',
+						'table'=>'opencms:category',
 					) ,
 				)
 			); 

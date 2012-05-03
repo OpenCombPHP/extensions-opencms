@@ -2,14 +2,7 @@
 namespace org\opencomb\opencms\index;
 
 use org\opencomb\coresystem\auth\PurviewQuery;
-
-use org\opencomb\opencms\OpenCMS;
-
-use org\opencomb\platform\system\PlatformFactory;
-use org\opencomb\platform\service\Service;
 use org\jecat\framework\mvc\model\db\Category;
-use org\jecat\framework\lang\oop\ClassLoader;
-use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 use org\jecat\framework\system\Application;
@@ -30,7 +23,7 @@ class IndexManage extends ControlPanel
 				'list'=>true,
 				'orm'=>array(
 					'limit'=>-1,
-					'table'=>'category',
+					'table'=>'opencms:category',
 					'name'=>'category',
 				)
 			),

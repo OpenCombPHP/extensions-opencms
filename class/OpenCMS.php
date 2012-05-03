@@ -2,13 +2,11 @@
 namespace org\opencomb\opencms;
 
 // use org\jecat\framework\auth\PurviewManager;
-use org\opencomb\platform\mvc\view\widget\Menu;
-use org\opencomb\coresystem\auth\PurviewSetting;
-use org\jecat\framework\system\AccessRouter;
-use org\jecat\framework\lang\aop\AOP;
-use org\opencomb\platform\ext\Extension ;
-use org\jecat\framework\bean\BeanFactory;
 
+use org\opencomb\platform\mvc\view\widget\Menu;
+use org\jecat\framework\system\AccessRouter;
+use org\opencomb\platform\ext\Extension;
+use org\jecat\framework\bean\BeanFactory;
 
 /**
  * 
@@ -44,7 +42,6 @@ class OpenCMS extends Extension
 			, array(__CLASS__,'buildFrontFrameMenu')
 		) ;
 	}
-
 
 	static public function buildControlPanelMenu(array & $arrConfig)
 	{

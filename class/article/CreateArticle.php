@@ -1,8 +1,6 @@
 <?php
 namespace org\opencomb\opencms\article;
 
-use org\jecat\framework\fs\File;
-
 use org\jecat\framework\fs\archive\DateAchiveStrategy;
 use org\jecat\framework\fs\Folder;
 use org\opencomb\platform\ext\Extension;
@@ -102,7 +100,7 @@ class CreateArticle extends ControlPanel
 				'list'=>true,
 				'orm'=>array(
 					'limit'=>-1,
-					'table'=>'category',
+					'table'=>'opencms:category',
 					'name'=>'category',
 				),
 			),

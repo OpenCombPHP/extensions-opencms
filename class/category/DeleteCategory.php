@@ -1,10 +1,7 @@
 <?php
 namespace org\opencomb\opencms\category;
 
-use org\jecat\framework\db\DB;
-
 use org\jecat\framework\mvc\model\db\Category;
-use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
@@ -21,7 +18,7 @@ class DeleteCategory extends ControlPanel
 			'model:category'=>array(
 				'class'=>'model',
 				'orm'=>array(
-					'table'=>'category',
+					'table'=>'opencms:category',
 				)
 			),
 			'model:article'=>array(

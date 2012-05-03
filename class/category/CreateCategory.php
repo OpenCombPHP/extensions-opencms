@@ -2,7 +2,6 @@
 namespace org\opencomb\opencms\category;
 
 use org\opencomb\coresystem\auth\PurviewQuery;
-
 use org\jecat\framework\mvc\model\db\Category;
 use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
@@ -62,7 +61,7 @@ class CreateCategory extends ControlPanel
 			'model:category'=>array(
 				'class'=>'model',
 				'orm'=>array(
-					'table'=>'category',
+					'table'=>'opencms:category',
 				)
 			)
 		);

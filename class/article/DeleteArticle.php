@@ -2,8 +2,6 @@
 namespace org\opencomb\opencms\article;
 
 use org\opencomb\platform\ext\Extension;
-use org\jecat\framework\mvc\model\db\Article;
-use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 

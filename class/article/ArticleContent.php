@@ -2,10 +2,7 @@
 namespace org\opencomb\opencms\article;
 
 use org\opencomb\platform\ext\Extension;
-use org\jecat\framework\fs\Folder;
-use org\jecat\framework\fs\File;
 use org\opencomb\coresystem\mvc\controller\Controller;
-use org\jecat\framework\mvc\model\db\Category;
 use org\jecat\framework\message\Message;
 
 class ArticleContent extends Controller
@@ -31,6 +28,8 @@ class ArticleContent extends Controller
 					)
 				)
 			),
+				
+			'frame' => array('config'=>'opencms:article-frame') ,
 		);
 	}
 	
@@ -54,12 +53,10 @@ class ArticleContent extends Controller
 		$this->setTitle($this->article->title);
 		
 		//把cid传给frame
-		$this->frame()->params()->set('cid',$this->article->cid);
-	}
-	
-	public function defaultFrameConfig()
-	{
-		return array('class'=>'org\\opencomb\\opencms\\frame\\ArticleFrontFrame') ;
+		if($aFrame=$this->frame())
+		{
+			$aFrame->params()->set('cid',$this->article->cid);
+		}
 	}
 	
 	static public function getHttpUrl($sFilePath)

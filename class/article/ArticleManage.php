@@ -1,11 +1,7 @@
 <?php
 namespace org\opencomb\opencms\article;
 
-use org\jecat\framework\db\DB;
-use org\jecat\framework\auth\IdManager;
 use org\jecat\framework\mvc\model\db\Category;
-use org\jecat\framework\mvc\view\DataExchanger;
-use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
 class ArticleManage extends ControlPanel
@@ -45,7 +41,7 @@ class ArticleManage extends ControlPanel
 					'belongsTo:category'=>array(
 						'fromkeys'=>'cid',
 						'tokeys'=>'cid',
-						'table'=>'category',
+						'table'=>'opencms:category',
 						'name'=>'category',
 // 						'where'=>array("category.cid=@1",$this->params->get('cid'))
 					)
@@ -56,7 +52,7 @@ class ArticleManage extends ControlPanel
 				'list'=>true,
 				'orm'=>array(
 					'limit'=>-1,
-					'table'=>'category',
+					'table'=>'opencms:category',
 					'name'=>'category',
 				)
 			)

@@ -1,7 +1,6 @@
 <?php
 namespace org\opencomb\opencms\article;
 
-use org\jecat\framework\db\DB;
 use org\jecat\framework\lang\Exception;
 use org\opencomb\platform\ext\Extension;
 use org\jecat\framework\fs\archive\DateAchiveStrategy;
@@ -18,7 +17,7 @@ class EditArticle extends ControlPanel
 		return array(
 			'title'=>'编辑文章',
 			'view'=>array(
-				'template'=>'ArticleForm.html',
+				'template'=>'opencms:ArticleForm.html',
 				'class'=>'form',
 				'model'=>'article',
 				'widgets'=>array(
@@ -80,7 +79,7 @@ class EditArticle extends ControlPanel
 				'class'=>'model',
 				'list'=>true,
 				'orm'=>array(
-					'table'=>'category',
+					'table'=>'opencms:category',
 					'name'=>'category',
 				)
 			)
