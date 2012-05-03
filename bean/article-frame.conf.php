@@ -3,8 +3,8 @@ return array(
 		
 		'class'=>'org\\opencomb\\coresystem\\mvc\\controller\\FrontFrame' ,
 		
-		'frameview:CmsFrameView' => array(
-				'template' => 'opencms:CmsFrame.html' ,
+		'view:BreadcrumbNavigation' => array(
+				'template' => 'opencms:BreadcrumbNavigation.html' ,
 		) ,
 		
 		// 控制器栏目内最新内容

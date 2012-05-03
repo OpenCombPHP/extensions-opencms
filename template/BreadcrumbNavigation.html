@@ -1,0 +1,4 @@
+<a href="/">首页</a>
+<foreach for='$theParams->aBreadcrumbNavigation' item='aCatModel'>
+ >> <a href="?c=org.opencomb.opencms.article.ArticleList&cid={=$aCatModel->cid}">{=$aCatModel->title}</a>
+</foreach>

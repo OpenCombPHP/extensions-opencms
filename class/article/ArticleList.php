@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\opencms\article;
 
+use org\jecat\framework\mvc\model\db\Category;
+
 use org\opencomb\coresystem\mvc\controller\Controller;
 use org\jecat\framework\message\Message;
 
@@ -24,7 +26,7 @@ class ArticleList extends Controller
 			
 			'model:category'=>array(
 				'orm'=>array(
-					'columns' => array('title','lft','rgt') ,
+					'columns' => array('cid','title','lft','rgt') ,
 					'table'=>'opencms:category',
 				)
 			),
@@ -42,42 +44,6 @@ class ArticleList extends Controller
 					) ,
 				)
 			),
-
-			// 			'frame' => array(
-			// 					'config' => '' ,
-			// 			) ,
-			
-// 			'frame' => array(
-// 					'class' => 'org\\opencomb\\coresystem\\mvc\\controller\\FrontFrame' ,
-// 					'frameview:CmsFrameView' => array(
-// 							'template' => 'opencms:CmsFrame.html' ,
-// 							// 控制器栏目内最新内容
-// 							'controller:topListNew' => array(
-// 									'class' => 'org\\opencomb\\opencms\\article\\TopList' ,
-// 									'params' => array('orderby'=>'createTime'),
-// 							) ,
-// 							// 控制器栏目内最热内容
-// 							'controller:topListHot' => array(
-// 									'class' => 'org\\opencomb\\opencms\\article\\TopList' ,
-// 									'params' => array('orderby'=>'views'),
-// 							) ,
-// 							'model:categoryList' =>array(
-// 									'class'=>'model',
-// 									'list'=>true,
-// 									'orm'=>array(
-// 											'table'=>'category',
-// 											'name'=>'category',
-// 									)
-// 							),
-// 							'model:category' =>array(
-// 									'class'=>'model',
-// 									'orm'=>array(
-// 											'table'=>'category',
-// 											'name'=>'category',
-// 									)
-// 							),
-// 					) ,
-// 			) ,
 		);
 		
 		//页面显示结果数,默认20
@@ -115,13 +81,10 @@ class ArticleList extends Controller
 			//把cid传给frame
 			$this->params()->set('cid',$this->params->get("cid"));
 			
+			//面包屑
+			$this->params()->set('aBreadcrumbNavigation' , Category::getParents($this->category)) ;
 		}else{
 			$this->messageQueue ()->create ( Message::error, "未指定分类" );
 		}
 	}
-	/*
-	public function defaultFrameConfig()
-	{
-		return array('class'=>'org\\opencomb\\opencms\\frame\\ArticleFrontFrame') ;
-	}*/
 }

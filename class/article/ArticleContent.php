@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\opencms\article;
 
+use org\jecat\framework\mvc\model\db\Category;
+
 use org\opencomb\platform\ext\Extension;
 use org\opencomb\coresystem\mvc\controller\Controller;
 use org\jecat\framework\message\Message;
@@ -16,6 +18,7 @@ class ArticleContent extends Controller
 				'class'=>'view',
 				'model'=>'article',
 			),
+			'frame' => array('config'=>'opencms:article-frame') ,
 			'model:article'=>array(
 				'class'=>'model',
 				'orm'=>array(
@@ -28,8 +31,12 @@ class ArticleContent extends Controller
 					)
 				)
 			),
-				
-			'frame' => array('config'=>'opencms:article-frame') ,
+			'model:category'=>array(
+					'orm'=>array(
+							'columns' => array('cid','title','lft','rgt') ,
+							'table'=>'opencms:category',
+					)
+			),
 		);
 	}
 	
@@ -57,6 +64,18 @@ class ArticleContent extends Controller
 		{
 			$aFrame->params()->set('cid',$this->article->cid);
 		}
+		
+		$this->category->load( $this->article->cid , 'cid');
+		$aParentsModelList = Category::getParents($this->category);
+		$arrModels = array();
+		foreach($aParentsModelList as $aModel)
+		{
+			$arrModels[] = $aModel;
+		}
+		$arrModels[] = $this->category;
+		
+		//面包屑
+		$this->params()->set('aBreadcrumbNavigation' , $arrModels) ;
 	}
 	
 	static public function getHttpUrl($sFilePath)
