@@ -13,6 +13,7 @@ class TopList extends Controller
 				'template'=>'opencms:TopList.html',
 				'class'=>'view',
 				'model'=>'articles',
+				'cssClass'=>'jc-view-decorater-occccc',
 			),
 			'model:category'=>array(
 				'orm'=>array(
