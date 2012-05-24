@@ -57,12 +57,24 @@ class MenuManage extends ControlPanel
 		$arrMenus = array();
 		foreach( $this->params->get('cat') as $sCid => $arrMenu){
 			if(isset($arrMenu['mainmenu'])){
+				
+				$aCatModel = $this->categoryTree->findChildBy($sCid,"cid");
+				
 				$arrMenus[ 'item:'.(int)$sCid ] = array(
-						'title'=>$this->categoryTree->findChildBy($sCid,"cid")->data('title'),
+						'title'=>$aCatModel->data('title'),
 						'link'=>'?c=org.opencomb.opencms.article.ArticleList&cid='.$sCid ,
+						'query'=>array('cid='.$sCid ),
 				);
+				
+				$aChildModelList = Category::getChildren($aCatModel);
+				$arrMenus[ 'item:'.(int)$sCid ]['query'][] = 'cid='. $aCatModel['cid'];
+				foreach($aChildModelList as $aModel)
+				{
+					$arrMenus[ 'item:'.(int)$sCid ]['query'][] = 'cid='. $aModel['cid'];
+				}
 			}
 		}
+		
 		$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
 		$aSetting->setItem('/menu/mainmenu','mainmenu',$arrMenus) ;
 			

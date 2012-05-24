@@ -15,7 +15,7 @@
 				$sStyle.=$theModel['title_color']!='' ? 'color:'.$theModel['title_color'].';' : '';
 				$sUrl= empty($theModel['url']) ? "?c=org.opencomb.opencms.article.ArticleContent&aid={$theModel['aid']}" : $theModel['url'];
 			#}
-			<a class='ellipsis_text' href='{=$sUrl}' style='{=$sStyle}'>{=$theModel['title']}</a>
+			<a class='ellipsis_text' href='{=$sUrl}&cid={=$theModel["cid"]}' style='{=$sStyle}'>{=$theModel['title']}</a>
 		</li>
 		<model:foreach:else/>
 		没有文章可以显示

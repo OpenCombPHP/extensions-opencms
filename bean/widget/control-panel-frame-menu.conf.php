@@ -3,6 +3,7 @@ return array(
 	'item:CMS' => array(
 		'title'=>'内容',
 		'link'=>'?c=org.opencomb.opencms.article.ArticleManage',
+		'query'=>'c=org.opencomb.opencms.article.ArticleManage',
 		'direction'=>'v',
 		
 		'menu'=> 1 ,

@@ -17,7 +17,7 @@
 						<td>{=$theModel['cid']}</td>
 						<td><span class='cat_depth'>{=str_repeat("-", org\jecat\framework\mvc\model\db\Category::depth($theModel))}</span><a href="?c=org.opencomb.opencms.article.ArticleList&cid={=$theModel['cid']}">{=$theModel['title']}</a></td>
 						<td>
-							<label><input type='checkbox' name="cat[{=$theModel['cid']}][mainmenu]" value="1" {=(isset($arrMenus[$theModel['cid']]))? 'checked' : '' }/>添加到主菜单</label>
+							<label><input type='checkbox' name="cat[{=$theModel['cid']}][mainmenu]" value="1" {=(isset($arrMenus['item:'.$theModel['cid']]))? 'checked' : '' }/>添加到主菜单</label>
 						</td>
 					</tr>
 					</model:foreach>
