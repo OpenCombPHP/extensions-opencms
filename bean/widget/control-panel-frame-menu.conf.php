@@ -1,7 +1,7 @@
 <?php
 return array(
 	'item:CMS' => array(
-		'title'=>'cms管理',
+		'title'=>'内容',
 		'link'=>'?c=org.opencomb.opencms.article.ArticleManage',
 		'direction'=>'v',
 		
