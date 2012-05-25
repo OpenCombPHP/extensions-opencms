@@ -57,6 +57,12 @@ class ArticleList extends Controller
 			$arrBean['model:articles']['orm']['orderBy'] = 'createTime';
 		}
 		
+		//显示下级分类的链接
+		$arrBean['frame']['controller:subCat'] =  array(
+				'class' => 'org\\opencomb\\opencms\\category\\SubCategory' ,
+				'params' => array('cid'=>$this->params->get("cid"))
+		);
+		
 		return $arrBean;
 	}
 	

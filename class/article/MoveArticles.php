@@ -41,7 +41,7 @@ class MoveArticles extends ControlPanel
 		$arrFromCategorys = explode('_', $this->params->get('from'));
 		$nToCategory = (int)$this->params->get('to');
 		
-		if(DB::singleton()->execute("UPDATE `opencms_article` SET  `cid` = '{$nToCategory}' WHERE `cid` in (" . implode(',', $arrFromCategorys) . ");")){
+		if(DB::singleton()->execute("UPDATE opencms:article SET  `cid` = '{$nToCategory}' WHERE `cid` in (" . implode(',', $arrFromCategorys) . ");")){
 			$this->messageQueue ()->create ( Message::success, "成功转移了文章" );
 		}else{
 			$this->messageQueue ()->create ( Message::error, "没有转移任何文章,可能是因为没有找到文章或者目标栏目不存在" );
