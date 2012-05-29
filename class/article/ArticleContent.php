@@ -60,10 +60,7 @@ class ArticleContent extends Controller
 		$this->setTitle($this->article->title);
 		
 		//把cid传给frame
-		if($aFrame=$this->frame())
-		{
-			$aFrame->params()->set('cid',$this->article->cid);
-		}
+		$this->params()->set('cid',$this->article->cid);
 		
 		$this->category->load( $this->article->cid , 'cid');
 		$aParentsModelList = Category::getParents($this->category);
