@@ -1,11 +1,11 @@
-<lib name='jquery.threedots' />
+<js src="opencms:js/topListShortTitle.js"/>
 <div class='topList'>
 	<msgqueue for="$theController->messageQueue()" />
 	<a href="?c=org.opencomb.opencms.article.ArticleList&cid={=$nCid}" class="frontframe-more">更多</a>
 	<h3>{=$sCategoryTitle}</h3>
 	<ul>
 		<model:foreach>
-		<li class='shorttext_{=$nCid}'>
+		<li class='shorttext_'>
 			<span>{=date("Y年m月d日", $theModel['createTime'])}</span>
 			{#?
 				$sStyle = '';
@@ -23,9 +23,4 @@
 		<li class='block'></li>
 	</ul>
 </div>
-<script>
-jQuery(function(){
-	jQuery('.shorttext_{=$nCid}').ThreeDots({max_rows:1,alt_text_t:true,ellipsis_string:''});
-});
-</script>
 <views/>
