@@ -101,7 +101,14 @@ jquery(function(){
 	}
 	
 	//颜色选择器
-    jquery('#article_color_selecter').farbtastic('#article_title_color');
+	if(jquery('#article_title_color').val() != ''){
+		jquery('#article_title_color').css('background-color' , jquery('#article_title_color').val());
+	}
+	
+	jquery.farbtastic('#article_color_selecter', function(color){
+		jquery('#article_title_color').val(color).css('background-color',color);
+    }).setColor(jquery('#article_title_color').val());
+	
 	jquery('#article_title_color').focusin(function(){
 		jquery('#article_color_selecter')
 		.css({
