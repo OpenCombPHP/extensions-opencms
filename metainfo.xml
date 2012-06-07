@@ -5,6 +5,10 @@
 	<version>0.1</version>
 	<title>内容管理系统</title>
 
+	<description>
+实现了基础功能的内容管理系统(CMS)
+	</description>
+	
 	<class>org.opencomb.opencms.OpenCMS</class>
 	<package folder="/class" namespace="org.opencomb.opencms"/>
 
