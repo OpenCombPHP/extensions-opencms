@@ -3,10 +3,9 @@
 	<msgqueue for="$theController->messageQueue()" />
 	<a href="?c=org.opencomb.opencms.article.ArticleList&cid={=$nCid}" class="frontframe-more">更多</a>
 	<h3>{=$sCategoryTitle}</h3>
-	<ul>
+	<table class='topList_titles' >
 		<model:foreach>
-		<li class='shorttext_'>
-			<span>{=date("Y年m月d日", $theModel['createTime'])}</span>
+		<tr>
 			{#?
 				$sStyle = '';
 				$sStyle.=$theModel['title_bold']==1 ? 'font-weight: bold;' : '';
@@ -15,11 +14,12 @@
 				$sStyle.=$theModel['title_color']!='' ? 'color:'.$theModel['title_color'].';' : '';
 				$sUrl= empty($theModel['url']) ? "?c=org.opencomb.opencms.article.ArticleContent&aid={$theModel['aid']}" : $theModel['url'];
 			#}
-			<a class='ellipsis_text' href='{=$sUrl}&cid={=$theModel["cid"]}' style='{=$sStyle}'>{=$theModel['title']}</a>
-		</li>
+			<td><a class='ellipsis_text' href='{=$sUrl}&cid={=$theModel["cid"]}' style='{=$sStyle}'>{=$theModel['title']}</a></td>
+			<td class="topList_times"><span>{=date("Y年m月d日", $theModel['createTime'])}</span></td>
+		</tr>
 		<model:foreach:else/>
-		没有文章可以显示
+		<tr><td>没有文章可以显示</td></tr>
 		</model:foreach>
-	</ul>
+	</table>
 </div>
 <views/>

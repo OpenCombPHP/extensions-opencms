@@ -78,7 +78,7 @@ class TopList extends Controller
 		}
 		$this->view->variables()->set('sCategoryTitle',$this->category->data('title')) ;
 		$this->view->variables()->set('nCid',$this->params->get("cid")) ;
-				
+		
 		//遍历范围,仅第一层
 		if($this->params->has('subCat') and $this->params->get('subCat') == 1)
 		{
@@ -96,5 +96,11 @@ class TopList extends Controller
 					,$this->category->rgt
 			) ;
 		}
+		
+		$arrTimes = array();
+		foreach( $this->articles->childIterator() as $aChild){
+			$arrTimes[] = $aChild['createTime'];
+		}
+		$this->view->variables()->set('arrTimes',$arrTimes) ;
 	}
 }
