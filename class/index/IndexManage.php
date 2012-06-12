@@ -1,53 +1,53 @@
 <?php
 namespace org\opencomb\opencms\index;
 
+use org\jecat\framework\setting\Setting;
+
+use org\jecat\framework\mvc\model\Category;
+
+use org\jecat\framework\mvc\model\Model;
+
 use org\opencomb\coresystem\auth\PurviewQuery;
-use org\jecat\framework\mvc\model\db\Category;
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 use org\jecat\framework\system\Application;
 
 class IndexManage extends ControlPanel
 {
-	public function createBeanConfig()
-	{
-		return array(
-			'title'=>'首页管理',
-			'view'=>array(
-				'template' => 'IndexManage.html',
-				'class' => 'form',
-				'model' => 'categoryTree',
-			),
-			'model:categoryTree'=>array(
-				'class'=>'model',
-				'list'=>true,
-				'orm'=>array(
-					'limit'=>-1,
-					'table'=>'opencms:category',
-					'name'=>'category',
-				)
-			),
-			'perms' => array(
-				// 权限类型的许可
-				'perm.purview'=>array(
-						'name' => 'purview:admin_category',
-						'target'=>PurviewQuery::all
-				) ,
-			) ,
-		);
-	}
+	protected $arrConfig = array(
+        'title'=>'首页管理',
+        'view'=>array(
+                'template' => 'IndexManage.html',
+        ),
+        'perms' => array(
+            'perm.purview'=>array(
+                    'name' => 'purview:admin_category',
+                    'target'=>PurviewQuery::all
+            ) ,
+        ) ,
+	) ;	
+	
 	
 	public function process()
 	{
 		$this->checkPermissions('您没有这个功能的权限,无法继续浏览',array()) ;
+		
+		$aModel = Model::Create('opencms:category')
+		->limit(20)
+		->load() ;
+		
+		
 		//准备分类信息
-		$this->categoryTree->load();
-		Category::buildTree($this->categoryTree);
+		//Category::buildTree($aModel);
 		
 		$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
+		//$aSetting = Extension::flyweight('opencms')->setting() ;
+		//$aSetting = Setting::flyweight('opencms') ;
+		
 		$arrTopLists = $aSetting->item('/index/toplist','toplist',array()) ;
 		
 		$this->view->variables()->set('arrTopLists',$arrTopLists) ;
+		$this->view->setModel($aModel);
 		
 		$this->doActions();
 	}

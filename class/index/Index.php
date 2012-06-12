@@ -6,12 +6,13 @@ use org\jecat\framework\system\Application;
 
 class Index extends Controller
 {
+	protected $arrConfig = array(
+		'title'=>'登录',
+		'controllers' => array() ,
+	) ;	
+	
 	public function createBeanConfig()
 	{
-		$arrBean = array(
-				'title'=>'首页',
-				'controllers' => array() ,
-		);
 		
 		$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
 		$arrTopLists = $aSetting->item('/index/toplist','toplist',array()) ;
@@ -41,5 +42,6 @@ class Index extends Controller
 
 	public function process()
 	{
+	    
 	}
 }

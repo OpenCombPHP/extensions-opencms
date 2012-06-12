@@ -1,7 +1,9 @@
 <?php
 namespace org\opencomb\opencms\article;
 
-use org\jecat\framework\mvc\model\db\Category;
+use org\jecat\framework\db\DB;
+
+use org\jecat\framework\mvc\model\Model;
 
 use org\opencomb\platform\ext\Extension;
 use org\opencomb\coresystem\mvc\controller\Controller;
@@ -9,70 +11,75 @@ use org\jecat\framework\message\Message;
 
 class ArticleContent extends Controller
 {
-	public function createBeanConfig()
-	{
-		return array(
-			'title'=> '文章内容',
-			'view'=>array(
-				'template'=>'ArticleContent.html',
-				'class'=>'view',
-				'model'=>'article',
-			),
-			'frame' => array('config'=>'opencms:article-frame') ,
-			'model:article'=>array(
-				'class'=>'model',
-				'orm'=>array(
-					'table'=>'article',
-					'hasMany:attachments' => array (
-						'fromkeys' => array ( 'aid' ),
-						'tokeys' => array ( 'aid' ),
-						'table' => 'attachment',
-						'orderby' => 'index'
-					)
-				)
-			),
-			'model:category'=>array(
-					'orm'=>array(
-							'columns' => array('cid','title','lft','rgt') ,
-							'table'=>'opencms:category',
-					)
-			),
-		);
-	}
+	protected $arrConfig = array(
+	        'title'=> '文章内容',
+	        'view'=>array(
+	                'template'=>'ArticleContent.html',
+	        ),
+	        'frame' => array('config'=>'opencms:article-frame') ,
+	) ;	
 	
 	public function process()
 	{
+	    $articleModel = Model::create('opencms:article')
+	    ->hasMany('opencms:attachment','aid','aid')
+	    ->order('attachment.index');
+	    
 		if($this->params->has("aid"))
 		{
-			if(!$this->article->load(array($this->params->get("aid")),array('aid')))
+			if(!$articleModel->load("aid = '".$this->params->get("aid")."'"))
 			{
 				$this->messageQueue ()->create ( Message::error, "错误的文章编号" );
 			}
 		}else{
 			$this->messageQueue ()->create ( Message::error, "未指定文章" );
 		}
+		
+		
 		//浏览次数
-		$this->article->setData( "views",(int)$this->article->data("views") + 1 );
-		$this->article->save();
+		$articleModel->update(array(
+		        'views'=>(int)$articleModel->data('views') + 1
+        ));
 		
-		$this->view->variables()->set('article',$this->article) ;
+		$this->view->variables()->set('article',$articleModel) ;
 		
-		$this->setTitle($this->article->title);
+		$this->setTitle($articleModel->data('title'));
 		
 		//把cid传给frame
-		$this->params()->set('cid',$this->article->cid);
+		$this->params()->set('cid',$articleModel->data('cid'));
 		
-		$this->category->load( $this->article->cid , 'cid');
+		
+		/*
+		
+		$categoryModel = Model::create('opencms:category');
+		$categoryModel->load( $articleModel->data('cid') , 'cid');
+		
+		
+		
 		$aParentsModelList = Category::getParents($this->category);
+		
+		
+		
+		
+		$aPrototype = clone $aModel->prototype();
+		$aPrototype->addOrderBy('lft');
+		$aParentsModelList = $aPrototype->createModel(true);
+		$aParentsModelList->loadSql("lft < @1 and rgt > @2" , $aModel->lft , $aModel->rgt);
+		return $aParentsModelList;
+		
+		
+		
+		
 		$arrModels = array();
 		foreach($aParentsModelList as $aModel)
 		{
 			$arrModels[] = $aModel;
 		}
-		$arrModels[] = $this->category;
+		$arrModels[] = $categoryModel;
 		
 		//面包屑
 		$this->params()->set('aBreadcrumbNavigation' , $arrModels) ;
+		*/
 	}
 	
 	static public function getHttpUrl($sFilePath)
