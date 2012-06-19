@@ -1,115 +1,119 @@
 <?php
 namespace org\opencomb\opencms\category;
 
-use org\jecat\framework\mvc\model\db\Model;
-use org\jecat\framework\mvc\model\db\Category;
+use org\jecat\framework\mvc\model\Model;
+use org\jecat\framework\mvc\model\Category;
 use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
 class EditCategory extends ControlPanel
 {
-	public function createBeanConfig()
-	{
-		return array(
+	protected $arrConfig = array(
 			'title'=>'编辑分类',
 			'view'=>array(
-				'template'=>'CategoryForm.html',
-				'class'=>'form',
-				'model'=>'category',
-				'widgets'=>array(
-					array(
-						'config'=>'widget/category_title'
-					),
-					array(
-						'config'=>'widget/category_dec'
-					),
-					array(
-						'config'=>'widget/category_parent'
-					),
-				)
+				'template'=>'CategoryEdit.html',
 			),
-			'model:categoryTree'=>array(
-				'config'=>'model/categoryTree',
-			),
-			'model:category'=>array(
-				'class'=>'model',
-				'orm'=>array(
-					'table'=>'opencms:category',
-				)
-			)
-		);
-	}
+	) ;	
+	
 	
 	public function process()
 	{
 		//权限
 		$this->requirePurview('purview:admin_category','opencms',$this->params->get('cid'),'您没有这个分类的管理权限,无法继续浏览');
 		
-		//准备分类信息
-		$this->categoryTree->load();
+		$categoryModel = Model::Create('opencms:category');
 		
-		Category::buildTree($this->categoryTree);
+		//准备分类信息
+		$categoryModel->load();
+		
+		Category::buildTree($categoryModel);
 		
 		$aCatSelectWidget = $this->view->widget("category_parent");
 		$aCatSelectWidget->addOption("顶级分类",null,true);
-		foreach($this->categoryTree->childIterator() as $aCat)
+		foreach($categoryModel as $aCat)
 		{
-			if($this->params->get("cid") == $aCat->cid){
-				//在选单中排除自己,以防把自己变成自己的子分类
-				continue;
-			}
-			$aCatSelectWidget->addOption(str_repeat("--", Category::depth($aCat)).$aCat->title,$aCat->cid.":".$aCat->rgt,false);
-		}
-		//还原数据
-		if($this->params->has("cid")){
-			$this->category->load(array($this->params->get("cid")),array("cid"));
-			$aParentCategory = $this->parentCategory($this->category , $this->categoryTree);
-		}else{
-			$this->messageQueue ()->create ( Message::error, "未指定栏目" );
-			return;
+		    if($this->params->get("cid") == $aCat['cid']){
+		        //在选单中排除自己,以防把自己变成自己的子分类
+		        continue;
+		    }
+		    $aCatSelectWidget->addOption(str_repeat("--", Category::depth($categoryModel)).$aCat['title'],$aCat['cid'].":".$aCat['rgt'],false);
 		}
 		
-		$this->setTitle($this->category->title . " - " . $this->title());
+		//还原数据
+		if($this->params->has("cid")){
+		    
+		    foreach ($categoryModel as $o)
+		    {
+		        if($o['cid'] == $this->params->has("cid"))
+		        {
+		            $categoryModel_now = $categoryModel->alone();
+		        }
+		    }
+		    $aParentCategory = $this->parentCategory($categoryModel_now , $categoryModel);
+		}else{
+		    $this->messageQueue ()->create ( Message::error, "未指定栏目" );
+		    return;
+		}
+		
+		$this->setTitle($categoryModel_now->title . " - " . $this->title());
 		
 		$this->view->variables()->set('sPageTitle','编辑栏目') ;
 		
-		$this->view->exchangeData ( DataExchanger::MODEL_TO_WIDGET);
+		$this->view()->setModel($categoryModel_now);
+		$this->view->update();
+		
 		//还原父分类选单的值,如果有父分类
 		if($aParentCategory){
-			$aCatSelectWidget->setValue($aParentCategory->cid.":".$aParentCategory->rgt) ;
+		    $aCatSelectWidget->setValue($aParentCategory->cid.":".$aParentCategory->rgt) ;
 		}
 		
-		$this->doActions();
 	}
 	
-	public function actionSubmit()
+	public function form()
 	{
-		//加载所有控件的值
-		if (! $this->view->loadWidgets ( $this->params ) )
+		$categoryModel = Model::Create('opencms:category');
+		
+		//准备分类信息
+		$categoryModel->load();
+		
+		Category::buildTree($categoryModel);
+		
+		foreach ($categoryModel as $o)
 		{
-			return;
+		    if($o['cid'] == $this->params['cid'])
+		    {
+		        $categoryModel_now = $categoryModel->alone();
+		    }
 		}
 		
-		$this->view->exchangeData ( DataExchanger::WIDGET_TO_MODEL );
 		//得到父分类的改变,如果改变了,就改变分类的排序
 		$arrNewParent = explode(":",$this->params->get("category_parent")); //数组第一个元素是cid,第2个是rgt
-		$aParentCategory = $this->parentCategory($this->category , $this->categoryTree);
+		$aParentCategory = $this->parentCategory($categoryModel_now , $categoryModel);
+		
 		if((!$aParentCategory and $arrNewParent[0] != 0)
 				|| ($aParentCategory and $aParentCategory->cid != $arrNewParent[0])){
-			$aCategory = new Category($this->category);
+			$aCategory = new Category($categoryModel_now);
+			
 			$aCategory->insertCategoryToPoint($arrNewParent[0]==0 ? Category::end : $arrNewParent[1]);
 		}
-		if ($this->category->save ())
+		if ($categoryModel->update(
+		        array(
+		                'title'=>$this->params['category_title'],
+		                'description'=>$this->params['category_dec'],
+                ),
+		        "cid = '{$this->params['cid']}'" 
+        ))
 		{
-			// 					$this->view->hideForm ();
-			$this->messageQueue ()->create ( Message::success, "栏目保存成功" );
+		    $this->location('?c=org.opencomb.opencms.category.CategoryManage');
 		}
 		else
 		{
 			$this->messageQueue ()->create ( Message::error, "栏目保存失败" );
 		}
 		// 				DB::singleton()->executeLog();
+		
+		
 	}
 	
 	/**
@@ -120,13 +124,15 @@ class EditCategory extends ControlPanel
 	 * @return Model 父分类,如果自身是顶级分类(没有父分类),就返回null
 	 */
 	public function parentCategory(Model $aCategory, Model $aCategoryTree){
+	    
 		$aParent = null; //直接父分类
-		foreach($aCategoryTree->childIterator() as $aCat){
-			if($aCategory->lft > $aCat->lft && $aCategory->rgt < $aCat->rgt){ 
+		foreach($aCategoryTree as $aCat){
+
+			if($aCategory->data('lft') > $aCat['lft'] && $aCategory['rgt'] < $aCat['rgt']){
 				if($aParent==null){
-					$aParent = $aCat;
-				}else if($aParent->lft < $aCat->lft){
-					$aParent = $aCat;
+					$aParent = $aCategoryTree->alone();
+				}else if($aParent['lft'] < $aCat['lft']){
+					$aParent = $aCategoryTree->alone();
 				}
 			}
 		}

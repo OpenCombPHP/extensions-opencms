@@ -1,40 +1,31 @@
 <?php
 namespace org\opencomb\opencms\article;
 
+use org\jecat\framework\mvc\model\Model;
+
 use org\opencomb\platform\ext\Extension;
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
 class DeleteArticle extends ControlPanel
 {
-	public function createBeanConfig()
-	{
-		return array(
+	protected $arrConfig = array(
 			'title'=>'删除文章',
 			'view'=>array(
 				'template'=>'DeleteArticle.html',
 				'class'=>'view'
 			),
-			'model:article'=>array(
-				'class'=>'model',
-				'list'=>true,
-				'orm'=>array(
-					'table'=>'article',
-					'limit'=>-1,
-					'hasMany:attachments' => array (
-							'fromkeys' => array ( 'aid',),
-							'tokeys' => array ( 'aid', ),
-							'table' => 'attachment',
-					)
-				)
-			)
-		);
-	}
+	) ;	
 	
 	public function process()
 	{
 		//权限
-		$this->requirePurview('purview:admin_category','opencms',$this->article->cid,'您没有这个分类的管理权限,无法继续浏览');
+		$this->requirePurview('purview:admin_category','opencms',$articlesModel->cid,'您没有这个分类的管理权限,无法继续浏览');
+		
+		
+		$articlesModel = Model::Create('opencms:article') -> hasMany('opencms:attachment','aid','aid');
+		
+		
 		
 		//要删除哪些项?把这些项数组一起删除,如果只有一项,也把也要保证它是数组
 		if ($this->params->get ( "aid" ))
@@ -47,20 +38,18 @@ class DeleteArticle extends ControlPanel
 				{
 					$sSql.=',';
 				}
-				$sSql.= '@'.($nKey+1);
+				$sSql.= $sValue;
 			}
 			$sSql.=  " )";
 			
-			$this->article->loadSql ( $sSql , $arrAids);
-			
 			//删除附件
 			$arrFilePaths = array();
-			foreach($this->article->child('attachments') as $aAttaModel)
+			foreach($articlesModel['attachments'] as $aAttaModel)
 			{
 				$arrFilePaths[] = $aAttaModel['storepath'];
 			}
 			
-			if ($this->article->delete ())
+			if ($articlesModel->delete ($sSql))
 			{
 				$this->deleteAttachments($arrFilePaths);
 				$this->messageQueue ()->create ( Message::success, "删除文章成功" );

@@ -2,25 +2,19 @@
 namespace org\opencomb\opencms\category;
 
 use org\jecat\framework\mvc\model\Model;
-use org\jecat\framework\mvc\model\db\Category;
+use org\jecat\framework\mvc\model\Category;
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
 class CategorySort extends ControlPanel
 {
-	public function createBeanConfig()
-	{
-		return array (
+	protected $arrConfig = array(
 			'title'=>'分类排序',
 			'view'=>array(
 				'template'=>'CategorySort.html',
 				'class'=>'view',
 			),
-			'model:categoryTree' => array (
-				'config'=>'model/categoryTree',
-			),
-		);
-	}
+	) ;	
 	
 	public function process()
 	{
@@ -45,42 +39,61 @@ class CategorySort extends ControlPanel
 		//权限
 		$this->requirePurview('purview:admin_category','opencms',$nCid,'您没有这个分类的管理权限,无法继续浏览');
 		
+		
+		$categoryModel = Model::Create('opencms:category');
+		
 		//准备分类信息
-		$this->categoryTree->load();
+		$categoryModel->load();
 		
-		Category::buildTree($this->categoryTree);
+		Category::buildTree($categoryModel);
 		
-		$aHandleCategoryModel = $this->categoryTree->findChildBy($nCid,'cid');
+		foreach ($categoryModel as $o)
+		{
+		    if($o['cid'] == $nCid)
+		    {
+		        $aHandleCategoryModel = $categoryModel->alone();
+		    }
+		}
+		
 		if(!$aHandleCategoryModel){
 			$this->messageQueue ()->create ( Message::error, "没有找到对应的栏目,栏目排序失败" );
 			return;
 		}
 		
-		$aParentCategory = $this->parentCategory($aHandleCategoryModel , $this->categoryTree);
-		//
+		
+		$aParentCategory = $this->parentCategory($aHandleCategoryModel , $categoryModel);
+		
 		
 		$aChildren = array();
 		if($aParentCategory){
-			$aBrotherCategorys = Category::categoryChildren($aParentCategory)->childIterator();
+			$aBrotherCategorys = $this->childrenCategory($aParentCategory , $categoryModel);
+			
 		}else{
-			$aBrotherCategorys = $this->categoryTree->childIterator();
+			$aBrotherCategorys = $categoryModel;
 		}
 		foreach( $aBrotherCategorys as $aCat){
-			if(Category::depth($aHandleCategoryModel) == Category::depth($aCat)){
-				$aChildren[] = $aCat;
+		    
+			if(Category::depth($aHandleCategoryModel) == Category::depth($aBrotherCategorys)){
+				$aChildren[] = $aBrotherCategorys->alone();
 			}
 		}
 		
 		$aLeftBrother = null;
 		$aRightBrother = null;
+		
+		
 		if(is_int($nKey = array_search($aHandleCategoryModel, $aChildren))){
+		    
+		    
 			if(array_key_exists($nKey-1, $aChildren)){
 				$aLeftBrother = $aChildren[$nKey -1];
 			}
 			if(array_key_exists($nKey+1, $aChildren)){
 				$aRightBrother =  $aChildren[$nKey +1];
 			}
+			
 		}
+		
 		
 		$aHandleCategory = new Category($aHandleCategoryModel);
 		
@@ -103,16 +116,34 @@ class CategorySort extends ControlPanel
 	 * @return Model 父分类,如果自身是顶级分类(没有父分类),就返回null
 	 */
 	public function parentCategory(Model $aCategory, Model $aCategoryTree){
+	    
 		$aParent = null; //直接父分类
-		foreach($aCategoryTree->childIterator() as $aCat){
-			if($aCategory->lft > $aCat->lft && $aCategory->rgt < $aCat->rgt){
+		foreach($aCategoryTree as $aCat){
+		    
+			if($aCategory->data('lft') > $aCat['lft'] && $aCategory['rgt'] < $aCat['rgt']){
 				if($aParent==null){
-					$aParent = $aCat;
-				}else if($aParent->lft < $aCat->lft){
-					$aParent = $aCat;
+					$aParent = $aCategoryTree->alone();
+				}else if($aParent['lft'] < $aCat['lft']){
+					$aParent = $aCategoryTree->alone();
 				}
 			}
 		}
 		return $aParent;
+	}
+	
+	/**
+	 * 查找直接子分类
+	 */
+	public function childrenCategory(Model $aCategory, Model $aCategoryTree){
+	    
+		$aChildren = Model::create($aCategory->prototype()); 
+		
+		foreach($aCategoryTree as $aCat){
+			if($aCategory->data('lft') < $aCat['lft'] && $aCategory['rgt'] > $aCat['rgt']){
+				$aChildren->addRow($aCat);
+			}
+		}
+		
+		return $aChildren;
 	}
 }

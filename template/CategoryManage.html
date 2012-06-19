@@ -26,8 +26,8 @@
 			<tr>
 				<td><input type="checkbox" class='cat_select' value="{=$theModel['cid']}"/></td>
 				<td>{=$theModel['cid']}</td>
-				<td><span class='cat_depth'>{=str_repeat("-", org\jecat\framework\mvc\model\db\Category::depth($theModel))}</span><a href="?c=org.opencomb.opencms.article.ArticleList&cid={=$theModel['cid']}">{=$theModel['title']}</a></td>
-				<td><a href="?c=org.opencomb.opencms.category.CreateCategory&target={=org\jecat\framework\mvc\model\db\Category::rightPoint($theModel)}">新增子栏目</a></td>
+				<td><span class='cat_depth'>{=str_repeat("-", org\jecat\framework\mvc\model\Category::depth($theModel))}</span><a href="?c=org.opencomb.opencms.article.ArticleList&cid={=$theModel['cid']}">{=$theModel['title']}</a></td>
+				<td><a href="?c=org.opencomb.opencms.category.CreateCategory&target={=org\jecat\framework\mvc\model\Category::rightPoint($theModel)}">新增子栏目</a></td>
 				<td><a href="?c=org.opencomb.opencms.category.EditCategory&cid={=$theModel['cid']}">编辑</a></td>
 				<td><a href="?c=org.opencomb.opencms.category.CategorySort&cid={=$theModel['cid']}&to=up" class='category_go_up'>向上</a> | 
 					<a href="?c=org.opencomb.opencms.category.CategorySort&cid={=$theModel['cid']}&to=down" class='category_go_down'>向下</a></td>

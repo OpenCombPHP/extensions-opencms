@@ -63,7 +63,6 @@ class TopList extends Controller
 		{
 			$articleModel->load($this->params->get('cid'),'cid') ;
 		}
-		
 		//遍历范围,所有层
 		else
 		{

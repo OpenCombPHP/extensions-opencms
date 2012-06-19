@@ -17,7 +17,7 @@
 					<model:foreach>
 					<tr height="60">
 						<td>{=$theModel['cid']}</td>
-						<td><span class='cat_depth'>{=str_repeat("-", org\jecat\framework\mvc\model\db\Category::depth($theModel))}</span><a href="?c=org.opencomb.opencms.article.ArticleList&cid={=$theModel['cid']}">{=$theModel['title']}</a></td>
+						<td><span class='cat_depth'>{=str_repeat("-", org\jecat\framework\mvc\model\Category::depth($theModel))}</span><a href="?c=org.opencomb.opencms.article.ArticleList&cid={=$theModel['cid']}">{=$theModel['title']}</a></td>
 						<td>
 							<label><input type='checkbox' name="cat[{=$theModel['author']}]['index_new']" value="1" {=(isset($arrTopLists[$theModel['cid']]['index_new']) && $arrTopLists[$theModel['cid']]['index_new'] == '1')? 'checked' : '' }/>显示最新</label>
 							<br/>

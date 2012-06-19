@@ -1,62 +1,31 @@
 <?php
 namespace org\opencomb\opencms\article;
 
-use org\jecat\framework\mvc\model\db\Category;
+use org\jecat\framework\mvc\model\Model;
+
+use org\jecat\framework\mvc\model\Category;
 
 use org\opencomb\coresystem\mvc\controller\Controller;
 use org\jecat\framework\message\Message;
 
 class ArticleList extends Controller
 {
-	public function createBeanConfig()
-	{
-		$arrBean = array(
+	protected $arrConfig = array(
+	        
 			'title'=>'文章列表',
 
-			'frame' => array('config'=>'opencms:article-frame') ,
+			//'frame' => array('config'=>'opencms:article-frame') ,
 				
 			'view'=>array(
 				'template'=>'ArticleList.html',
-				'class'=>'view',
-				'model'=>'articles',
 				'widget:paginator' => array(
 					'class' => 'paginator' ,
 				) ,
 			),
-			
-			'model:category'=>array(
-				'orm'=>array(
-					'columns' => array('cid','title','lft','rgt') ,
-					'table'=>'opencms:category',
-				)
-			),
-			'model:articles'=>array(
-				'list'=>true,
-				'orm'=>array(
-					'table'=>'opencms:article',
-					'limit'=>20,
-					'orderDesc'=>'createTime',
-					'hasOne:category'=>array(
-						'fromkeys'=>'cid',
-						'tokeys'=>'cid',
-						'columns' => array('title') ,
-						'table'=>'opencms:category',
-					) ,
-				)
-			),
-		);
-		
-		//页面显示结果数,默认20
-		if($this->params->get("limit")){
-			$arrBean['model:articles']['orm']['limit'] = (int)$this->params->get("limit");
-		}
-		
-		if($this->params->get('order') == 'asc')
-		{
-			unset($arrBean['model:articles']['orm']['orderDesc']);
-			$arrBean['model:articles']['orm']['orderBy'] = 'createTime';
-		}
-		
+	) ;	
+	
+	public function createBeanConfig()
+	{
 		//显示下级分类的链接
 		$arrBean['frame']['controller:subCat'] =  array(
 				'class' => 'org\\opencomb\\opencms\\category\\SubCategory' ,
@@ -69,26 +38,52 @@ class ArticleList extends Controller
 	public function process()
 	{
 		if($this->params->has("cid")){
+		    
+		    
+		    $categoryModel = Model::Create('opencms:category');
+		    $articlesModel = Model::Create('opencms:article') -> hasOne('opencms:category','cid','cid');
+		    
+		    
+		    //页面显示结果数,默认20
+		    if($this->params->get("limit"))
+		    {
+		        $articlesModel->limit($this->params->get("limit"));
+		    }
+		    
+		    if($this->params->get('order') == 'asc')
+		    {
+		        $articlesModel->order('createTime',false);
+		    }else{
+		        $articlesModel->order('createTime',true);
+		    }
+		    
+		    
+		    
 			//准备分类信息
-			if(!$this->category->load(array($this->params->get("cid")),array('cid'))){
+			if(!$categoryModel->load($this->params->get("cid"),'cid')){
 				$this->messageQueue ()->create ( Message::error, "无效的分类编号" );
 			}
 			
-			$this->setTitle($this->category->title . " - " . $this->title());
 			
-			$this->articles->loadSql(
-					"category.lft>=@1 and category.lft<=@2 and category.rgt>=@3 and category.rgt<=@4"
-					,$this->category->lft
-					,$this->category->rgt
-					,$this->category->lft
-					,$this->category->rgt
-			) ;
+			
+			$this->setTitle($categoryModel->data('title') . " - " . $this->title());
+			
+			
+			$articlesModel->where("category.lft>='{$categoryModel->data('lft')}'");
+			$articlesModel->where("category.lft<='{$categoryModel->data('rgt')}'");
+			$articlesModel->where("category.rgt>='{$categoryModel->data('lft')}'");
+			$articlesModel->where("category.rgt<='{$categoryModel->data('rgt')}'");
+			$articlesModel->load();
+			
+			$this->view()->setModel($articlesModel);
+			
 			
 			//把cid传给frame
 			$this->params()->set('cid',$this->params->get("cid"));
 			
 			//面包屑
-			$this->params()->set('aBreadcrumbNavigation' , Category::getParents($this->category)) ;
+			//$this->params()->set('aBreadcrumbNavigation' , Category::getParents($this->category)) ;
+			
 		}else{
 			$this->messageQueue ()->create ( Message::error, "未指定分类" );
 		}

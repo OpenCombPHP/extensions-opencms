@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\opencms\article;
 
+use org\jecat\framework\mvc\model\Category;
+
 use org\jecat\framework\db\DB;
 
 use org\jecat\framework\mvc\model\Model;
@@ -16,7 +18,7 @@ class ArticleContent extends Controller
 	        'view'=>array(
 	                'template'=>'ArticleContent.html',
 	        ),
-	        'frame' => array('config'=>'opencms:article-frame') ,
+	        //'frame' => array('config'=>'opencms:article-frame') ,
 	) ;	
 	
 	public function process()
@@ -27,7 +29,7 @@ class ArticleContent extends Controller
 	    
 		if($this->params->has("aid"))
 		{
-			if(!$articleModel->load("aid = '".$this->params->get("aid")."'"))
+			if(!$articleModel->load($this->params->get("aid"),"aid"))
 			{
 				$this->messageQueue ()->create ( Message::error, "错误的文章编号" );
 			}
@@ -41,45 +43,30 @@ class ArticleContent extends Controller
 		        'views'=>(int)$articleModel->data('views') + 1
         ));
 		
-		$this->view->variables()->set('article',$articleModel) ;
-		
 		$this->setTitle($articleModel->data('title'));
 		
 		//把cid传给frame
 		$this->params()->set('cid',$articleModel->data('cid'));
 		
+		$this->view()->setModel($articleModel);
 		
-		/*
 		
 		$categoryModel = Model::create('opencms:category');
 		$categoryModel->load( $articleModel->data('cid') , 'cid');
+
 		
-		
-		
-		$aParentsModelList = Category::getParents($this->category);
-		
-		
-		
-		
-		$aPrototype = clone $aModel->prototype();
-		$aPrototype->addOrderBy('lft');
-		$aParentsModelList = $aPrototype->createModel(true);
-		$aParentsModelList->loadSql("lft < @1 and rgt > @2" , $aModel->lft , $aModel->rgt);
-		return $aParentsModelList;
-		
-		
-		
-		
+		$aParentsModelList = Category::getParents($categoryModel);
 		$arrModels = array();
 		foreach($aParentsModelList as $aModel)
 		{
-			$arrModels[] = $aModel;
+		    $arrModels[] = $aParentsModelList->alone();
 		}
-		$arrModels[] = $categoryModel;
+		$arrModels[] = $aParentsModelList->alone();
 		
 		//面包屑
 		$this->params()->set('aBreadcrumbNavigation' , $arrModels) ;
-		*/
+		
+		
 	}
 	
 	static public function getHttpUrl($sFilePath)

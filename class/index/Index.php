@@ -13,7 +13,8 @@ class Index extends Controller
 	
 	public function createBeanConfig()
 	{
-		
+	    $arrBean = array();
+	    
 		$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
 		$arrTopLists = $aSetting->item('/index/toplist','toplist',array()) ;
 		

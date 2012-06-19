@@ -4,7 +4,7 @@
 		<h3>栏目</h3>
 		<ul>
 			<foreach for='$aCatIter' item="aModel">
-			<li style='text-indent:{=\org\jecat\framework\mvc\model\db\Category::depth($aModel)}em;'>
+			<li style='text-indent:{=\org\jecat\framework\mvc\model\Category::depth($aModel)}em;'>
 				<a class='' href='?c=org.opencomb.opencms.article.ArticleList&cid={=$aModel["cid"]}'>{=$aModel['title']}</a>
 			</li>
 			</foreach>

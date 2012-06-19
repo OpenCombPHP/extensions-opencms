@@ -3,24 +3,24 @@
 <form method="post" enctype="multipart/form-data">
 	<div class="coresystem-form-title">
 		<span>文章标题</span>
-		<widget id="article_title" />
+		<widget id="article_title" type='text' title='文章标题' exchange='title' v.max='255' v.min='2'/>
 	</div>
 	<div class="coresystem-form-titleother">
-		<widget id="article_title_bold" /> 
-		<widget id="article_title_italic" /> 
-		<widget id="article_title_strikethrough" /> 
-		<label>颜色: <widget id="article_title_color"/></label> 
+		<widget id="article_title_bold" type='checkbox' title='标题加粗' exchange='title_bold'/> 
+		<widget id="article_title_italic" type='checkbox' title='标题斜体' exchange='title_italic'/> 
+		<widget id="article_title_strikethrough" type='checkbox' title='标题删除线' exchange='title_strikethrough'/> 
+		<label>颜色: <widget id="article_title_color" type='text' title='标题颜色' exchange='title_color'/></label> 
 		<div id='article_color_selecter'></div>
 	</div>
-	<label><div class="coresystem-form-url"><span>文章链接 </span><widget id="article_url" /></div></label>
-	<label><div class="coresystem-form-select"><span>所属分类</span><widget id="article_cat" /></div></label>
-	<label><div class="coresystem-form-article"><!--<span>文章内容</span>--><widget id="article_content" /></div></label>
-	<if "$theModel->child('attachments')->childrenCount() > 0 and get_class($theController) == 'org\opencomb\opencms\article\EditArticle'">
+	<label><div class="coresystem-form-url"><span>文章链接 </span><widget id="article_url" type='text' title='文章链接' exchange='url'/></div></label>
+	<label><div class="coresystem-form-select"><span>所属分类</span><widget id="article_cat" type='select' title='所属分类' exchange='cid'/></div></label>
+	<label><div class="coresystem-form-article"><!--<span>文章内容</span>--><widget id="article_content" type='richText' title='文章内容' configuration='toolbar:"Full"' exchange='text'/></div></label>
+	<if "$theModel['attachments'] > 0 and get_class($theController) == 'org\opencomb\opencms\article\EditArticle'">
 		<div class='article_exist_files_list'>
 			<span>已有附件:</span>
 			<!-- 已上传文件的容器 -->
 			{?$nAttaMaxIndex=0}
-			<foreach for='$theModel->child("attachments")' item='aAttaModel'>
+			<foreach for='$theModel["attachments"]' item='aAttaModel'>
 				<div class='article_exist_file'>
 					<a href='{=$theController->getAttachmentUrl($aAttaModel)}'>{=$aAttaModel['orginname']}</a>
 					{=$theController->getAttachmentSize($aAttaModel)}

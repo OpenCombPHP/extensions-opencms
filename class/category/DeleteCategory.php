@@ -1,37 +1,26 @@
 <?php
 namespace org\opencomb\opencms\category;
 
-use org\jecat\framework\mvc\model\db\Category;
+use org\jecat\framework\mvc\model\Model;
+
+use org\jecat\framework\mvc\model\Category;
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
 class DeleteCategory extends ControlPanel
 {
-	public function createBeanConfig()
-	{
-		return array(
-			'title'=>'删除分类',
-			'view'=>array(
-				'template'=>'DeleteCategory.html',
-				'class'=>'view'
-			),
-			'model:category'=>array(
-				'class'=>'model',
-				'orm'=>array(
-					'table'=>'opencms:category',
-				)
-			),
-			'model:article'=>array(
-				'class'=>'model',
-				'orm'=>array(
-					'table'=>'article'
-				)
-			),
-		);
-	}
+	protected $arrConfig = array(
+	        
+	        'title'=>'删除分类',
+	        'view'=>array(
+	                'template'=>'DeleteCategory.html',
+	                'class'=>'view'
+	        ),
+	) ;	
 	
 	public function process()
 	{
+	    $this->messageQueue ()->create ( Message::error, "未指定分类" );
 		//权限
 		$this->requirePurview('purview:admin_category','opencms',$this->params->get('cid'),'您没有这个分类的管理权限,无法继续浏览');
 		
@@ -51,25 +40,29 @@ class DeleteCategory extends ControlPanel
 			$this->messageQueue ()->create ( Message::error, "未指定栏目" );
 		}
 		
-		$this->location('/?c=org.opencomb.opencms.category.CategoryManage');
+		$this->location('?c=org.opencomb.opencms.category.CategoryManage');
 	}
 	
 	public function delCat($nCatIdToDelete)
 	{
-		if ($this->category->load( (int)$nCatIdToDelete , 'cid'))
+	    
+	    $categoryModel = Model::Create('opencms:category');
+	    $articlesModel = Model::Create('opencms:article');
+
+		if ($categoryModel->load( $nCatIdToDelete , 'cid') -> rowNum())
 		{
 			//保证正在删除的分类没有文章
-			if($this->article->load (array($this->category->data('cid')),array('cid'))){
+			if($articlesModel->load ($categoryModel['cid'],'cid') -> rowNum()){
 				$this->messageQueue ()->create ( Message::error, "栏目中有文章,请先转移文章再删除栏目" );
 				return;
 			}
-		
+			
 			//保证正在删除的分类没有子分类
-			if(Category::rightPoint($this->category) - Category::leftPoint($this->category) > 1){
+			if($categoryModel['rgt'] - $categoryModel['lft'] > 1){
 				$this->messageQueue ()->create ( Message::error, "栏目中有子栏目,请先转移子栏目再试" );
 				return;
 			}
-			$aCategory = new Category($this->category);
+			$aCategory = new Category($categoryModel);
 			$aCategory->delete();
 			$this->messageQueue ()->create ( Message::success, "删除栏目成功" );
 		}

@@ -37,6 +37,10 @@ class OpenCMS extends Extension
 			'org\\opencomb\\coresystem\\mvc\\controller\\ControlPanelFrame', 'frameView' , 'mainMenu'
 			, array(__CLASS__,'buildControlPanelMenu')
 		) ;
+		
+		
+		// 注册菜单build事件的处理函数
+		//ControlPanel::registerMenuHandler( array(__CLASS__,'buildControlPanelMenu') ) ;
 		Menu::registerBuildHandle(
 			'org\\opencomb\\coresystem\\mvc\\controller\\FrontFrame', 'frameView' , 'mainMenu'
 			, array(__CLASS__,'buildFrontFrameMenu')

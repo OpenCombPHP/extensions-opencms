@@ -38,22 +38,25 @@ class IndexManage extends ControlPanel
 		
 		
 		//准备分类信息
-		//Category::buildTree($aModel);
+		Category::buildTree($aModel);
 		
 		$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
-		//$aSetting = Extension::flyweight('opencms')->setting() ;
-		//$aSetting = Setting::flyweight('opencms') ;
 		
 		$arrTopLists = $aSetting->item('/index/toplist','toplist',array()) ;
 		
 		$this->view->variables()->set('arrTopLists',$arrTopLists) ;
-		$this->view->setModel($aModel);
+		$this->view()->setModel($aModel);
 		
-		$this->doActions();
 	}
 	
-	public function actionSubmit()
+	public function form()
 	{
+	    
+	    $aModel = Model::Create('opencms:category')
+	    ->limit(20)
+	    ->load() ;
+	    
+	    
 		$arrTopLists = array();
 		foreach( $this->params->get('cat') as $sCid => $arrTopList){
 			if(isset($arrTopList['index_new']) || isset($arrTopList['index_hot'])){
@@ -64,7 +67,8 @@ class IndexManage extends ControlPanel
 		$aSetting->setItem('/index/toplist','toplist',$arrTopLists) ;
 			
 		$this->view->variables()->set('arrTopLists',$arrTopLists) ;
-			
+		
+		$this->view()->setModel($aModel);
 		$this->messageQueue ()->create(Message::success,"首页设置保存成功");
 	}
 }

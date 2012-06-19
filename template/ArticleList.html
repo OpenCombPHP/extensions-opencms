@@ -12,16 +12,7 @@
 			<model:foreach>
 			<tr>
 				<td>
-				{#?
-					$sStyle = '';
-					$sStyle.=$theModel['title_bold']==1 ? 'font-weight: bold;' : '';
-					$sStyle.=$theModel['title_italic']==1 ? 'font-style: italic;' : '';
-					$sStyle.=$theModel['title_strikethrough']==1 ? 'text-decoration:line-through;' : '';
-					$sStyle.=$theModel['title_color']!='' ? 'color:'.$theModel['title_color'].';' : '';
-					$sUrl= empty($theModel['url']) ? "/?c=org.opencomb.opencms.article.ArticleContent&aid={$theModel['aid']}" : $theModel['url'];
-					$sUrl.='&cid='.$theModel["cid"];
-				#}
-					<a href="{=$sUrl}" style="{=$sStyle}">
+					<a href="?c=org.opencomb.opencms.article.ArticleContent&aid={=$theModel['aid']}" >
 						<data>title</data>
 					</a>
 				</td>

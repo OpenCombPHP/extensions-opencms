@@ -1,31 +1,22 @@
 <?php
 namespace org\opencomb\opencms\menu;
 
+use org\jecat\framework\mvc\model\Model;
+
 use org\opencomb\coresystem\auth\PurviewQuery;
-use org\jecat\framework\mvc\model\db\Category;
+use org\jecat\framework\mvc\model\Category;
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 use org\jecat\framework\system\Application;
 
 class MenuManage extends ControlPanel
 {
-	public function createBeanConfig()
-	{
-		return array(
+	protected $arrConfig = array(
 			'title'=>'菜单管理',
 			'view'=>array(
 				'template' => 'MenuManage.html',
-				'class' => 'form',
+				'class' => 'view',
 				'model' => 'categoryTree',
-			),
-			'model:categoryTree'=>array(
-				'class'=>'model',
-				'list'=>true,
-				'orm'=>array(
-					'limit'=>-1,
-					'table'=>'opencms:category',
-					'name'=>'category',
-				)
 			),
 			'perms' => array(
 					// 权限类型的许可
@@ -34,31 +25,50 @@ class MenuManage extends ControlPanel
 							'target'=>PurviewQuery::all
 					) ,
 			) ,
-		);
-	}
+	) ;	
+	
 	
 	public function process()
 	{
 		$this->checkPermissions('您没有这个功能的权限,无法继续浏览',array()) ;
+		
+		$categoryModel = Model::Create('opencms:category');
+		$articlesModel = Model::Create('opencms:article') ;
+		
 		//准备分类信息
-		$this->categoryTree->load();
-		Category::buildTree($this->categoryTree);
+		$categoryModel->load();
+		Category::buildTree($categoryModel);
 		
 		$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
 		$arrMenus = $aSetting->item('/menu/mainmenu','mainmenu',array()) ;
 		
+		$this->view()->setModel($categoryModel);
 		$this->view->variables()->set('arrMenus',$arrMenus) ;
 		
-		$this->doActions();
 	}
 	
-	public function actionSubmit()
+	public function form()
 	{
+	    
+	    $categoryModel = Model::Create('opencms:category');
+	    
+	    //准备分类信息
+	    $categoryModel->load();
+	    Category::buildTree($categoryModel);
+	    
 		$arrMenus = array();
 		foreach( $this->params->get('cat') as $sCid => $arrMenu){
 			if(isset($arrMenu['mainmenu'])){
 				
-				$aCatModel = $this->categoryTree->findChildBy($sCid,"cid");
+			    
+			    foreach ($categoryModel as $o)
+			    {
+			        if($o['cid'] == $sCid)
+			        {
+			            $aCatModel = $categoryModel->alone();
+			        }
+			    }
+			    
 				
 				$arrMenus[ 'item:'.(int)$sCid ] = array(
 						'title'=>$aCatModel->data('title'),
@@ -79,7 +89,8 @@ class MenuManage extends ControlPanel
 		$aSetting->setItem('/menu/mainmenu','mainmenu',$arrMenus) ;
 			
 		$this->view->variables()->set('arrMenus',$arrMenus) ;
-			
+		
+		$this->view()->setModel($categoryModel);
 		$this->messageQueue ()->create(Message::success,"菜单列表设置保存成功");
 	}
 }
