@@ -1,11 +1,19 @@
 <?php
 namespace org\opencomb\opencms\category;
 
+
+
 use org\jecat\framework\mvc\model\Model;
+
 use org\jecat\framework\mvc\model\Category;
+
 use org\jecat\framework\mvc\view\DataExchanger;
+
 use org\jecat\framework\message\Message;
+
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
+
+
 
 class EditCategory extends ControlPanel
 {
@@ -19,16 +27,19 @@ class EditCategory extends ControlPanel
 	
 	public function process()
 	{
-		//权限
+		//权限验证
 		$this->requirePurview('purview:admin_category','opencms',$this->params->get('cid'),'您没有这个分类的管理权限,无法继续浏览');
 		
+		//创建一个新MODEL
 		$categoryModel = Model::Create('opencms:category');
 		
-		//准备分类信息
+		//载入这个MODEL的所有信息
 		$categoryModel->load();
 		
+		//针对这个MODEL的信息进行树结构整理
 		Category::buildTree($categoryModel);
 		
+		//拿到一个下拉菜单控件，并增加选项
 		$aCatSelectWidget = $this->view->widget("category_parent");
 		$aCatSelectWidget->addOption("顶级分类",null,true);
 		foreach($categoryModel as $aCat)
@@ -45,9 +56,9 @@ class EditCategory extends ControlPanel
 		    
 		    foreach ($categoryModel as $o)
 		    {
-		        if($o['cid'] == $this->params->has("cid"))
+		        if($o['cid'] == $this->params->get("cid"))
 		        {
-		            $categoryModel_now = $categoryModel->alone();
+			   $categoryModel_now = $categoryModel->alone();	//当前需要修改的那条内容
 		        }
 		    }
 		    $aParentCategory = $this->parentCategory($categoryModel_now , $categoryModel);
@@ -61,6 +72,8 @@ class EditCategory extends ControlPanel
 		$this->view->variables()->set('sPageTitle','编辑栏目') ;
 		
 		$this->view()->setModel($categoryModel_now);
+
+		//数据交换
 		$this->view->update();
 		
 		//还原父分类选单的值,如果有父分类
@@ -68,6 +81,8 @@ class EditCategory extends ControlPanel
 		    $aCatSelectWidget->setValue($aParentCategory->cid.":".$aParentCategory->rgt) ;
 		}
 		
+        //根据访问参数a=，自动加载其他action
+		$this->doActions();
 	}
 	
 	public function form()
@@ -88,15 +103,20 @@ class EditCategory extends ControlPanel
 		}
 		
 		//得到父分类的改变,如果改变了,就改变分类的排序
+
 		$arrNewParent = explode(":",$this->params->get("category_parent")); //数组第一个元素是cid,第2个是rgt
 		$aParentCategory = $this->parentCategory($categoryModel_now , $categoryModel);
 		
 		if((!$aParentCategory and $arrNewParent[0] != 0)
+
 				|| ($aParentCategory and $aParentCategory->cid != $arrNewParent[0])){
+
 			$aCategory = new Category($categoryModel_now);
 			
 			$aCategory->insertCategoryToPoint($arrNewParent[0]==0 ? Category::end : $arrNewParent[1]);
+
 		}
+
 		if ($categoryModel->update(
 		        array(
 		                'title'=>$this->params['category_title'],
@@ -104,6 +124,7 @@ class EditCategory extends ControlPanel
                 ),
 		        "cid = '{$this->params['cid']}'" 
         ))
+
 		{
 		    $this->location('?c=org.opencomb.opencms.category.CategoryManage');
 		}
@@ -111,9 +132,6 @@ class EditCategory extends ControlPanel
 		{
 			$this->messageQueue ()->create ( Message::error, "栏目保存失败" );
 		}
-		// 				DB::singleton()->executeLog();
-		
-		
 	}
 	
 	/**
@@ -139,3 +157,4 @@ class EditCategory extends ControlPanel
 		return $aParent;
 	}
 }
+

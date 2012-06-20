@@ -14,8 +14,6 @@ class ArticleList extends Controller
 	        
 			'title'=>'文章列表',
 
-			//'frame' => array('config'=>'opencms:article-frame') ,
-				
 			'view'=>array(
 				'template'=>'ArticleList.html',
 				'widget:paginator' => array(
@@ -39,12 +37,9 @@ class ArticleList extends Controller
 	{
 		if($this->params->has("cid")){
 		    
-		    
 		    $categoryModel = Model::Create('opencms:category');
 		    $articlesModel = Model::Create('opencms:article') -> hasOne('opencms:category','cid','cid');
 		    
-		    
-		    /*
 		    //页面显示结果数,默认20
 		    if($this->params->get("limit"))
 		    {
@@ -57,18 +52,18 @@ class ArticleList extends Controller
 		    }else{
 		        $articlesModel->order('createTime',true);
 		    }
-		    */
+		    
 			//准备分类信息
 			if(!$categoryModel->load($this->params->get("cid"),'cid')){
 				$this->messageQueue ()->create ( Message::error, "无效的分类编号" );
 			}
-			/*
-			$this->setTitle($categoryModel->data('title') . " - " . $this->title());
 			
-			$articlesModel->where("`category.lft` >='{$categoryModel->data('lft')}'");
-			$articlesModel->where("`category.lft` <='{$categoryModel->data('rgt')}'");
-			$articlesModel->where("`category.rgt` >='{$categoryModel->data('lft')}'");
-			$articlesModel->where("`category.rgt` <='{$categoryModel->data('rgt')}'");
+			$this->setTitle($categoryModel->data('title') . " - " . $this->title());
+
+			$articlesModel->where("`category`.`lft` >='{$categoryModel->data('lft')}'");
+			$articlesModel->where("`category`.`lft` <='{$categoryModel->data('rgt')}'");
+			$articlesModel->where("`category`.`rgt` >='{$categoryModel->data('lft')}'");
+			$articlesModel->where("`category`.`rgt` <='{$categoryModel->data('rgt')}'");
 			$articlesModel->load();
 			
 			$this->view()->setModel($articlesModel);
@@ -78,7 +73,7 @@ class ArticleList extends Controller
 			
 			//面包屑
 			//$this->params()->set('aBreadcrumbNavigation' , Category::getParents($this->category)) ;
-			*/
+			
 		}else{
 			$this->messageQueue ()->create ( Message::error, "未指定分类" );
 		}
