@@ -91,13 +91,13 @@ class EditArticle extends ControlPanel
 		foreach( $articlesModel['attachment'] as $aAttaModel)
 		{
 			//是否删除已有附件
-			if( in_array( (string)$aAttaModel['index'] , $arrExistFileDelete ) )
+			if( in_array( (string)$aAttaModel['attachment.index'] , $arrExistFileDelete ) )
 			{
-				$arrFilesToDelete[] = $aAttaModel['storepath'];
-				$aAttaModel->delete();
+				$arrFilesToDelete[] = $aAttaModel['attachment.storepath'];
+				$articlesModel->delete("fid = '{$aAttaModel['attachment.fid']}'",null,null,'attachment');
 			}else{
 				//是否显示在附件列表中
-				if(in_array( (string)$aAttaModel['index'] , $arrExistFileList ))
+				if(in_array( (string)$aAttaModel['attachment.index'] , $arrExistFileList ))
 				{
 					$articlesModel->update(array('displayInList'=>'1') , "fid = '{$aAttaModel['attachment.fid']}'" , 'attachment');
 				}else{
@@ -109,7 +109,7 @@ class EditArticle extends ControlPanel
 		/* end 已经存在的附件的处理*/
 	
 		/* 新附件的处理*/
-		/*
+		
 		if($this->params->has('article_files'))
 		{
 			$arrArticleFiles = $this->params->get('article_files');
@@ -121,7 +121,7 @@ class EditArticle extends ControlPanel
 			$aStoreFolder = Extension::flyweight('opencms')->FilesFolder();
 			$aAchiveStrategy = DateAchiveStrategy::flyweight ( Array (true, true, true ) );
 				
-				
+			
 			foreach($arrArticleFiles['name'] as $nKey=>$sFileName)
 			{
 				$sFileTempName = $arrArticleFiles['tmp_name'][$nKey];
@@ -168,25 +168,23 @@ class EditArticle extends ControlPanel
 	
 				$arrIndexs = explode(',', $this->params->get('article_files_index'));
 	
-				
 				$newAttachment = array(
-				        array(
-				                'attachment.orginname'=>$sFileName,
-				                'attachment.storepath'=>$sSavedFileRelativePath,
-				                'attachment.size'=>$sFileSize,
-				                'attachment.type'=>$sFileType,
-				                'attachment.index'=>$arrIndexs[$nKey],
-		                )
+		                'orginname'=>$sFileName,
+		                'storepath'=>$sSavedFileRelativePath,
+		                'size'=>$sFileSize,
+		                'type'=>$sFileType,
+		                'index'=>$arrIndexs[$nKey],
+		                'aid'=>$articlesModel['aid'],
 				);
 				
 				if(!in_array((string)( $arrIndexs[$nKey]), $arrArticleFilesList))
 				{
-					$aArticles['displayInList'] = 0;
+					$newAttachment['displayInList'] = 0;
 				}
-				
-				$aArticles[] = $newAttachment;
+		        
+		        Model::create("opencms:attachment")->insert($newAttachment);
 			}
-		}*/
+		}
 		/* end 新附件的处理*/
 		
 		$this->view()->setModel($articlesModel);

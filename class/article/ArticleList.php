@@ -44,6 +44,7 @@ class ArticleList extends Controller
 		    $articlesModel = Model::Create('opencms:article') -> hasOne('opencms:category','cid','cid');
 		    
 		    
+		    /*
 		    //页面显示结果数,默认20
 		    if($this->params->get("limit"))
 		    {
@@ -56,34 +57,28 @@ class ArticleList extends Controller
 		    }else{
 		        $articlesModel->order('createTime',true);
 		    }
-		    
-		    
-		    
+		    */
 			//准备分类信息
 			if(!$categoryModel->load($this->params->get("cid"),'cid')){
 				$this->messageQueue ()->create ( Message::error, "无效的分类编号" );
 			}
-			
-			
-			
+			/*
 			$this->setTitle($categoryModel->data('title') . " - " . $this->title());
 			
-			
-			$articlesModel->where("category.lft>='{$categoryModel->data('lft')}'");
-			$articlesModel->where("category.lft<='{$categoryModel->data('rgt')}'");
-			$articlesModel->where("category.rgt>='{$categoryModel->data('lft')}'");
-			$articlesModel->where("category.rgt<='{$categoryModel->data('rgt')}'");
+			$articlesModel->where("`category.lft` >='{$categoryModel->data('lft')}'");
+			$articlesModel->where("`category.lft` <='{$categoryModel->data('rgt')}'");
+			$articlesModel->where("`category.rgt` >='{$categoryModel->data('lft')}'");
+			$articlesModel->where("`category.rgt` <='{$categoryModel->data('rgt')}'");
 			$articlesModel->load();
 			
 			$this->view()->setModel($articlesModel);
-			
 			
 			//把cid传给frame
 			$this->params()->set('cid',$this->params->get("cid"));
 			
 			//面包屑
 			//$this->params()->set('aBreadcrumbNavigation' , Category::getParents($this->category)) ;
-			
+			*/
 		}else{
 			$this->messageQueue ()->create ( Message::error, "未指定分类" );
 		}

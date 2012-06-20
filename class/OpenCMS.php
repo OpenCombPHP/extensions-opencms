@@ -3,6 +3,8 @@ namespace org\opencomb\opencms;
 
 // use org\jecat\framework\auth\PurviewManager;
 
+use org\opencomb\coresystem\mvc\controller\ControlPanel;
+
 use org\opencomb\platform\mvc\view\widget\Menu;
 use org\jecat\framework\system\AccessRouter;
 use org\opencomb\platform\ext\Extension;
@@ -33,18 +35,10 @@ class OpenCMS extends Extension
 		$aAccessRouter->setDefaultController("org\\opencomb\\opencms\\index\\Index") ;
 		
 		// 注册菜单build事件的处理函数
-		Menu::registerBuildHandle(
-			'org\\opencomb\\coresystem\\mvc\\controller\\ControlPanelFrame', 'frameView' , 'mainMenu'
-			, array(__CLASS__,'buildControlPanelMenu')
-		) ;
-		
+		ControlPanel::registerMenuHandler( array(__CLASS__,'buildControlPanelMenu') ) ;
 		
 		// 注册菜单build事件的处理函数
-		//ControlPanel::registerMenuHandler( array(__CLASS__,'buildControlPanelMenu') ) ;
-		Menu::registerBuildHandle(
-			'org\\opencomb\\coresystem\\mvc\\controller\\FrontFrame', 'frameView' , 'mainMenu'
-			, array(__CLASS__,'buildFrontFrameMenu')
-		) ;
+		ControlPanel::registerMenuHandler( array(__CLASS__,'buildFrontFrameMenu') ) ;
 	}
 
 	static public function buildControlPanelMenu(array & $arrConfig)
