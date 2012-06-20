@@ -3,6 +3,7 @@
 
 	<name>opencms</name>
 	<version>0.1</version>
+	<dataVersion>0.1</dataVersion>
 	<title>内容管理系统</title>
 
 	<description>
