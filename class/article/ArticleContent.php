@@ -18,7 +18,7 @@ class ArticleContent extends Controller
 	        'view'=>array(
 	                'template'=>'ArticleContent.html',
 	        ),
-	        //'frame' => array('config'=>'opencms:article-frame') ,
+	       'frame' => array('config'=>'opencms:article-frame') ,
 	) ;	
 	
 	public function process()
