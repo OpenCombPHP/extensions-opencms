@@ -52,8 +52,9 @@ class ArticleContent extends Controller
 		
 		
 		$categoryModel = Model::create('opencms:category');
-		if( ! $categoryModel->load( $articleModel->data('cid') , 'cid')){
+		if( $categoryModel->load( $articleModel->data('cid') , 'cid')->rowNum() == 0 ){
 			$this->messageQueue ()->create ( Message::error, "错误的栏目编号" );
+			return;
 		}
 		
 		$aParentsModelList = Category::getParents($categoryModel);
