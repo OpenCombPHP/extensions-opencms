@@ -33,9 +33,7 @@ class IndexManage extends ControlPanel
 		$this->checkPermissions('您没有这个功能的权限,无法继续浏览',array()) ;
 		
 		$aModel = Model::Create('opencms:category')
-		->limit(20)
 		->load() ;
-		
 		
 		//准备分类信息
 		Category::buildTree($aModel);
@@ -43,10 +41,10 @@ class IndexManage extends ControlPanel
 		$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
 		
 		$arrTopLists = $aSetting->item('/index/toplist','toplist',array()) ;
-		
 		$this->view->variables()->set('arrTopLists',$arrTopLists) ;
 		$this->view()->setModel($aModel);
 		
+		$this->doActions();
 	}
 	
 	public function form()
@@ -58,12 +56,15 @@ class IndexManage extends ControlPanel
 	    
 	    
 		$arrTopLists = array();
+		
 		foreach( $this->params->get('cat') as $sCid => $arrTopList){
+		    
 			if(isset($arrTopList['index_new']) || isset($arrTopList['index_hot'])){
 				$arrTopLists[ (int)$sCid ] = $arrTopList;
 			}
 		}
 		$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
+		
 		$aSetting->setItem('/index/toplist','toplist',$arrTopLists) ;
 			
 		$this->view->variables()->set('arrTopLists',$arrTopLists) ;

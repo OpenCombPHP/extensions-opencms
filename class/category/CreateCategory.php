@@ -50,6 +50,7 @@ class CreateCategory extends ControlPanel
 		
 		$this->view->variables()->set('sPageTitle','新建栏目') ;
 		
+		$this->doActions();
 	}
 	
 	public function form()
@@ -69,7 +70,6 @@ class CreateCategory extends ControlPanel
 			//添加子栏目
 			$aCategory->insertCategoryToPoint((int)$target[1]);
 		}
-		// 					$this->view->hideForm ();
-		$this->messageQueue ()->create ( Message::success, "栏目保存成功" );
+		$this->location('?c=org.opencomb.opencms.category.CategoryManage');
 	}
 }
