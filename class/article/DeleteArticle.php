@@ -19,11 +19,12 @@ class DeleteArticle extends ControlPanel
 	
 	public function process()
 	{
+	    
+	    $articlesModel = Model::Create('opencms:article') -> hasMany('opencms:attachment','aid','aid');
+	    
+	    
 		//权限
 		$this->requirePurview('purview:admin_category','opencms',$articlesModel->cid,'您没有这个分类的管理权限,无法继续浏览');
-		
-		
-		$articlesModel = Model::Create('opencms:article') -> hasMany('opencms:attachment','aid','aid');
 		
 		
 		
@@ -42,9 +43,12 @@ class DeleteArticle extends ControlPanel
 			}
 			$sSql.=  " )";
 			
+			$articlesModel->where($sSql);
+			$articlesModel->load ();
+			
 			//删除附件
 			$arrFilePaths = array();
-			foreach($articlesModel['attachments'] as $aAttaModel)
+			foreach($articlesModel['attachment'] as $aAttaModel)
 			{
 				$arrFilePaths[] = $aAttaModel['storepath'];
 			}

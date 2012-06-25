@@ -7,7 +7,7 @@
 				<option value='0'>全部</option>
 				<foreach for='$aCatIter' item="aCatModel">
 				<option value='{=$aCatModel['cid']}' {=$theParams->get('cid')==$aCatModel['cid'] ? "selected":''}>
-					{=str_repeat("-", \org\jecat\framework\mvc\model\Category::depth($aCatModel))}
+					{=str_repeat("-", \org\jecat\framework\mvc\model\Category::depth($aCatIter))}
 					{=$aCatModel['title']}
 				</option>
 				</foreach>

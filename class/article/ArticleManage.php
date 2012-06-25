@@ -34,8 +34,7 @@ class ArticleManage extends ControlPanel
 		$categoryModel = Model::Create('opencms:category');
 		
 		$articlesModel = Model::Create('opencms:article')
-		->belongsTo('opencms:category','cid','cid');
-		
+		    ->belongsTo('opencms:category','cid','cid');
 		
 		if($this->params->get('cid'))
 		{
@@ -46,7 +45,8 @@ class ArticleManage extends ControlPanel
 		//准备分类信息
 		$categoryModel->load();
 		
-		//Category::buildTree($this->categoryTree);
+		
+		Category::buildTree($categoryModel);
 		$this->view->variables ()->set ( 'aCatIter', $categoryModel );
 		
 		//搜索文章用的title模糊检索
@@ -56,8 +56,9 @@ class ArticleManage extends ControlPanel
 		}
 		$articlesModel->load ();
 		
+		
 // 		DB::singleton()->executeLog();
 		
-		$this->view->variables()->set('aArtIter',$this->articles->childIterator()) ;
+		$this->view->variables()->set('aArtIter',$articlesModel) ;
 	}
 }

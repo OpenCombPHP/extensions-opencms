@@ -47,6 +47,7 @@ class CreateArticle extends ControlPanel
 		$this->view->variables()->set('page_h1',"新建文章") ;
 		$this->view->variables()->set('save_button',"发布文章") ;
 		
+		$this->doActions();
 	}
 	
 	public function form()
