@@ -1,7 +1,7 @@
 <div id='articleContent'>
 	<msgqueue for="$theController->messageQueue()" />
 	
-	<h1 class="article_title">{=$article['title']}</h1>
+	<h1 class="article_title">{=$theModel['title']}</h1>
 	<div class="article_createTime">{=date("Y年m月d日 H:m:s", $theModel['createTime'])}</div>
 	<div class="article_content">
 		{=$theController->getContentWithAttachmentUrl($theModel['text'] , $theModel['attachment'])}

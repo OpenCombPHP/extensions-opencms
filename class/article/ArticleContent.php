@@ -48,6 +48,7 @@ class ArticleContent extends Controller
 		//把cid传给frame
 		$this->params()->set('cid',$articleModel->data('cid'));
 		
+		
 		$this->view()->setModel($articleModel);
 		
 		
@@ -76,7 +77,7 @@ class ArticleContent extends Controller
 	static public function getContentWithAttachmentUrl( $sContent , $aAttachmentModel )
 	{
 		if(!$aAttachmentModel || $aAttachmentModel->rowNum() == 0){
-			return '';
+			return $sContent;
 		}
 		
 		foreach($aAttachmentModel as $aModel)
