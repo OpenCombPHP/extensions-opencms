@@ -73,6 +73,7 @@ class TopList extends Controller
 			$articleModel->load();
 		}
 		
+		$this->view()->setModel($articleModel);
 		$arrTimes = array();
 		foreach( $articleModel as $aChild){
 			$arrTimes[] = $aChild['createTime'];
