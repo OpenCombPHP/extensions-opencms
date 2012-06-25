@@ -18,7 +18,7 @@ class ArticleContent extends Controller
 	        'view'=>array(
 	                'template'=>'ArticleContent.html',
 	        ),
-	        //'frame' => array('config'=>'opencms:article-frame') ,
+	       'frame' => array('config'=>'opencms:article-frame') ,
 	) ;	
 	
 	public function process()
@@ -52,9 +52,10 @@ class ArticleContent extends Controller
 		
 		
 		$categoryModel = Model::create('opencms:category');
-		$categoryModel->load( $articleModel->data('cid') , 'cid');
-
-		
+		if( $categoryModel->load( $articleModel->data('cid') , 'cid')->rowNum() == 0 ){
+			$this->messageQueue ()->create ( Message::error, "错误的栏目编号" );
+			return;
+		}
 		$aParentsModelList = Category::getParents($categoryModel);
 		$arrModels = array();
 		foreach($aParentsModelList as $aModel)
@@ -65,8 +66,6 @@ class ArticleContent extends Controller
 		
 		//面包屑
 		$this->params()->set('aBreadcrumbNavigation' , $arrModels) ;
-		
-		
 	}
 	
 	static public function getHttpUrl($sFilePath)
@@ -76,6 +75,10 @@ class ArticleContent extends Controller
 	
 	static public function getContentWithAttachmentUrl( $sContent , $aAttachmentModel )
 	{
+		if(!$aAttachmentModel || $aAttachmentModel->rowNum() == 0){
+			return '';
+		}
+		
 		foreach($aAttachmentModel as $aModel)
 		{
 			$sReplace = '';
