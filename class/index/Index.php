@@ -1,9 +1,9 @@
 <?php
 namespace org\opencomb\opencms\index;
 
-use org\opencomb\opencms\article\TopList;
-
 use org\opencomb\coresystem\mvc\controller\Controller;
+use org\opencomb\opencms\article\TopList;
+// use org\opencomb\coresystem\mvc\controller\Controller;
 use org\jecat\framework\system\Application;
 
 class Index extends Controller

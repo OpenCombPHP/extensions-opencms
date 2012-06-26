@@ -3,8 +3,8 @@ namespace org\opencomb\opencms;
 
 // use org\jecat\framework\auth\PurviewManager;
 
+use org\opencomb\coresystem\mvc\controller\Controller;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
-
 use org\opencomb\platform\mvc\view\widget\Menu;
 use org\jecat\framework\system\AccessRouter;
 use org\opencomb\platform\ext\Extension;
@@ -38,7 +38,7 @@ class OpenCMS extends Extension
 		ControlPanel::registerMenuHandler( array(__CLASS__,'buildControlPanelMenu') ) ;
 		
 		// 注册菜单build事件的处理函数
-		ControlPanel::registerMenuHandler( array(__CLASS__,'buildFrontFrameMenu') ) ;
+		Controller::registerMenuHandler( array(__CLASS__,'buildFrontFrameMenu') ) ;
 	}
 
 	static public function buildControlPanelMenu(array & $arrConfig)
@@ -54,8 +54,8 @@ class OpenCMS extends Extension
 		// 调用原始原始函数
 		$aSetting = \org\jecat\framework\system\Application::singleton()->extensions()->extension('opencms')->setting() ;
 		$arrMenus = $aSetting->item('/menu/mainmenu','mainmenu',array()) ;
-		
 		// 合并配置数组，增加菜单
-		BeanFactory::mergeConfig( $arrConfig, $arrMenus ) ;
+		$arrConfig = array();
+		BeanFactory::mergeConfig( $arrConfig , $arrMenus ) ;
 	}
 }
