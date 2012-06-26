@@ -13,7 +13,7 @@
 		<div id='article_color_selecter'></div>
 	</div>
 	<label><div class="coresystem-form-url"><span>文章链接 </span><widget id="article_url" type='text' title='文章链接' exchange='url'/></div></label>
-	<label><div class="coresystem-form-select"><span>所属分类</span><widget id="article_cat" type='select' title='所属分类' exchange='cid'/></div></label>
+	<label><div class="coresystem-form-select"><span>所属分类</span><widget id="article_cat" type='select' title='所属分类' exchange='cid' v.notempty="on"/></div></label>
 	<label><div class="coresystem-form-article"><!--<span>文章内容</span>--><widget id="article_content" type='richText' title='文章内容' configuration='toolbar:"Full"' exchange='text'/></div></label>
 	<if "$theModel['attachments'] > 0 and get_class($theController) == 'org\opencomb\opencms\article\EditArticle'">
 		<div class='article_exist_files_list'>

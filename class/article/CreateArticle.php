@@ -142,14 +142,13 @@ class CreateArticle extends ControlPanel
 		}
 		/*           end 处理附件             */
 
-		
+		$articlesModel->setData("createTime", time());
 		$this->view()->setModel($articlesModel);
 		$this->view()->fetch();
 		
 		
 		if ($articlesModel->insert())
 		{
-			// 					$this->view->hideForm ();
 			$this->messageQueue ()->create ( Message::success, "文章保存成功" );
 		}
 		else
