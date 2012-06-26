@@ -2,11 +2,8 @@
 namespace org\opencomb\opencms\index;
 
 use org\jecat\framework\setting\Setting;
-
 use org\jecat\framework\mvc\model\Category;
-
 use org\jecat\framework\mvc\model\Model;
-
 use org\opencomb\coresystem\auth\PurviewQuery;
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
