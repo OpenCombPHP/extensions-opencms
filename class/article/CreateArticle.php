@@ -15,7 +15,6 @@ use org\opencomb\coresystem\mvc\controller\ControlPanel;
 class CreateArticle extends ControlPanel
 {
 	protected $arrConfig = array(
-	        
 	        'title'=>'新建文章',
 	        'view'=>array(
 	                'template'=>'ArticleForm.html',
