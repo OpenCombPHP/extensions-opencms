@@ -10,7 +10,7 @@ class Index extends Controller
 {
 	protected $arrConfig = array(
 		'title'=>'登录',
-	) ;	
+	) ;
 
 	public function process()
 	{
