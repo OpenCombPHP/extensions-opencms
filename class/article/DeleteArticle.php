@@ -13,7 +13,6 @@ class DeleteArticle extends ControlPanel
 			'title'=>'删除文章',
 			'view'=>array(
 				'template'=>'DeleteArticle.html',
-				'class'=>'view'
 			),
 	) ;	
 	
@@ -24,9 +23,7 @@ class DeleteArticle extends ControlPanel
 	    
 	    
 		//权限
-		$this->requirePurview('purview:admin_category','opencms',$articlesModel->cid,'您没有这个分类的管理权限,无法继续浏览');
-		
-		
+		//$this->requirePurview('purview:admin_category','opencms',$articlesModel->cid,'您没有这个分类的管理权限,无法继续浏览');
 		
 		//要删除哪些项?把这些项数组一起删除,如果只有一项,也把也要保证它是数组
 		if ($this->params->get ( "aid" ))
@@ -46,8 +43,15 @@ class DeleteArticle extends ControlPanel
 			$articlesModel->where($sSql);
 			$articlesModel->load ();
 			
+			
+			if ($articlesModel->rowNum()  == 0 ){
+			    $this->messageQueue ()->create ( Message::error, "文章不存在" );
+			    return false;
+			}
+			
 			//删除附件
 			$arrFilePaths = array();
+			
 			foreach($articlesModel['attachment'] as $aAttaModel)
 			{
 				$arrFilePaths[] = $aAttaModel['storepath'];
@@ -65,8 +69,6 @@ class DeleteArticle extends ControlPanel
 		}else{
 			$this->messageQueue ()->create ( Message::error, "未指定文章" );
 		}
-		
-		$this->location('/?c=org.opencomb.opencms.article.ArticleManage');
 	}
 	
 	/**
