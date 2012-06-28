@@ -196,6 +196,7 @@ class EditArticle extends ControlPanel
 			DeleteArticle::deleteAttachments($arrFilesToDelete);
 			// 					$this->view->hideForm ();
 			$this->messageQueue ()->create ( Message::success, "文章保存成功" );
+			$this->location('?c=org.opencomb.opencms.article.ArticleManage');
 		}
 		else
 		{

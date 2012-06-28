@@ -61,10 +61,12 @@ class DeleteArticle extends ControlPanel
 			{
 				$this->deleteAttachments($arrFilePaths);
 				$this->messageQueue ()->create ( Message::success, "删除文章成功" );
+			    $this->location('?c=org.opencomb.opencms.article.ArticleManage');
 			}
 			else
 			{
 				$this->messageQueue ()->create ( Message::error, "删除文章失败" );
+			    $this->location('?c=org.opencomb.opencms.article.ArticleManage');
 			}
 		}else{
 			$this->messageQueue ()->create ( Message::error, "未指定文章" );

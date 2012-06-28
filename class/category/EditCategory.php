@@ -126,6 +126,7 @@ class EditCategory extends ControlPanel
         ))
 
 		{
+			$this->messageQueue ()->create ( Message::success, "栏目保存成功" );
 		    $this->location('?c=org.opencomb.opencms.category.CategoryManage');
 		}
 		else
