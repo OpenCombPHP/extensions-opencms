@@ -74,9 +74,9 @@ class ArticleContent extends Controller
 		return Extension::flyweight('opencms')->FilesFolder()->httpUrl() . $sFilePath;
 	}
 	
-	static public function getContentWithAttachmentUrl( $sContent , $aAttachmentModel )
+	static public function getContentWithAttachmentUrl( $sContent , Array $aAttachmentModel )
 	{
-		if(!$aAttachmentModel || $aAttachmentModel->rowNum() == 0){
+		if(count($aAttachmentModel) == 0){
 			return $sContent;
 		}
 		
