@@ -6,7 +6,7 @@
 	<ul class='topList_titles' >
 		<model:foreach>
 		<li>
-			<span>{=date("Y年m月d日", $theModel['createTime'])}</span>
+			<span>{=date("n.j", $theModel['createTime'])}</span>
 			{#?
 				$sStyle = '';
 				$sStyle.=$theModel['title_bold']==1 ? 'font-weight: bold;' : '';
