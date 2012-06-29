@@ -55,7 +55,7 @@ class ArticleContent extends Controller
 		$categoryModel = Model::create('opencms:category');
 		if( $categoryModel->load( $articleModel->data('cid') , 'cid')->rowNum() == 0 ){
 			$this->messageQueue ()->create ( Message::error, "错误的栏目编号" );
-			return;
+			return false;
 		}
 		$aParentsModelList = Category::getParents($categoryModel);
 		$arrModels = array();
@@ -74,9 +74,9 @@ class ArticleContent extends Controller
 		return Extension::flyweight('opencms')->FilesFolder()->httpUrl() . $sFilePath;
 	}
 	
-	static public function getContentWithAttachmentUrl( $sContent , Array $aAttachmentModel )
+	static public function getContentWithAttachmentUrl( $sContent , $aAttachmentModel )
 	{
-		if(count($aAttachmentModel) == 0){
+		if(!is_array($aAttachmentModel) || count($aAttachmentModel) == 0){
 			return $sContent;
 		}
 		
