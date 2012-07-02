@@ -7,7 +7,7 @@
 		{=$theController->getContentWithAttachmentUrl($theModel['text'] , $theModel['attachment'])}
 	</div>
 	
-	<if "$attachment['attachment']">
+	<if "$theModel['attachment']">
 	<div class='article_attachment_list'>
 		<span>附件列表:</span>
 		<foreach for='$theModel["attachment"]' item='attachment'>
