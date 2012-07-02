@@ -15,12 +15,12 @@
 	<label><div class="coresystem-form-url"><span>文章链接 </span><widget id="article_url" type='text' title='文章链接' exchange='url'/></div></label>
 	<label><div class="coresystem-form-select"><span>所属分类</span><widget id="article_cat" type='select' title='所属分类' exchange='cid' v.notempty="on"/></div></label>
 	<label><div class="coresystem-form-article"><!--<span>文章内容</span>--><widget id="article_content" type='richText' title='文章内容' configuration='toolbar:"Full"' exchange='text'/></div></label>
-	<if "$theModel['attachments'] > 0 and get_class($theController) == 'org\opencomb\opencms\article\EditArticle'">
+	<if "$theModel['attachment'] > 0 and get_class($theController) == 'org\opencomb\opencms\article\EditArticle'">
 		<div class='article_exist_files_list'>
 			<span>已有附件:</span>
 			<!-- 已上传文件的容器 -->
 			{?$nAttaMaxIndex=0}
-			<foreach for='$theModel["attachments"]' item='aAttaModel'>
+			<foreach for='$theModel["attachment"]' item='aAttaModel'>
 				<div class='article_exist_file'>
 					<a href='{=$theController->getAttachmentUrl($aAttaModel)}'>{=$aAttaModel['orginname']}</a>
 					{=$theController->getAttachmentSize($aAttaModel)}

@@ -19,7 +19,7 @@ class DataInstaller implements IExtensionDataInstaller
 		
 		$aDB->execute( "CREATE TABLE IF NOT EXISTS `".$aDB->transTableName("opencms_article")."` (
   `aid` int(10) NOT NULL AUTO_INCREMENT,
-  `from` varchar(60) NOT NULL COMMENT '来源',
+  `from` varchar(60) NOT NULL DEFAULT '' COMMENT '来源',
   `cid` int(8) NOT NULL,
   `title` varchar(120) NOT NULL,
   `summary` varchar(255) NOT NULL,
@@ -35,8 +35,8 @@ class DataInstaller implements IExtensionDataInstaller
   `url` varchar(255) NOT NULL COMMENT '外站链接',
   PRIMARY KEY (`aid`),
   KEY `cid` (`cid`)
-) ENGINE=MyISAM AUTO_INCREMENT=121 DEFAULT CHARSET=utf8" );
-		$aMessageQueue->create(Message::success,'新建数据表： `%s` 成功',"opencms_article");
+) ENGINE=MyISAM AUTO_INCREMENT=122 DEFAULT CHARSET=utf8" );
+		$aMessageQueue->create(Message::success,'新建数据表： `%s` 成功',$aDB->transTableName('opencms_article') );
 		
 		
 		$aDB->execute( "CREATE TABLE IF NOT EXISTS `".$aDB->transTableName("opencms_attachment")."` (
@@ -50,7 +50,7 @@ class DataInstaller implements IExtensionDataInstaller
   `displayInList` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否显示在文章尾部的附件列表中',
   PRIMARY KEY (`fid`)
 ) ENGINE=MyISAM AUTO_INCREMENT=111 DEFAULT CHARSET=utf8" );
-		$aMessageQueue->create(Message::success,'新建数据表： `%s` 成功',"opencms_attachment");
+		$aMessageQueue->create(Message::success,'新建数据表： `%s` 成功',$aDB->transTableName('opencms_attachment') );
 		
 		
 		$aDB->execute( "CREATE TABLE IF NOT EXISTS `".$aDB->transTableName("opencms_category")."` (
@@ -62,69 +62,71 @@ class DataInstaller implements IExtensionDataInstaller
   PRIMARY KEY (`cid`),
   UNIQUE KEY `lft-rgt` (`lft`,`rgt`)
 ) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8" );
-		$aMessageQueue->create(Message::success,'新建数据表： `%s` 成功',"opencms_category");
+		$aMessageQueue->create(Message::success,'新建数据表： `%s` 成功',$aDB->transTableName('opencms_category') );
 		
 		
 		
-		// 2. insert table data$nDataRows = 0 ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_article` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8,@9,@10,@11,@12,@13,@14,@15) ", array("116","","3","5555555555555","","<p>
+		// 2. insert table data
+		$nDataRows = 0 ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_article") . '` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES ("116","","3","5555555555555","","<p>
 	555555555555555</p>
-","0","0","11","0","0","0","0","","") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_article` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8,@9,@10,@11,@12,@13,@14,@15) ", array("115","","3","444444444455555555","","<p>
+","0","0","3","0","0","0","0","","") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_article") . '` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES ("115","","3","444444444455555555","","<p>
 	444444444444444</p>
-","0","0","11","0","0","0","0","","") ) ;
-		$aMessageQueue->create(Message::success,'向数据表%s插入了%d行记录。',array("opencms_article",$nDataRows));
+","0","0","3","0","0","0","0","","") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_article") . '` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES ("121","","0","","","","0","0","3","0","0","0","0","#09C","") ') ;
+		$aMessageQueue->create(Message::success,'向数据表%s插入了%d行记录。',array($aDB->transTableName("opencms_article"),$nDataRows));
 			
 		$nDataRows = 0 ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("5","99",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("6","99",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("7","99",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("3","94","11","111","111","11","11","111") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("4","99",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("8","99",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("9","102",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("10","102",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("11","102",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("12","102",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("13","102",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("14","105",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("15","105",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("16","105",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("17","105",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("18","105",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("19","107",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("20","107",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("21","107",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("22","107",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("23","107",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("24","108",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("25","108",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("26","108",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("27","108",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("28","108",,,,,,"1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("29","109","QQ截图20120503114222.jpg","/12/6/19/hasha743fe739f16f447ff8e7c9e34ceafa7.QQ截图20120503114222.jpg","133718","image/jpeg","1","0") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("30",,"头像（小）.jpg","/12/6/20/hash9b1f9b2fd34cfbb0c27541d6d88dbc55.头像（小）.jpg","44715","image/jpeg","1","1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("31",,"头像（小）.jpg","/12/6/20/hash98b214e9dbb2f519d20e57498f5b1967.头像（小）.jpg","44715","image/jpeg","1","1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("32",,"头像（小）.jpg","/12/6/20/hashbe16dc69bcf943df48622cbeb7bafce2.头像（小）.jpg","44715","image/jpeg","1","1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("33",,"头像（小）.jpg","/12/6/20/hash6b7fb2f9c89e25081eb283482f85cc43.头像（小）.jpg","44715","image/jpeg","1","1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("34",,"头像（小）.jpg","/12/6/20/hash0c6be278e76eb91e1be955832aeabc7d.头像（小）.jpg","44715","image/jpeg","1","1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("35",,"头像（小）.jpg","/12/6/20/hash7d2c6cb06985cf1a9d8f975238b90a05.头像（小）.jpg","44715","image/jpeg","1","1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("36",,"头像（小）.jpg","/12/6/20/hash9599ec0b083eea6fadea5a3def480807.头像（小）.jpg","44715","image/jpeg","1","1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("37",,"头像（小）.jpg","/12/6/20/hashd5d8a4ac326709da12232fad281ebb29.头像（小）.jpg","44715","image/jpeg","1","1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("109",,"头像（小）.jpg","/12/6/20/hash262f5445abf33786a4057fb72ef1694b.头像（小）.jpg","44715","image/jpeg","1","1") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_attachment` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES (@1,@2,@3,@4,@5,@6,@7,@8) ", array("110","109","头像（小）.jpg","/12/6/20/hash840fde736a88e2686e494185de066e76.头像（小）.jpg","44715","image/jpeg","1","1") ) ;
-		$aMessageQueue->create(Message::success,'向数据表%s插入了%d行记录。',array("opencms_attachment",$nDataRows));
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("5","99",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("6","99",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("7","99",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("3","94","11","111","111","11","11","111") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("4","99",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("8","99",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("9","102",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("10","102",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("11","102",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("12","102",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("13","102",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("14","105",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("15","105",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("16","105",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("17","105",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("18","105",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("19","107",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("20","107",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("21","107",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("22","107",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("23","107",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("24","108",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("25","108",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("26","108",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("27","108",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("28","108",NULL,NULL,NULL,NULL,NULL,"1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("29","109","QQ截图20120503114222.jpg","/12/6/19/hasha743fe739f16f447ff8e7c9e34ceafa7.QQ截图20120503114222.jpg","133718","image/jpeg","1","0") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("30",NULL,"头像（小）.jpg","/12/6/20/hash9b1f9b2fd34cfbb0c27541d6d88dbc55.头像（小）.jpg","44715","image/jpeg","1","1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("31",NULL,"头像（小）.jpg","/12/6/20/hash98b214e9dbb2f519d20e57498f5b1967.头像（小）.jpg","44715","image/jpeg","1","1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("32",NULL,"头像（小）.jpg","/12/6/20/hashbe16dc69bcf943df48622cbeb7bafce2.头像（小）.jpg","44715","image/jpeg","1","1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("33",NULL,"头像（小）.jpg","/12/6/20/hash6b7fb2f9c89e25081eb283482f85cc43.头像（小）.jpg","44715","image/jpeg","1","1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("34",NULL,"头像（小）.jpg","/12/6/20/hash0c6be278e76eb91e1be955832aeabc7d.头像（小）.jpg","44715","image/jpeg","1","1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("35",NULL,"头像（小）.jpg","/12/6/20/hash7d2c6cb06985cf1a9d8f975238b90a05.头像（小）.jpg","44715","image/jpeg","1","1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("36",NULL,"头像（小）.jpg","/12/6/20/hash9599ec0b083eea6fadea5a3def480807.头像（小）.jpg","44715","image/jpeg","1","1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("37",NULL,"头像（小）.jpg","/12/6/20/hashd5d8a4ac326709da12232fad281ebb29.头像（小）.jpg","44715","image/jpeg","1","1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("109",NULL,"头像（小）.jpg","/12/6/20/hash262f5445abf33786a4057fb72ef1694b.头像（小）.jpg","44715","image/jpeg","1","1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("110","109","头像（小）.jpg","/12/6/20/hash840fde736a88e2686e494185de066e76.头像（小）.jpg","44715","image/jpeg","1","1") ') ;
+		$aMessageQueue->create(Message::success,'向数据表%s插入了%d行记录。',array($aDB->transTableName("opencms_attachment"),$nDataRows));
 			
 		$nDataRows = 0 ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_category` (`cid`,`title`,`description`,`lft`,`rgt`) VALUES (@1,@2,@3,@4,@5) ", array("29","其它","其它","133","134") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_category` (`cid`,`title`,`description`,`lft`,`rgt`) VALUES (@1,@2,@3,@4,@5) ", array("2","设计作品","","143","144") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_category` (`cid`,`title`,`description`,`lft`,`rgt`) VALUES (@1,@2,@3,@4,@5) ", array("3","公司新闻","公司新闻,行业动态,促销活动","123","142") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_category` (`cid`,`title`,`description`,`lft`,`rgt`) VALUES (@1,@2,@3,@4,@5) ", array("5","国内","","126","135") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_category` (`cid`,`title`,`description`,`lft`,`rgt`) VALUES (@1,@2,@3,@4,@5) ", array("6","国际","","136","139") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_category` (`cid`,`title`,`description`,`lft`,`rgt`) VALUES (@1,@2,@3,@4,@5) ", array("7","体育","","127","128") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_category` (`cid`,`title`,`description`,`lft`,`rgt`) VALUES (@1,@2,@3,@4,@5) ", array("8","军事","","124","125") ) ;
-		$nDataRows+= DB::singleton()->execute( "REPLACE INTO `opencms_category` (`cid`,`title`,`description`,`lft`,`rgt`) VALUES (@1,@2,@3,@4,@5) ", array("28","首页","首页","121","122") ) ;
-		$aMessageQueue->create(Message::success,'向数据表%s插入了%d行记录。',array("opencms_category",$nDataRows));
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_category") . '` (`cid`,`title`,`description`,`lft`,`rgt`) VALUES ("29","其它","其它","133","134") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_category") . '` (`cid`,`title`,`description`,`lft`,`rgt`) VALUES ("2","设计作品","","143","144") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_category") . '` (`cid`,`title`,`description`,`lft`,`rgt`) VALUES ("3","公司新闻","公司新闻,行业动态,促销活动","123","142") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_category") . '` (`cid`,`title`,`description`,`lft`,`rgt`) VALUES ("5","国内","","126","135") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_category") . '` (`cid`,`title`,`description`,`lft`,`rgt`) VALUES ("6","国际","","136","139") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_category") . '` (`cid`,`title`,`description`,`lft`,`rgt`) VALUES ("7","体育","","127","128") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_category") . '` (`cid`,`title`,`description`,`lft`,`rgt`) VALUES ("8","军事","","124","125") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_category") . '` (`cid`,`title`,`description`,`lft`,`rgt`) VALUES ("28","首页","首页","121","122") ') ;
+		$aMessageQueue->create(Message::success,'向数据表%s插入了%d行记录。',array($aDB->transTableName("opencms_category"),$nDataRows));
 			
 		
 		
@@ -133,7 +135,7 @@ class DataInstaller implements IExtensionDataInstaller
 		$aSetting = $aExtension->setting() ;
 			
 				
-		$aSetting->setItem('/opencms/index/toplist','toplist',array (
+		$aSetting->setItem('/index/toplist/','toplist',array (
   28 => 
   array (
     'index_new' => '1',
@@ -162,10 +164,10 @@ class DataInstaller implements IExtensionDataInstaller
   ),
 ));
 				
-		$aMessageQueue->create(Message::success,'保存配置：%s',"/opencms/index/toplist");
+		$aMessageQueue->create(Message::success,'保存配置：%s',"/index/toplist/");
 			
 				
-		$aSetting->setItem('/opencms/menu/mainmenu','mainmenu',array (
+		$aSetting->setItem('/menu/mainmenu/','mainmenu',array (
   'item:2' => 
   array (
     'title' => '设计作品',
@@ -228,7 +230,7 @@ class DataInstaller implements IExtensionDataInstaller
   ),
 ));
 				
-		$aMessageQueue->create(Message::success,'保存配置：%s',"/opencms/menu/mainmenu");
+		$aMessageQueue->create(Message::success,'保存配置：%s',"/menu/mainmenu/");
 			
 		
 		

@@ -42,7 +42,7 @@
 				<td><input type="checkbox" class='art_select' value='{=$aArt["aid"]}'/></td>
 				<td>{=$aArt['aid']}</td>
 				<td><a href="?c=org.opencomb.opencms.article.ArticleContent&aid={=$aArt['aid']}" style='{=$sStyle}'>{=$aArt['title']}</a></td>
-				<td><a href="?c=org.opencomb.opencms.article.ArticleManage&cid={=$aArt['cid']}">{=$aArt['category.title']}</a></td>
+				<td><a href="?c=org.opencomb.opencms.article.ArticleManage&cid={=$aArt['cid']}">{=$aArt['title']}</a></td>
 				<td>{=$aArt['views']}</td>
 				<td><a href="?c=org.opencomb.opencms.article.EditArticle&aid={=$aArt['aid']}">编辑</a></td>
 				<td><a href="?c=org.opencomb.opencms.article.DeleteArticle&aid={=$aArt['aid']}" onclick="javascript:return confirmDel();">删除</a></td>

@@ -47,6 +47,7 @@ class EditArticle extends ControlPanel
 		//还原文章数据
 		if($this->params->has("aid")){
 			$articlesModel->load($this->params->get("aid"),"aid");
+			
 		    $this->view()->setModel($articlesModel);
 			$this->view()->update();
 		}else{
@@ -87,21 +88,22 @@ class EditArticle extends ControlPanel
 			$arrExistFileDelete = $this->params->get('article_exist_file_delete');
 		}
 	
+		
 		$arrFilesToDelete = array();
 		foreach( $articlesModel['attachment'] as $aAttaModel)
 		{
 			//是否删除已有附件
-			if( in_array( (string)$aAttaModel['attachment.index'] , $arrExistFileDelete ) )
+			if( in_array( (string)$aAttaModel['index'] , $arrExistFileDelete ) )
 			{
-				$arrFilesToDelete[] = $aAttaModel['attachment.storepath'];
-				$articlesModel->delete("fid = '{$aAttaModel['attachment.fid']}'",null,null,'attachment');
+				$arrFilesToDelete[] = $aAttaModel['storepath'];
+				$articlesModel->delete("fid = '{$aAttaModel['fid']}'",null,null,'attachment');
 			}else{
 				//是否显示在附件列表中
-				if(in_array( (string)$aAttaModel['attachment.index'] , $arrExistFileList ))
+				if(in_array( (string)$aAttaModel['index'] , $arrExistFileList ))
 				{
-					$articlesModel->update(array('displayInList'=>'1') , "fid = '{$aAttaModel['attachment.fid']}'" , 'attachment');
+					$articlesModel->update(array('displayInList'=>'1') , "fid = '{$aAttaModel['fid']}'" , 'attachment');
 				}else{
-					$articlesModel->update(array('displayInList'=>'0') , "fid = '{$aAttaModel['attachment.fid']}'" , 'attachment');
+					$articlesModel->update(array('displayInList'=>'0') , "fid = '{$aAttaModel['fid']}'" , 'attachment');
 				}
 			}
 		}
@@ -186,22 +188,14 @@ class EditArticle extends ControlPanel
 			}
 		}
 		/* end 新附件的处理*/
-		
 		$this->view()->setModel($articlesModel);
 		$this->view()->fetch();
 		
-		if ($articlesModel->update (null,"aid='{$articlesModel['aid']}'"))
-		{
-			//删除用户要删除的已存在附件
-			DeleteArticle::deleteAttachments($arrFilesToDelete);
-			// 					$this->view->hideForm ();
-			$this->messageQueue ()->create ( Message::success, "文章保存成功" );
-			$this->location('?c=org.opencomb.opencms.article.ArticleManage');
-		}
-		else
-		{
-			$this->messageQueue ()->create ( Message::error, "文章保存失败" );
-		}
+		$articlesModel->update (null,"aid='{$articlesModel['aid']}'");
+		//删除用户要删除的已存在附件
+		DeleteArticle::deleteAttachments($arrFilesToDelete);
+		$this->messageQueue ()->create ( Message::success, "文章保存成功" );
+		$this->location('?c=org.opencomb.opencms.article.ArticleManage');
 	}
 	
 	public function getAttachmentUrl($aAttaModel)

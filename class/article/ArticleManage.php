@@ -56,8 +56,6 @@ class ArticleManage extends ControlPanel
 		}
 		$articlesModel->load ();
 		
-// 		DB::singleton()->executeLog();
-		
 		$this->view->variables()->set('aArtIter',$articlesModel) ;
 	}
 }
