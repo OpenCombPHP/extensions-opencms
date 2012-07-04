@@ -7,6 +7,7 @@ use org\jecat\framework\message\MessageQueue;
 use org\opencomb\platform\ext\Extension;
 use org\opencomb\platform\ext\ExtensionMetainfo ;
 use org\opencomb\platform\ext\IExtensionDataInstaller ;
+use org\jecat\framework\fs\Folder;
 
 class DataInstaller implements IExtensionDataInstaller
 {
@@ -35,7 +36,7 @@ class DataInstaller implements IExtensionDataInstaller
   `url` varchar(255) NOT NULL COMMENT '外站链接',
   PRIMARY KEY (`aid`),
   KEY `cid` (`cid`)
-) ENGINE=MyISAM AUTO_INCREMENT=122 DEFAULT CHARSET=utf8" );
+) ENGINE=MyISAM AUTO_INCREMENT=123 DEFAULT CHARSET=utf8" );
 		$aMessageQueue->create(Message::success,'新建数据表： `%s` 成功',$aDB->transTableName('opencms_article') );
 		
 		
@@ -49,7 +50,7 @@ class DataInstaller implements IExtensionDataInstaller
   `index` int(11) DEFAULT NULL COMMENT '次序',
   `displayInList` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否显示在文章尾部的附件列表中',
   PRIMARY KEY (`fid`)
-) ENGINE=MyISAM AUTO_INCREMENT=111 DEFAULT CHARSET=utf8" );
+) ENGINE=MyISAM AUTO_INCREMENT=120 DEFAULT CHARSET=utf8" );
 		$aMessageQueue->create(Message::success,'新建数据表： `%s` 成功',$aDB->transTableName('opencms_attachment') );
 		
 		
@@ -69,12 +70,14 @@ class DataInstaller implements IExtensionDataInstaller
 		// 2. insert table data
 		$nDataRows = 0 ;
 		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_article") . '` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES ("116","","3","5555555555555","","<p>
-	555555555555555</p>
-","0","0","3","0","0","0","0","","") ') ;
+	555555555555555[attachment 1][attachment 1][attachment 1][attachment 1][attachment 2]</p>
+","0","0","8","0","0","1","1","","") ') ;
 		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_article") . '` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES ("115","","3","444444444455555555","","<p>
 	444444444444444</p>
-","0","0","3","0","0","0","0","","") ') ;
-		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_article") . '` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES ("121","","0","","","","0","0","3","0","0","0","0","#09C","") ') ;
+","0","0","8","0","0","0","0","","") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_article") . '` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES ("122","","5","1111111111111111","","<p>
+	111111111111111111111111111111</p>
+","1341201555","0","8","0","0","0","0","","") ') ;
 		$aMessageQueue->create(Message::success,'向数据表%s插入了%d行记录。',array($aDB->transTableName("opencms_article"),$nDataRows));
 			
 		$nDataRows = 0 ;
@@ -115,6 +118,10 @@ class DataInstaller implements IExtensionDataInstaller
 		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("37",NULL,"头像（小）.jpg","/12/6/20/hashd5d8a4ac326709da12232fad281ebb29.头像（小）.jpg","44715","image/jpeg","1","1") ') ;
 		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("109",NULL,"头像（小）.jpg","/12/6/20/hash262f5445abf33786a4057fb72ef1694b.头像（小）.jpg","44715","image/jpeg","1","1") ') ;
 		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("110","109","头像（小）.jpg","/12/6/20/hash840fde736a88e2686e494185de066e76.头像（小）.jpg","44715","image/jpeg","1","1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("115","122","头像（小）.jpg","/12/7/2/hashea169b32822d3b3d5e1697385a045bab.头像（小）.jpg","44715","image/jpeg","2","1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("116","122","头像（小）.jpg","/12/7/2/hashb7131062195d710735c04662c0596e6d.头像（小）.jpg","44715","image/jpeg","3","1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("117","116","头像（小）.jpg","/12/7/2/hashb0b5e9aadf90361315294e8d00c58b96.头像（小）.jpg","44715","image/jpeg","1","1") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_attachment") . '` (`fid`,`aid`,`orginname`,`storepath`,`size`,`type`,`index`,`displayInList`) VALUES ("118","116","复件 头像（小）.jpg","/12/7/2/hash897e5cbb5bc1a89b91e773349695ce4e.复件 头像（小）.jpg","44715","image/jpeg","2","1") ') ;
 		$aMessageQueue->create(Message::success,'向数据表%s插入了%d行记录。',array($aDB->transTableName("opencms_attachment"),$nDataRows));
 			
 		$nDataRows = 0 ;
@@ -235,6 +242,11 @@ class DataInstaller implements IExtensionDataInstaller
 		
 		
 		// 4. files
+		
+		$sFromPath = '/home/gaojun/www/oc.loader/extensions/opencms/0.2/data/public';
+		$sDestPath = $aExtension ->filesFolder()->path();
+		Folder::RecursiveCopy( $sFromPath , $sDestPath );
+		$aMessageQueue->create(Message::success,'复制文件夹： `%s` to `%s`',array($sFromPath,$sDestPath));
 		
 	}
 }
