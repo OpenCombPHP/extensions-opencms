@@ -9,7 +9,7 @@ use org\jecat\framework\system\Application;
 class Index extends Controller
 {
 	protected $arrConfig = array(
-		'title'=>'登录',
+		'title'=>'首页',
 	) ;
 
 	public function process()
