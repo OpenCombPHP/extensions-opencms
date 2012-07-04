@@ -24,6 +24,7 @@ class TopList extends Controller
 	    
 	    $type = $this->params->get('type');
 
+	    
 	    //遍历范围,仅第一层
 	    if($this->params->has('subCat_'.$type) and $this->params->get('subCat'.$type) == 1)
 	    {
