@@ -38,6 +38,7 @@ class IndexManage extends ControlPanel
 		$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
 		
 		$arrTopLists = $aSetting->item('/index/toplist','toplist',array()) ;
+		
 		$this->view->variables()->set('arrTopLists',$arrTopLists) ;
 		$this->view()->setModel($aModel);
 		

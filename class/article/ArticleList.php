@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\opencms\article;
 
+use org\jecat\framework\db\DB;
+
 use org\jecat\framework\mvc\model\Model;
 
 use org\jecat\framework\mvc\model\Category;
@@ -36,7 +38,7 @@ class ArticleList extends Controller
 	public function process()
 	{
 		if($this->params->has("cid")){
-		    
+
 		    $categoryModel = Model::Create('opencms:category');
 		    $articlesModel = Model::Create('opencms:article') -> hasOne('opencms:category','cid','cid');
 		    
@@ -60,12 +62,12 @@ class ArticleList extends Controller
 			
 			$this->setTitle($categoryModel->data('title') . " - " . $this->title());
 
-			$articlesModel->where("`category`.`lft` >='{$categoryModel->data('lft')}'");
-			$articlesModel->where("`category`.`lft` <='{$categoryModel->data('rgt')}'");
-			$articlesModel->where("`category`.`rgt` >='{$categoryModel->data('lft')}'");
-			$articlesModel->where("`category`.`rgt` <='{$categoryModel->data('rgt')}'");
+			
+			$articlesModel->where("`article`.`cid` ='{$this->params->get("cid")}'");
 			$articlesModel->load();
 			
+			
+			//DB::singleton()->executeLog() ;
 			$this->view()->setModel($articlesModel);
 			
 			//把cid传给frame

@@ -18,13 +18,14 @@ class Index extends Controller
 		$arrTopLists = $aSetting->item('/index/toplist','toplist',array()) ;
 		
 		if(count($arrTopLists) > 0){
-			foreach($arrTopLists as $nCid => $arrTopList){
+			foreach($arrTopLists as $nCid => $arrTopList)
+			{
 				if(isset($arrTopList['index_new'])){
-					$aToplist = new TopList(array_merge($arrTopList,array('cid'=>$nCid , 'orderby'=>'createTime')));
+					$aToplist = new TopList(array_merge($arrTopList,array('cid'=>$nCid , 'orderby'=>'createTime','type'=>'new')));
 					$this->add($aToplist , 'topList_new_'.$nCid );
 				}
 				if(isset($arrTopList['index_hot'])){
-					$aToplist = new TopList(array_merge($arrTopList,array('cid'=>$nCid , 'orderby'=>'views')));
+					$aToplist = new TopList(array_merge($arrTopList,array('cid'=>$nCid , 'orderby'=>'views','type'=>'hot')));
 					$this->add($aToplist , 'topList_hot_'.$nCid );
 				}
 			}
