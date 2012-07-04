@@ -30,6 +30,7 @@ class CategoryManage extends ControlPanel
 	
 	public function process()
 	{
+	    
 		$this->checkPermissions('您没有这个分类的管理权限,无法继续浏览',array()) ;
 		
 		/**
