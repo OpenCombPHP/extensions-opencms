@@ -37,12 +37,12 @@ class TopList extends Controller
 	    }
 	    
 	    //排序,默认按照时间反序排列
-	    if($this->params->has('order') and $this->params->get('order') == "asc"){
+	    if($this->params->has('orderby')){
 	        $this->setTitle("最热文章");
 	        $articleModel->order($this->params->get('orderby'));
 	    }else{
 	        $this->setTitle("最新文章");
-	        $articleModel->order($this->params->get('orderby'));
+	        $articleModel->order('createTime');
 	        
 	    }
 	    
