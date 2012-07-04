@@ -8,8 +8,8 @@ use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
 class CategoryManage extends ControlPanel
 {
-	protected $arrConfig = array(
-	        
+	protected $arrConfig = array
+	(
 	        'title'=>'分类管理',
 	        'view'=>array(
 	                'template'=>'CategoryManage.html',
@@ -22,7 +22,6 @@ class CategoryManage extends ControlPanel
 	                'model'=>'categoryTree',
 	        ),
 	        'perms' => array(
-	        // 权限类型的许可
 	                'perm.purview'=>array(
 	                        'name' => 'purview:admin_category',
 	                ) ,
@@ -31,22 +30,43 @@ class CategoryManage extends ControlPanel
 	
 	public function process()
 	{
+	    
+	    
 		$this->checkPermissions('您没有这个分类的管理权限,无法继续浏览',array()) ;
 		
+		/**
+		 * 创建Model
+		 * @var unknown_type
+		 */
 		$categoryModel = Model::Create('opencms:category');
 		
-		//准备分类信息
+		/**
+		 * 载入Model信息
+		 */
 		$categoryModel->load();
 		
+		/**
+		 * 创建html控件对象
+		 * @var unknown_type
+		 */
 		$aCatSelectWidget = $this->view->widget("category_cat");
 		
+		/**
+		 * 对分类信息增加等级关系
+		 */
 		Category::buildTree($categoryModel);
 		
+		/**
+		 * 初始化控件内容
+		 */
 		foreach($categoryModel as $aCat)
 		{
 			$aCatSelectWidget->addOption($aCat['title'],$aCat['cid'],false);
 		}
 		
+		/**
+		 * 视图绑定Model
+		 */
 		$this->view()->setModel($categoryModel);
 	}
 }

@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\opencms\article;
 
+use org\jecat\framework\db\DB;
+
 use org\jecat\framework\mvc\model\Model;
 
 use org\jecat\framework\mvc\model\Category;
@@ -17,6 +19,9 @@ class ArticleManage extends ControlPanel
 					'count' => 10, //每页10项
 					'nums' => 5   //显示5个页码
 				) ,
+				'widget:paginator' => array(
+					'class' => 'paginator' ,
+				) ,
 			),
 			'perms' => array(
 				// 权限类型的许可
@@ -28,6 +33,7 @@ class ArticleManage extends ControlPanel
 	
 	public function process()
 	{
+	    
 		$this->checkPermissions('您没有这个分类的管理权限,无法继续浏览',array()) ;
 
 		
@@ -52,9 +58,14 @@ class ArticleManage extends ControlPanel
 		//搜索文章用的title模糊检索
 		if($this->params->get('title'))
 		{
-		    $articlesModel->where("`title` like '%'. $this->params->get('title').'%'");
+		    $articlesModel->where("`article`.`title` like '%". $this->params()->get('title')."%'");
 		}
 		$articlesModel->load ();
+		
+		//DB::singleton()->executeLog() ;
+		
+		
+		$this->view()->setModel($articlesModel);
 		
 		$this->view->variables()->set('aArtIter',$articlesModel) ;
 	}

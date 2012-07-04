@@ -8,7 +8,8 @@ use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
 class CategorySort extends ControlPanel
 {
-	protected $arrConfig = array(
+	protected $arrConfig = array
+	(
 			'title'=>'分类排序',
 			'view'=>array(
 				'template'=>'CategorySort.html',
