@@ -45,49 +45,51 @@ class MenuManage extends ControlPanel
 		$this->view()->setModel($categoryModel);
 		$this->view->variables()->set('arrMenus',$arrMenus) ;
 		
+		$this->doActions();
 	}
 	
 	public function form()
 	{
-	    
 	    $categoryModel = Model::Create('opencms:category');
-	    
 	    //准备分类信息
 	    $categoryModel->load();
 	    Category::buildTree($categoryModel);
 	    
 		$arrMenus = array();
-		foreach( $this->params->get('cat') as $sCid => $arrMenu){
-			if(isset($arrMenu['mainmenu'])){
-				
-			    
-			    foreach ($categoryModel as $o)
-			    {
-			        if($o['cid'] == $sCid)
-			        {
-			            $aCatModel = $categoryModel->alone();
-			        }
-			    }
-			    
-				
-				$arrMenus[ 'item:'.(int)$sCid ] = array(
-						'title'=>$aCatModel->data('title'),
-						'link'=>'?c=org.opencomb.opencms.article.ArticleList&cid='.$sCid ,
-						'query'=>array('cid='.$sCid ),
-				);
-				
-				$aChildModelList = Category::getChildren($aCatModel);
-				$arrMenus[ 'item:'.(int)$sCid ]['query'][] = 'cid='. $aCatModel['cid'];
-				foreach($aChildModelList as $aModel)
-				{
-					$arrMenus[ 'item:'.(int)$sCid ]['query'][] = 'cid='. $aModel['cid'];
+		if($this->params->get('cat')){
+			foreach( $this->params->get('cat') as $sCid => $arrMenu){
+				if(isset($arrMenu['mainmenu'])){
+				    foreach ($categoryModel as $o)
+				    {
+				        if($o['cid'] == $sCid)
+				        {
+				            $aCatModel = $categoryModel->alone();
+				        }
+				    }
+					
+					$arrMenus[ 'item:'.(int)$sCid ] = array(
+							'title'=>$aCatModel->data('title'),
+							'link'=>'?c=org.opencomb.opencms.article.ArticleList&cid='.$sCid ,
+							'query'=>array('cid='.$sCid ),
+					);
+					
+					$aChildModelList = Category::getChildren($aCatModel);
+					$arrMenus[ 'item:'.(int)$sCid ]['query'][] = 'cid='. $aCatModel['cid'];
+					foreach($aChildModelList as $aModel)
+					{
+						$arrMenus[ 'item:'.(int)$sCid ]['query'][] = 'cid='. $aModel['cid'];
+					}
 				}
 			}
 		}
-		
 		$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
-		$aSetting->setItem('/menu/mainmenu','mainmenu',$arrMenus) ;
-			
+		
+		if(!$arrMenus){
+			$aSetting->deleteKey('/menu/mainmenu');
+		}else{
+			$aSetting->setItem('/menu/mainmenu','mainmenu',$arrMenus) ;
+		}
+		
 		$this->view->variables()->set('arrMenus',$arrMenus) ;
 		
 		$this->view()->setModel($categoryModel);
