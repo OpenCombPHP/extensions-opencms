@@ -12,17 +12,7 @@ class ArticleManage extends ControlPanel
 {
     protected $arrConfig = array(
 			'title'=>'文章管理',
-			'view'=>array(
-				'template'=>'ArticleManage.html',
-				'widget:paginator' => array(  //分页器bean
-					'class' => 'paginator' ,
-					'count' => 10, //每页10项
-					'nums' => 5   //显示5个页码
-				) ,
-				'widget:paginator' => array(
-					'class' => 'paginator' ,
-				) ,
-			),
+			'view'=>'ArticleManage.html',
 			'perms' => array(
 				// 权限类型的许可
 				'perm.purview'=>array(
@@ -33,10 +23,6 @@ class ArticleManage extends ControlPanel
 	
 	public function process()
 	{
-	    
-		$this->checkPermissions('您没有这个分类的管理权限,无法继续浏览',array()) ;
-
-		
 		$categoryModel = Model::Create('opencms:category');
 		
 		$articlesModel = Model::Create('opencms:article')

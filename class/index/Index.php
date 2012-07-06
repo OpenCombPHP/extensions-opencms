@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\opencms\index;
 
+use org\jecat\framework\message\Message;
+
 use org\opencomb\coresystem\mvc\controller\Controller;
 use org\opencomb\opencms\article\TopList;
 // use org\opencomb\coresystem\mvc\controller\Controller;
@@ -13,7 +15,7 @@ class Index extends Controller
 	) ;
 
 	public function process()
-	{
+	{		
 		$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
 		$arrTopLists = $aSetting->item('/index/toplist','toplist',array()) ;
 		
