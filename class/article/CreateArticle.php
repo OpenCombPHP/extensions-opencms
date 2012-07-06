@@ -98,7 +98,7 @@ class CreateArticle extends ControlPanel
 				}
 					
 				// 保存文件
-				$sSavedFile = $aAchiveStrategy->makeFilePath ( array(), $aStoreFolder );
+				$sSavedFile = $aStoreFolder->path() ;
 				// 创建保存目录
 				$aFolderOfSavedFile = new Folder( $sSavedFile ) ;
 				if( ! $aFolderOfSavedFile->exists() ){
