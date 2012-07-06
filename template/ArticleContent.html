@@ -1,7 +1,15 @@
 <div id='articleContent'>
 	<msgqueue for="$theController->messageQueue()" />
 	<if "$theModel->rowNum() > 0">
-	<h1 class="article_title">{=$theModel['title']}</h1>
+	{#?
+		$sStyle = '';
+		$sStyle.=$theModel['title_bold']==1 ? 'font-weight: bold;' : '';
+		$sStyle.=$theModel['title_italic']==1 ? 'font-style: italic;' : '';
+		$sStyle.=$theModel['title_strikethrough']==1 ? 'text-decoration:line-through;' : '';
+		$sStyle.=$theModel['title_color']!='' ? 'color:'.$theModel['title_color'].';' : '';
+		$sUrl= empty($theModel['url']) ? "?c=org.opencomb.opencms.article.ArticleContent&aid={$theModel['aid']}" : $theModel['url'];
+	#}
+	<h1 class="article_title" style='{=$sStyle}'>{=$theModel['title']}</h1>
 	<div class="article_createTime">{=date("Y年m月d日 H:m:s", $theModel['createTime'])}</div>
 	<div class="article_content">
 		{=$theController->getContentWithAttachmentUrl($theModel['text'] , $theModel['attachment'])}
