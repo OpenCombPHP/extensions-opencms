@@ -17,6 +17,9 @@ class ArticleList extends Controller
 			'title'=>'文章列表',
 
 			'view'=>array(
+			        'view:CategoryList'=>array(
+			                'template'=>'ArticleCategoryList.html',
+			        ),
 				'template'=>'ArticleList.html',
 				'widget:paginator' => array(
 					'class' => 'paginator' ,
@@ -62,16 +65,22 @@ class ArticleList extends Controller
 			
 			$this->setTitle($categoryModel->data('title') . " - " . $this->title());
 
-			
-			$articlesModel->where("`article`.`cid` ='{$this->params->get("cid")}'");
+			//$articlesModel->where("`article`.`cid` ='{$this->params->get("cid")}'");
+			$articlesModel->where("category.lft>={$categoryModel->lft} and category.lft<={$categoryModel->rgt} and category.rgt>={$categoryModel->lft} and category.rgt<={$categoryModel->rgt}");
 			$articlesModel->load();
-			
 			
 			//DB::singleton()->executeLog() ;
 			$this->view()->setModel($articlesModel);
 			
 			//把cid传给frame
 			$this->params()->set('cid',$this->params->get("cid"));
+			
+			//其他分类
+			$categoryModel2 = clone $categoryModel;
+			$categoryModel2->where("lft>{$categoryModel->lft} and lft<{$categoryModel->rgt} and rgt>{$categoryModel->lft} and rgt<{$categoryModel->rgt}");
+			$categoryModel2->load();
+			$this->view()->viewByName('CategoryList')->setModel($categoryModel2);
+			
 			
 			//面包屑
 			//$this->params()->set('aBreadcrumbNavigation' , Category::getParents($this->category)) ;

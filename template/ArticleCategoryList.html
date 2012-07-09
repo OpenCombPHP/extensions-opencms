@@ -1,0 +1,23 @@
+<if "$theModel->rowNum() > 0">
+<br/>
+<div id='articleList' class="articleList">
+	<table class="article-table" width='100%' style="font-size:12px">
+		<thead>
+			<tr height="30">
+				<td>其他分类名称</td>
+			</tr>
+		</thead>
+		<tbody id="tableStyle" >
+			<model:foreach>
+			<tr>
+				<td height="25px">
+					<a href='?c=org.opencomb.opencms.article.ArticleList&cid={=$theModel["cid"]}'  >
+						{=$theModel['title']}
+					</a>
+				</td>
+			</tr>
+			</model:foreach>
+		</tbody>
+	</table>
+</div>
+</if>

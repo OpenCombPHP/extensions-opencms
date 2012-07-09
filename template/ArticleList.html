@@ -5,6 +5,7 @@
 		<thead>
 			<tr height="30">
 				<th>文章名称</th>
+				<td>分类名称</td>
 				<th>日期</th>
 			</tr>
 		</thead>
@@ -24,24 +25,12 @@
 						{=$theModel['title']}
 					</a>
 				</td>
+				<td>{=$theModel['category.title']}</td>
 				<td class="article_time">{=date("Y年m月d日 H:m:s", $theModel['createTime'])}</td>
 			</tr>
 			</model:foreach>
 		</tbody>
 	</table>
-	<script type="text/javascript">
-	var TbRow = document.getElementById("tableStyle");
-	if (TbRow != null){
-		for (var i=0;i<TbRow.rows.length ;i++ ){
-			if (TbRow.rows[i].rowIndex%2==1){
-				TbRow.rows[i].style.backgroundColor="";
-			}
-			else{
-				TbRow.rows[i].style.backgroundColor="#F1F1F1";
-			}
-		}
-	}
-	</script>
 </div>
 
 <widget id="paginator" attr.nums="5" attr.showFirst="1" attr.showLast="1" attr.showTotal="1" attr.showPre="1" attr.showNext="1" />
