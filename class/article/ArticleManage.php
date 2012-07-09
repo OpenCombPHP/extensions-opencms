@@ -46,12 +46,8 @@ class ArticleManage extends ControlPanel
 		{
 		    $articlesModel->where("`article`.`title` like '%". $this->params()->get('title')."%'");
 		}
-		$articlesModel->load ();
-		
-		//DB::singleton()->executeLog() ;
-		
-		
 		$this->view()->setModel($articlesModel);
+		$articlesModel->load ();
 		
 		$this->view->variables()->set('aArtIter',$articlesModel) ;
 	}
