@@ -76,6 +76,7 @@ class ArticleContent extends Controller
 	
 	static public function getContentWithAttachmentUrl( $sContent , $aAttachmentModel )
 	{
+	    
 		if(!is_array($aAttachmentModel) || count($aAttachmentModel) == 0){
 			return $sContent;
 		}

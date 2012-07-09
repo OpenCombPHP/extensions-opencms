@@ -24,7 +24,7 @@
 				<div class='article_exist_file'>
 					<a href='{=$theController->getAttachmentUrl($aAttaModel)}'>{=$aAttaModel['orginname']}</a>
 					{=$theController->getAttachmentSize($aAttaModel)}
-					<a href='#' class='article_exist_files_into_content' index='{=$aAttaModel['index']}' title='将附件插入到文档中,如果是图片就当作插图显示,如果是文件就插入链接'>插入到文章</a>
+					<a href='#' class='article_exist_files_into_content' index='{=$aAttaModel["index"]}' title='将附件插入到文档中,如果是图片就当作插图显示,如果是文件就插入链接'>插入到文章</a>
 					<label><input name='article_exist_list[]' class='article_exist_list' type='checkbox' value='{=$aAttaModel['index']}' {=$theController->getIsDisplayInList($aAttaModel)}/>显示在附件列表</label>
 					<label><input name='article_exist_file_delete[]' class='article_exist_files_delete' type='checkbox' value='{=$aAttaModel['index']}'/>删除此附件</label>
 				</div>

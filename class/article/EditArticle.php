@@ -47,7 +47,7 @@ class EditArticle extends ControlPanel
 		//还原文章数据
 		if($this->params->has("aid")){
 			$articlesModel->load($this->params->get("aid"),"aid");
-			
+
 		    $this->view()->setModel($articlesModel);
 			$this->view()->update();
 		}else{
