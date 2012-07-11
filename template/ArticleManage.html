@@ -13,7 +13,7 @@
 				</foreach>
 			</select>
 			<input type='text' class='search_text' value="{=$theParams['title']}"/>
-			<a href='/?c=org.opencomb.opencms.article.ArticleManage&title=' class='search_button' title='依据文章部分标题搜索文章'>搜索</a>
+			<a href='?c=org.opencomb.opencms.article.ArticleManage&title=' class='search_button' title='依据文章部分标题搜索文章'>搜索</a>
 		</div>
 		<a href='?c=org.opencomb.opencms.article.CreateArticle'>+ 新建文章</a>
 	</div>
@@ -63,7 +63,7 @@
 </div>
 
 <a href='#' class='select_all'>全选</a>/<a class='unselect_all' href='#'>反选</a>
-<a href='/?c=org.opencomb.opencms.article.DeleteArticle&aid=' class='delete_articles'>批量删除</a>
+<a href='?c=org.opencomb.opencms.article.DeleteArticle&aid=' class='delete_articles'>批量删除</a>
 
 <widget type="paginator" count="20" attr.showFirst="1" attr.showLast="1" attr.showTotal="1" attr.showPre="1" attr.showNext="1" />
 
@@ -83,7 +83,7 @@
 	
 	//分类选择文章
 	jquery('#art_cat_select').change(function(){
-		var href='/?c=org.opencomb.opencms.article.ArticleManage';
+		var href='?c=org.opencomb.opencms.article.ArticleManage';
 		if(jquery(this).val() != '0')
 		{
 			href+="&cid=" + jquery(this).val();
