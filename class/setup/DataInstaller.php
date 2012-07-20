@@ -9,6 +9,10 @@ use org\opencomb\platform\ext\ExtensionMetainfo ;
 use org\opencomb\platform\ext\IExtensionDataInstaller ;
 use org\jecat\framework\fs\Folder;
 
+// 这个 DataInstaller 程序是由扩展 development-toolkit 的 create data installer 模块自动生成
+// 扩展 development-toolkit 版本：0.2.0.0
+// create data installer 模块版本：1.0.8.0
+
 class DataInstaller implements IExtensionDataInstaller
 {
 	public function install(MessageQueue $aMessageQueue,ExtensionMetainfo $aMetainfo)
@@ -16,7 +20,9 @@ class DataInstaller implements IExtensionDataInstaller
 		$aExtension = new Extension($aMetainfo);
 		
 		// 1 . create data table
+		
 		$aDB = DB::singleton();
+		
 		
 		$aDB->execute( "CREATE TABLE IF NOT EXISTS `".$aDB->transTableName("opencms_article")."` (
   `aid` int(10) NOT NULL AUTO_INCREMENT,
@@ -36,9 +42,8 @@ class DataInstaller implements IExtensionDataInstaller
   `url` varchar(255) NOT NULL COMMENT '外站链接',
   PRIMARY KEY (`aid`),
   KEY `cid` (`cid`)
-) ENGINE=MyISAM AUTO_INCREMENT=108 DEFAULT CHARSET=utf8" );
+) ENGINE=MyISAM AUTO_INCREMENT=110 DEFAULT CHARSET=utf8" );
 		$aMessageQueue->create(Message::success,'新建数据表： `%s` 成功',$aDB->transTableName('opencms_article') );
-		
 		
 		$aDB->execute( "CREATE TABLE IF NOT EXISTS `".$aDB->transTableName("opencms_attachment")."` (
   `fid` int(11) NOT NULL AUTO_INCREMENT,
@@ -53,7 +58,6 @@ class DataInstaller implements IExtensionDataInstaller
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8" );
 		$aMessageQueue->create(Message::success,'新建数据表： `%s` 成功',$aDB->transTableName('opencms_attachment') );
 		
-		
 		$aDB->execute( "CREATE TABLE IF NOT EXISTS `".$aDB->transTableName("opencms_category")."` (
   `cid` int(8) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
@@ -64,7 +68,6 @@ class DataInstaller implements IExtensionDataInstaller
   UNIQUE KEY `lft-rgt` (`lft`,`rgt`)
 ) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8" );
 		$aMessageQueue->create(Message::success,'新建数据表： `%s` 成功',$aDB->transTableName('opencms_category') );
-		
 		
 		
 		// 2. insert table data
@@ -91,14 +94,14 @@ class DataInstaller implements IExtensionDataInstaller
 	&nbsp;</p>
 <p style=\"margin: 5px 0px; padding: 5px 0px; font-family: Arial; font-size: 14px; line-height: 19px; color: rgb(76, 76, 76);\">
 	[attachment 1]</p>
-","1339037459","0","46","0","0","0","0","","") ') ;
+","1339037459","0","63","0","0","0","0","","") ') ;
 		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_article") . '` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES ("2","","6","日本海啸“鬼船”","","<p>
 	&nbsp;</p>
 <div>
 	　　4月5日，美国海岸防卫队将去年日本海啸后漂流到阿拉斯加的一艘日本渔船击沉，结束它在太平洋上长达一年多的孤独旅程。美国海岸警卫队解释说，此举主要是为了避免这艘无人控制的渔船危害其他船只的航行安全。</div>
 <div>
 	　　这艘被形容为&ldquo;鬼船&rdquo;的日本渔船，原本停泊在日本青森县海港，在去年3月的大地震后被海啸卷走，在海上漂流长达一年之久，它竟然横渡太平洋，漂流到北美洲附近的海域。上个月加拿大方面发现该船的踪迹。</div>
-","1333701817","0","46","0","0","0","0","#09C","") ') ;
+","1333701817","0","63","0","0","0","0","#09C","") ') ;
 		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_article") . '` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES ("94","","3","Fedora17发布","","<p>
 	&nbsp;</p>
 <p style=\"margin: 5px 0px; padding: 5px 0px; font-family: Arial; font-size: 14px; line-height: 19px; color: rgb(76, 76, 76); \">
@@ -117,7 +120,7 @@ class DataInstaller implements IExtensionDataInstaller
 	更多详情见<a href=\"http://docs.fedoraproject.org/en-US/Fedora/17/html/Release_Notes/index.html\" style=\"margin: 0px; padding: 0px; text-decoration: none; color: rgb(204, 102, 0); border: 0px; \" target=\"_blank\">官方通告</a>。</p>
 <p style=\"margin: 5px 0px; padding: 5px 0px; font-family: Arial; font-size: 14px; line-height: 19px; color: rgb(76, 76, 76); \">
 	# ISO 下载：&nbsp;<a href=\"http://fedoraproject.org/zh_CN/get-fedora-options\" style=\"margin: 0px; padding: 0px; text-decoration: none; color: rgb(204, 102, 0); border: 0px; \">http://fedoraproject.org/zh_CN/get-fedora-options</a></p>
-","1337846195","0","46","0","0","0","0","#09C","") ') ;
+","1337846195","0","63","0","0","0","0","#09C","") ') ;
 		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_article") . '` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES ("92","","3","Linux Mint 13 Maya发布","","<p>
 	&nbsp;</p>
 <p style=\"margin: 5px 0px; padding: 5px 0px; font-family: Arial; font-size: 14px; line-height: 19px; color: rgb(76, 76, 76); \">
@@ -134,7 +137,7 @@ class DataInstaller implements IExtensionDataInstaller
 	更多详情见<a href=\"http://www.linuxmint.com/rel_maya_whatsnew.php\" style=\"margin: 0px; padding: 0px; text-decoration: none; color: rgb(204, 102, 0); border: 0px; \" target=\"_blank\">官方通告</a>。</p>
 <p style=\"margin: 5px 0px; padding: 5px 0px; font-family: Arial; font-size: 14px; line-height: 19px; color: rgb(76, 76, 76); \">
 	下载：<a href=\"http://www.linuxmint.com/download.php\" style=\"margin: 0px; padding: 0px; text-decoration: none; color: rgb(204, 102, 0); border: 0px; \" target=\"_blank\">http://www.linuxmint.com/download.php</a></p>
-","1337846166","0","46","0","0","0","0","#09C","") ') ;
+","1337846166","0","63","0","0","0","0","#09C","") ') ;
 		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_article") . '` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES ("93","","3","GIMP 2.8 发布","","<p>
 	&nbsp;</p>
 <p style=\"margin: 5px 0px; padding: 5px 0px; font-family: Arial; font-size: 14px; line-height: 19px; color: rgb(76, 76, 76); \">
@@ -169,7 +172,7 @@ class DataInstaller implements IExtensionDataInstaller
 </blockquote>
 <p style=\"margin: 5px 0px; padding: 5px 0px; font-family: Arial; font-size: 14px; line-height: 19px; color: rgb(76, 76, 76); \">
 	--消息<a href=\"http://www.webupd8.org/2012/05/gimp-28-stable-finally-available-for.html\" style=\"margin: 0px; padding: 0px; text-decoration: none; color: rgb(204, 102, 0); border: 0px; \" target=\"_blank\">来源</a></p>
-","1337846181","0","46","0","0","0","0","#09C","") ') ;
+","1337846181","0","63","0","0","0","0","#09C","") ') ;
 		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_article") . '` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES ("95","","3","Ubuntu 官方中文名发布","","<p>
 	&nbsp;</p>
 <p style=\"margin: 5px 0px; padding: 5px 0px; font-family: Arial; font-size: 14px; line-height: 19px; color: rgb(76, 76, 76); \">
@@ -178,7 +181,7 @@ class DataInstaller implements IExtensionDataInstaller
 	<a href=\"http://wowubuntu.com/wp-content/uploads/2012/04/download-logo-chinese.png\" style=\"margin: 0px; padding: 0px; text-decoration: none; color: rgb(204, 102, 0); border: 0px; \"><img alt=\"\" class=\"alignnone size-full wp-image-6263\" height=\"35\" src=\"http://wowubuntu.com/wp-content/uploads/2012/04/download-logo-chinese.png\" style=\"margin: 0px; padding: 0px; border: none; text-align: center; max-width: 100%; \" title=\"download-logo-chinese\" width=\"268\" /></a></p>
 <p style=\"margin: 5px 0px; padding: 5px 0px; font-family: Arial; font-size: 14px; line-height: 19px; color: rgb(76, 76, 76); \">
 	目前这个 Logo 还在，看这里：&nbsp;<a href=\"http://www.ubuntu.com/download\" style=\"margin: 0px; padding: 0px; text-decoration: none; color: rgb(204, 102, 0); border: 0px; \">http://www.ubuntu.com/download</a>&nbsp;。</p>
-","1338877562","0","46","0","0","0","0","#be2d2d","") ') ;
+","1338877562","0","63","0","0","0","0","#be2d2d","") ') ;
 		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_article") . '` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES ("96","","3","Secure Shell","","<p>
 	&nbsp;</p>
 <p style=\"margin: 5px 0px; padding: 5px 0px; font-family: Arial; font-size: 14px; line-height: 19px; color: rgb(76, 76, 76); \">
@@ -195,7 +198,7 @@ class DataInstaller implements IExtensionDataInstaller
 	<a href=\"https://chrome.google.com/webstore/detail/pnhechapfaindjhompbnflcldabbghjo\" style=\"margin: 0px; padding: 0px; text-decoration: none; color: rgb(204, 102, 0); border: 0px; \">https://chrome.google.com/webstore/detail/pnhechapfaindjhompbnflcldabbghjo</a></p>
 <p style=\"margin: 5px 0px; padding: 5px 0px; font-family: Arial; font-size: 14px; line-height: 19px; color: rgb(76, 76, 76); \">
 	试用了一下，目前&nbsp;Secure Shell 的功能还比较弱，很多功能都不支持，比如不支持 Key 认证，不支持端口转发等等。</p>
-","1338877575","0","46","0","0","0","0","","") ') ;
+","1338877575","0","63","0","0","0","0","","") ') ;
 		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_article") . '` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES ("98","","2","那些不死的英雄","","<p>
 	&nbsp;</p>
 <p style=\"font-size: 14px; line-height: 23px; text-indent: 2em; color: rgb(0, 0, 0); font-family: 宋体, serif; text-align: justify; \">
@@ -206,7 +209,7 @@ class DataInstaller implements IExtensionDataInstaller
 	如果要说有哪个人出现在错误的时间和错误的地点，那就是内森了。这位寻宝猎人总是把自己置身于最危险、最恐怖的地方，但他总能奇迹一般的脱险。说实话我对此感到十分佩服，我很想知道为什么他总能在最危险的关头脱身。就连从飞机上掉落下来，与变异士兵交战和被数量军用卡车追赶也无法将他置于死地。</p>
 <p style=\"font-size: 14px; line-height: 23px; text-indent: 2em; color: rgb(0, 0, 0); font-family: 宋体, serif; text-align: justify; \">
 	他最接近死亡的一次是在《神秘海域2：纵横四海》中，他有一次悬在悬崖边上，差点摔落。只不过他最终还是逃生了，这人太恐怖了！</p>
-","1339037745","0","46","0","0","0","0","","") ') ;
+","1339037745","0","63","0","0","0","0","","") ') ;
 		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_article") . '` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES ("99","","6","凶手上网搜杀人方法留下大量证据","","<p>
 	&nbsp;</p>
 <p style=\"font-size: 14px; line-height: 23px; text-indent: 2em; color: rgb(0, 0, 0); font-family: 宋体, serif; text-align: justify; \">
@@ -255,7 +258,7 @@ class DataInstaller implements IExtensionDataInstaller
 	Okrzesik当天没有出现，而第二天就跑到当地一个康复门诊去报到了。Ayers后来向警方自首，现在因一级谋杀被控告，此案将在6月25日开庭审理。Orkzesik在5月10日被正式拘捕，由于证据充分，她马上就被定罪了。她的案子将会与6月7日被递交给陪审团。</p>
 <p style=\"font-size: 14px; line-height: 23px; text-indent: 2em; color: rgb(0, 0, 0); font-family: 宋体, serif; text-align: justify; \">
 	这绝对已经不是第一次罪犯们在社交网络和Google上留下犯罪证据了。早在2005年，就有一名苹果公司的Mac专家因 Google&ldquo;如何用折颈摔（neck snap break）杀掉我老婆&rdquo;而留下了证据。还有不少类似的案件，他们并不是说明社交网络对他们多有帮助，而是人们已经太过于依赖社交网络了。（来源：煎蛋）</p>
-","1339037867","0","46","0","0","0","0","","") ') ;
+","1339037867","0","63","0","0","0","0","","") ') ;
 		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_article") . '` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES ("100","","2","美国总统们语文水平","","<p>
 	&nbsp;</p>
 <p style=\"margin: 0px; padding: 0px 0px 1.2em; text-indent: 32px; color: rgb(85, 85, 85); font-family: \'Microsoft Yahei\', \'Helvetica Neue\', \'Luxi Sans\', \'DejaVu Sans\', Tahoma, \'Hiragino Sans GB\', STHeiti; font-size: 16px; line-height: 27px; background-color: rgb(247, 247, 247); \">
@@ -326,7 +329,7 @@ class DataInstaller implements IExtensionDataInstaller
 	然而真相是，肯尼迪总统其实并没有犯错。肯尼迪是美国人，并不是真正的柏林人，他在演讲中的指代更多也只是象征意味，因此在&ldquo;Berliner&rdquo;之前加上不定冠词并不算错。而将&ldquo;Berliner&rdquo;指代&ldquo;柏林甜甜圈&rdquo;，其实是柏林以外的德国人才有的习惯&mdash;&mdash;这种全名叫做&ldquo;Berliner Pfannkuchen&rdquo;(德国煎饼)的食品，柏林以外的人们喜欢称其为&ldquo;Berliner&rdquo;(柏林)，而柏林人则把它叫做&ldquo;Pfannkuchen&rdquo;(煎饼)。当年肯尼迪演讲时，在场的观众并没有对他的德语产生任何的误解，以德语为母语的听众也能够根据上下文的意思理解在这句话中的&ldquo;Berliner&rdquo;是指人而非甜甜圈。硬要认为肯尼迪曾经说过&ldquo;我是柏林甜甜圈&rdquo;，恐怕只是对德语一知半解的人们一厢情愿罢了。</p>
 <p style=\"margin: 0px; padding: 0px 0px 1.2em; text-indent: 32px; color: rgb(85, 85, 85); font-family: \'Microsoft Yahei\', \'Helvetica Neue\', \'Luxi Sans\', \'DejaVu Sans\', Tahoma, \'Hiragino Sans GB\', STHeiti; font-size: 16px; line-height: 27px; background-color: rgb(247, 247, 247); \">
 	以此类推，下次你见到一个老外高兴地对你说&ldquo;I am a Hamburger&rdquo;时可别上去大咬一口呀!人家可不是自称&ldquo;汉堡包&rdquo;，而是说自己的家乡是德国的汉堡。</p>
-","1339037918","0","46","0","0","0","0","","") ') ;
+","1339037918","0","63","0","0","0","0","","") ') ;
 		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_article") . '` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES ("101","","1","广州200人围捕飞车劫匪","","<p>
 	5分钟左右就抓到了一个，确实很快。（来广州）第一天便遇上了不顺心的事，但对广州的印象不会大打折扣。我以为丢了钱包报警，警察也不会怎么在意，但他们很快就帮我找回来了。　　&mdash;&mdash;&mdash;被抢事主陈女士</p>
 <div class=\"hzhwzl\">
@@ -339,7 +342,7 @@ class DataInstaller implements IExtensionDataInstaller
 	　　前日23：00左右，两百人参与搜捕，最终在小区一车 底 下 揪 出 第 二名劫匪</p>
 <p>
 	　　她来广州的第一天，在街上被摩托车飞抢。街坊们扶起受伤的她，帮忙报警。约5分钟后，夺路狂奔的飞抢摩托车，在洛溪新城南浦桥被警方撞倒，一名嫌犯被抓，一名嫌犯跳桥钻入附近小区。警方、治安队员、小区保安200余人，搜索1个多小时后，将躲在车</p>
-","1341554990","0","46","0","0","0","0","","") ') ;
+","1341554990","0","63","0","0","0","0","","") ') ;
 		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_article") . '` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES ("102","","1","四川男子不满情人劈腿捅其70刀 一审被判死刑","","<p class=\"first\">
 	现年40岁的四川男子程某平，面对已婚情人提出的分手要求仍不愿放手，几度要求复合都遭拒绝，愤而70余刀将情人捅 死。随后为免罪行败露，程某平又40余刀杀害与情人合租的有孕室友。昨日上午，身背3条人命的程某平，被广州中院一审以故意杀人罪判处死刑，赔偿受害人家 属费用共计40余万元。程某平当庭表示不服，要求上诉。被害人家属则表示接受判决结果。</p>
 <p>
@@ -350,7 +353,7 @@ class DataInstaller implements IExtensionDataInstaller
 	2010年10月，因为&ldquo;手紧&rdquo;，程某平还挪用了公司货款4万余元，带着李某水一起逃到岳阳开起了一家服装店。不久后，在李某水的提议下，两人又在海南呆了一段日子，但最终李某水还是决定回到广州。</p>
 <p>
 	&ldquo;回广州后不久，她就要和我分手。&rdquo;程某平怀疑李某水是不是背叛了自己，&ldquo;她上班发廊的老板娘告诉我，她又有其他男人了。&rdquo;当晚，程某平来到李某水的出租屋楼下，&ldquo;亲眼看见她上了一个50多岁老头的商务车&rdquo;。</p>
-","1341555030","0","46","0","0","0","0","#d71d1d","") ') ;
+","1341555030","0","63","0","0","0","0","#d71d1d","") ') ;
 		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_article") . '` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES ("103","","1","河南巩义城管强制瓜农买高价帐篷 不买不能卖瓜","","<p>
 	　　昨日，在巩义卖瓜的中牟瓜农老李向本报反映称，巩义市为了方便市民购瓜并对进城瓜农进行统一管理，城市管理行政执法局设立了很多瓜果临时便民 点。&ldquo;开始我们可感动，终于能光明正大地进城了，后来才发现我们自带的遮阳伞不让用，必须花300块买个带广告的帐篷。结果昨天下午一场大雨，执法局说帐 篷不合格，又让我们花200块买了把带广告的遮阳伞！&rdquo;</p>
 <p>
@@ -379,7 +382,7 @@ class DataInstaller implements IExtensionDataInstaller
 	　　老李和众多瓜农交的钱到底是啥性质？昨日下午，记者致电巩义汽车站第一瓜果临时便民点处公示的一个执法局座机电话，一名值班的男工作人员称其不清楚此事，并要记者打电话到市容中队了解情况。</p>
 <p>
 	　　记者以瓜农的身份进行咨询，市容中队一名男值班人员称，4日下午之所以要收瓜农的帐篷，是因为&ldquo;上面突击检查了，你们的帐篷不合格！你们没收到 发的粉色小条吗？拿着那条再去买个太阳伞就行了&rdquo;。记者问被收走的帐篷是否还能拿回时，该工作人员称&ldquo;你得先去服务中心接受处理再说&rdquo;。记者问等瓜农回家 时，上交的钱能否悉数退还时，该工作人员说：&ldquo;你能保证帐篷和伞完好无损吗？&rdquo;记者再追问瓜农所交的究竟是货款还是押金时，该工作人员避而不谈，并不耐烦 地说：&ldquo;撑帐篷和打伞都是有标准的，有疑问的话就来服务中心面谈吧！&rdquo;然后挂断了电话。线索提供李先生新闻热线0371-96211 □记者张瞧文闫化庄图</p>
-","1341555064","0","46","0","0","0","0","","") ') ;
+","1341555064","0","63","0","0","0","0","","") ') ;
 		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_article") . '` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES ("104","","4","国际液态奶三聚氰胺有新规 比国内标准严格近17倍","","<p>
 	　　昨天，曾让国人闻之色变的&ldquo;三聚氰胺&rdquo;再度引发热议。有媒体援引世界卫生组织消息称，联合国负责制定食品安全标准的国际食品法典委员会为牛奶中 三聚氰胺含量设定新标准，今后每千克液态牛奶中三聚氰胺含量不得超过0.15毫克。而该新标比现时我国相关标准严格近17倍。对此，有乳业专家认为，我国 企业若要执行国际新标准难度较大，其对企业检测仪器设备投入，对奶牛牧场饲料、奶源控制以及环境控制均有很大压力。</p>
 <p>
@@ -390,7 +393,7 @@ class DataInstaller implements IExtensionDataInstaller
 	　　据新标准规定，每千克液态牛奶中三聚氰胺含量不得超过0.15毫克。该组织机构曾规定，每千克用于制造奶粉的牛奶中三聚氰胺含量最多不得超过1毫克，其他食品中，三聚氰胺含量不得超过每千克2.5毫克。</p>
 <p>
 	　　世卫组织专家解释，三聚氰胺含量标准指食品中三聚氰胺自然的、不可避免的含量，而非人为添加的含量。&ldquo;制定三聚氰胺含量上限标准，有助于各国区别食品中无法避免且对健康无碍的三聚氰胺含量与蓄意添加三聚氰胺的行为。&rdquo;</p>
-","1341555102","0","46","0","0","0","0","","") ') ;
+","1341555102","0","63","0","0","0","0","","") ') ;
 		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_article") . '` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES ("105","","8","菲律宾抗议设三沙市 称从未请美方派机巡视南海","","<p>
 	　　本报讯 菲律宾外交部4日传召中国驻菲律宾大使马克卿，向中方提交照会，抗议中国近日设立三沙市。<br />
 	<br />
@@ -407,7 +410,7 @@ class DataInstaller implements IExtensionDataInstaller
 	　　阿基诺还澄清说，菲方并未请求美国侦察机巡视南海。他只是提了一下如有必要，可能要求美国派飞机帮助菲律宾。<br />
 	<br />
 	　　菲总统府发言人陈显达也用中文警告中国在发表南海有关声明时&ldquo;小心一点。&rdquo;(宗禾)</p>
-","1341555159","0","46","0","0","0","0","","") ') ;
+","1341555159","0","63","0","0","0","0","","") ') ;
 		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_article") . '` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES ("106","","7","孔卡问题成发布会焦点 里皮发怒：我只关心比赛","","<p>
 	　　有关孔卡<a href=\"http://weibo.com/u/2639934773?zw=sports\" target=\"_blank\">(微博)</a>想离开恒大<a href=\"http://weibo.com/u/2041593835?zw=sports\" target=\"_blank\">(微博)</a>的 肥皂剧依然在继续，并且有了最新的进展。昨天，阿根廷人已经向俱乐部正式提出了希望离开广州的想法，对于这一突如其来的变故，恒大董事长刘永灼用&ldquo;震惊&rdquo; 来加以形容，同时表示会全力挽留前者留在队中。但孔卡本人似乎已经铁了心想要回到自己熟悉的巴西联赛踢球，他甚至在接受阿根廷国家通讯社采访时提出了这样 一个设想，那就是自掏300万欧元来买断自己的合同，获得自由身。</p>
 <p>
@@ -426,7 +429,10 @@ class DataInstaller implements IExtensionDataInstaller
 	　　无奈之下，记者只好追问道：&ldquo;俱乐部已经官方证实了，刘总在接受采访中确认过，作为主教练也可以做出一些回应吧？&rdquo;此时里皮的脸色已经有些不 悦，&ldquo;我只关心明天的比赛，不谈比赛之外的事。有什么等比赛结束后再谈。&nbsp;&rdquo;当记者第三次追问道&ldquo;如果孔卡真的离开，会对你的技战术设计影响严重么&rdquo;这样 的问题后，翻译已经不敢再将这个问题传达给银狐了，因为后者已经脸色铁青。</p>
 <p>
 	　　在巴西媒体的描述下，孔卡似乎在恒大一天也呆不下去了，但在昨天的赛前训练中，这位阿根廷球星显得心情不错。在整个训练过程中，他都是有说有笑 地在和队友、助教们交流，还时不时会做一些搞怪动作，并发出爽朗的笑声。而在训练结束之后，当记者向孔卡求证有关希望离开的说法时，后者表示，现在不方便 发表任何言论，要等待转会事件尘埃落定之后才会接受采访。</p>
-","1341555200","0","46","0","0","0","0","","") ') ;
+","1341555200","0","63","0","0","0","0","","") ') ;
+		$nDataRows+= $aDB->execute( 'REPLACE INTO `' . $aDB->transTableName("opencms_article") . '` (`aid`,`from`,`cid`,`title`,`summary`,`text`,`createTime`,`author`,`views`,`recommend`,`title_bold`,`title_italic`,`title_strikethrough`,`title_color`,`url`) VALUES ("108","","1","aaaaaaaaaaaaaaaa","","<p>
+	aaaaaaaaaaaaaaaaaaaaaa</p>
+","1342077499","0","63","0","0","0","0","","aaaaaaaaaaaaa") ') ;
 		$aMessageQueue->create(Message::success,'向数据表%s插入了%d行记录。',array($aDB->transTableName("opencms_article"),$nDataRows));
 			
 		$nDataRows = 0 ;
@@ -581,8 +587,13 @@ class DataInstaller implements IExtensionDataInstaller
 		
 		// 4. files
 		
-		$sFromPath = '/home/gaojun/www/oc.loader/extensions/opencms/0.2/data/public';
+		$sFromPath = $aExtension->metainfo()->installPath()."/data/public";
 		$sDestPath = $aExtension ->filesFolder()->path();
+		Folder::RecursiveCopy( $sFromPath , $sDestPath );
+		$aMessageQueue->create(Message::success,'复制文件夹： `%s` to `%s`',array($sFromPath,$sDestPath));
+		
+		$sFromPath = $aExtension->metainfo()->installPath()."/data/setup";
+		$sDestPath = $aExtension->dataFolder()->path();
 		Folder::RecursiveCopy( $sFromPath , $sDestPath );
 		$aMessageQueue->create(Message::success,'复制文件夹： `%s` to `%s`',array($sFromPath,$sDestPath));
 		
