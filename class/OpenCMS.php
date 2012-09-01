@@ -53,7 +53,7 @@ class OpenCMS extends Extension
 	{
 		// 调用原始原始函数
 		$aSetting = \org\jecat\framework\system\Application::singleton()->extensions()->extension('opencms')->setting() ;
-		$arrMenus = $aSetting->item('/menu/mainmenu','mainmenu',array()) ;
+		$arrMenus = $aSetting->value('/menu/mainmenu/mainmenu',array()) ;
 		
 		// 合并配置数组，增加菜单
 		BeanFactory::mergeConfig( $arrConfig , $arrMenus ) ;

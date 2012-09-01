@@ -37,7 +37,7 @@ class IndexManage extends ControlPanel
 		
 		$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
 		
-		$arrTopLists = $aSetting->item('/index/toplist','toplist',array()) ;
+		$arrTopLists = $aSetting->value('/index/toplist/toplist',array()) ;
 		
 		$this->view->variables()->set('arrTopLists',$arrTopLists) ;
 		$this->view()->setModel($aModel);
@@ -63,7 +63,7 @@ class IndexManage extends ControlPanel
 		}
 		$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
 		
-		$aSetting->setItem('/index/toplist','toplist',$arrTopLists) ;
+		$aSetting->setValue('/index/toplist/toplist',$arrTopLists) ;
 			
 		$this->view->variables()->set('arrTopLists',$arrTopLists) ;
 		
