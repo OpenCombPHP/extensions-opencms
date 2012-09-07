@@ -459,7 +459,7 @@ class DataInstaller implements IExtensionDataInstaller
 		$aSetting = $aExtension->setting() ;
 			
 				
-		$aSetting->setItem('/index/toplist/','toplist',array (
+		$aSetting->setValue('/index/toplist/toplist',array (
   1 => 
   array (
     'index_new' => '1',
@@ -510,10 +510,10 @@ class DataInstaller implements IExtensionDataInstaller
   ),
 ));
 				
-		$aMessageQueue->create(Message::success,'保存配置：%s',"/index/toplist/");
+		$aMessageQueue->create(Message::success,'保存配置：%s',"/index/toplist/toplist");
 			
 				
-		$aSetting->setItem('/menu/mainmenu/','mainmenu',array (
+		$aSetting->setValue('/menu/mainmenu/mainmenu',array (
   'item:2' => 
   array (
     'title' => '设计作品',
@@ -576,12 +576,12 @@ class DataInstaller implements IExtensionDataInstaller
   ),
 ));
 				
-		$aMessageQueue->create(Message::success,'保存配置：%s',"/menu/mainmenu/");
+		$aMessageQueue->create(Message::success,'保存配置：%s',"/menu/mainmenu/mainmenu");
 			
 				
-		$aSetting->setItem('/','data-version','0.2.0');
+		$aSetting->setValue('/data-version','0.2.0');
 				
-		$aMessageQueue->create(Message::success,'保存配置：%s',"/");
+		$aMessageQueue->create(Message::success,'保存配置：%s',"/data-version");
 			
 		
 		
