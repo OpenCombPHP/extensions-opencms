@@ -59,8 +59,10 @@ class ArticleList extends Controller
 		    }
 		    
 			//准备分类信息
-			if(!$categoryModel->load($this->params->get("cid"),'cid')){
-				$this->messageQueue ()->create ( Message::error, "无效的分类编号" );
+		    $categoryModel->load($this->params->get("cid"),'cid');
+			if( $categoryModel->rowNum() === 0 ) {
+				$this->messageQueue ()->create( Message::error, "无效的分类编号" );
+				return;
 			}
 			
 			$this->setTitle($categoryModel->data('title') . " - " . $this->title());
