@@ -1,19 +1,11 @@
 <?php
 namespace org\opencomb\opencms\category;
 
-
-
 use org\jecat\framework\mvc\model\Model;
-
 use org\jecat\framework\mvc\model\Category;
-
 use org\jecat\framework\mvc\view\DataExchanger;
-
 use org\jecat\framework\message\Message;
-
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
-
-
 
 class EditCategory extends ControlPanel
 {
@@ -116,23 +108,33 @@ class EditCategory extends ControlPanel
 			$aCategory->insertCategoryToPoint($arrNewParent[0]==0 ? Category::end : $arrNewParent[1]);
 
 		}
+		// if ($categoryModel->update(
+		//         array(
+		//                 'title'=>$this->params['category_title'],
+		//                 'description'=>$this->params['category_dec'],
+  //               ),
+		//         "cid = '{$this->params['cid']}'" 
+  //       ))
 
-		if ($categoryModel->update(
+		// {
+		// 	$this->messageQueue ()->create ( Message::success, "栏目保存成功" );
+		//     $this->location('?c=org.opencomb.opencms.category.CategoryManage');
+		// }
+		// else
+		// {
+		// 	$this->messageQueue ()->create ( Message::error, "栏目保存失败" );
+		// }
+
+
+		$categoryModel->update(
 		        array(
 		                'title'=>$this->params['category_title'],
 		                'description'=>$this->params['category_dec'],
                 ),
 		        "cid = '{$this->params['cid']}'" 
-        ))
-
-		{
-			$this->messageQueue ()->create ( Message::success, "栏目保存成功" );
-		    $this->location('?c=org.opencomb.opencms.category.CategoryManage');
-		}
-		else
-		{
-			$this->messageQueue ()->create ( Message::error, "栏目保存失败" );
-		}
+        );
+		$this->messageQueue ()->create ( Message::success, "栏目保存成功" );
+	    $this->location('?c=org.opencomb.opencms.category.CategoryManage');
 	}
 	
 	/**

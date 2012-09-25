@@ -70,6 +70,8 @@ class CreateCategory extends ControlPanel
 			//添加子栏目
 			$aCategory->insertCategoryToPoint((int)$target[1]);
 		}
+		
+		$this->messageQueue ()->create ( Message::success, "新建栏目成功" );
 		$this->location('?c=org.opencomb.opencms.category.CategoryManage');
 	}
 }
