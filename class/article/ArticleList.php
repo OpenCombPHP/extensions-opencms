@@ -57,7 +57,7 @@ class ArticleList extends Controller
 		    
 			//准备分类信息
 		    $categoryModel->load($this->params->get("cid"),'cid');
-		    $categoryModel2 = $categoryModel->clone();
+		    $categoryModel2 = clone $categoryModel;
 			if( $categoryModel->rowNum() === 0 ) {
 				$this->messageQueue ()->create( Message::error, "无效的分类编号" );
 				return;
