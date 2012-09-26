@@ -2,11 +2,8 @@
 namespace org\opencomb\opencms\article;
 
 use org\jecat\framework\mvc\model\Category;
-
 use org\jecat\framework\db\DB;
-
 use org\jecat\framework\mvc\model\Model;
-
 use org\opencomb\platform\ext\Extension;
 use org\opencomb\coresystem\mvc\controller\Controller;
 use org\jecat\framework\message\Message;

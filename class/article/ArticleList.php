@@ -2,11 +2,8 @@
 namespace org\opencomb\opencms\article;
 
 use org\jecat\framework\db\DB;
-
 use org\jecat\framework\mvc\model\Model;
-
 use org\jecat\framework\mvc\model\Category;
-
 use org\opencomb\coresystem\mvc\controller\Controller;
 use org\jecat\framework\message\Message;
 
@@ -73,6 +70,17 @@ class ArticleList extends Controller
 			
 			//DB::singleton()->executeLog() ;
 			$this->view()->setModel($articlesModel);
+
+
+			$aParentsModelList = Category::getParents($categoryModel);
+			$arrModels = array();
+			foreach($aParentsModelList as $aModel)
+			{
+			    $arrModels[] = $aParentsModelList->alone();
+			}
+			$arrModels[] = $aParentsModelList->alone();
+			//显示上级分类
+			$this->params()->set('arrParentCat' , $arrModels) ;
 			
 			//把cid传给frame
 			$this->params()->set('cid',$this->params->get("cid"));
