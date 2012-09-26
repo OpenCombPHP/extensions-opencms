@@ -72,7 +72,7 @@ class ArticleList extends Controller
 			//DB::singleton()->executeLog() ;
 			$this->view()->setModel($articlesModel);
 
-			$categoryModel1 = clone $categoryModel;
+			$categoryModel1 = Model::Create('opencms:category');
 			$categoryModel1->load($this->params->get("cid"),'cid');
 			$aParentsModelList = Category::getParents($categoryModel1);
 			$arrModels = array();
