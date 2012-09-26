@@ -57,7 +57,7 @@ class ArticleList extends Controller
 		    
 			//准备分类信息
 		    $categoryModel->load($this->params->get("cid"),'cid');
-		    $categoryModel2 = clone $categoryModel;
+		    
 			if( $categoryModel->rowNum() === 0 ) {
 				$this->messageQueue ()->create( Message::error, "无效的分类编号" );
 				return;
@@ -72,8 +72,9 @@ class ArticleList extends Controller
 			//DB::singleton()->executeLog() ;
 			$this->view()->setModel($articlesModel);
 
-
-			$aParentsModelList = Category::getParents($categoryModel2);
+			$categoryModel1 = clone $categoryModel;
+			$categoryModel1->load($this->params->get("cid"),'cid');
+			$aParentsModelList = Category::getParents($categoryModel1);
 			$arrModels = array();
 			foreach($aParentsModelList as $aModel)
 			{
