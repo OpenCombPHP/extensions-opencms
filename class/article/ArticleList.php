@@ -74,10 +74,12 @@ class ArticleList extends Controller
 
 			$categoryModel1 = Model::Create('opencms:category');
 			$categoryModel1->load($this->params->get("cid"),'cid');
+
 			$aParentsModelList = Category::getParents($categoryModel1);
 			$arrCats = array();
 			foreach($aParentsModelList as $aModel)
 			{
+				var_dump($aModel['title']);
 			    $arrCats[$aModel['cid']] = $aModel['title'];
 			}
 			//显示上级分类
