@@ -79,7 +79,6 @@ class ArticleList extends Controller
 			$arrCats = array();
 			foreach($aParentsModelList as $aModel)
 			{
-				var_dump($aModel['title']);exit;
 			    $arrCats[$aModel['cid']] = $aModel['title'];
 			}
 			//显示上级分类
