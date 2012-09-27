@@ -81,8 +81,8 @@ class ArticleList extends Controller
 			    $arrCats[$aModel['cid']] = $aModel['title'];
 			}
 			//显示上级分类
-			$this->params()->set('arrParentCat' , $arrCats) ;
-			
+			$this->view()->CategoryList->variables ()->set('arrParentCat' , $arrCats);
+
 			//把cid传给frame
 			$this->params()->set('cid',$this->params->get("cid"));
 			
