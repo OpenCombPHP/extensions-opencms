@@ -62,8 +62,7 @@ class ArticleList extends Controller
 				$this->messageQueue ()->create( Message::error, "无效的分类编号" );
 				return;
 			}
-			
-			$this->setTitle($categoryModel->data('title') . " - " . $this->title());
+			$this->setTitle($categoryModel->data('title') . " - 文章列表" );
 
 			//$articlesModel->where("`article`.`cid` ='{$this->params->get("cid")}'");
 			$articlesModel->where("category.lft>={$categoryModel->lft} and category.lft<={$categoryModel->rgt} and category.rgt>={$categoryModel->lft} and category.rgt<={$categoryModel->rgt}");
