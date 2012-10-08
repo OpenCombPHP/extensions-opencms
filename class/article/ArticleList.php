@@ -2,11 +2,8 @@
 namespace org\opencomb\opencms\article;
 
 use org\jecat\framework\db\DB;
-
 use org\jecat\framework\mvc\model\Model;
-
 use org\jecat\framework\mvc\model\Category;
-
 use org\opencomb\coresystem\mvc\controller\Controller;
 use org\jecat\framework\message\Message;
 
@@ -59,11 +56,13 @@ class ArticleList extends Controller
 		    }
 		    
 			//准备分类信息
-			if(!$categoryModel->load($this->params->get("cid"),'cid')){
-				$this->messageQueue ()->create ( Message::error, "无效的分类编号" );
+		    $categoryModel->load($this->params->get("cid"),'cid');
+		    
+			if( $categoryModel->rowNum() === 0 ) {
+				$this->messageQueue ()->create( Message::error, "无效的分类编号" );
+				return;
 			}
-			
-			$this->setTitle($categoryModel->data('title') . " - " . $this->title());
+			$this->setTitle($categoryModel->data('title') . " - 文章列表" );
 
 			//$articlesModel->where("`article`.`cid` ='{$this->params->get("cid")}'");
 			$articlesModel->where("category.lft>={$categoryModel->lft} and category.lft<={$categoryModel->rgt} and category.rgt>={$categoryModel->lft} and category.rgt<={$categoryModel->rgt}");
@@ -71,7 +70,19 @@ class ArticleList extends Controller
 			
 			//DB::singleton()->executeLog() ;
 			$this->view()->setModel($articlesModel);
-			
+
+			$categoryModel1 = Model::Create('opencms:category');
+			$categoryModel1->load($this->params->get("cid"),'cid');
+
+			$aParentsModelList = Category::getParents($categoryModel1);
+			$arrCats = array();
+			foreach($aParentsModelList as $aModel)
+			{
+			    $arrCats[$aModel['cid']] = $aModel['title'];
+			}
+			//显示上级分类
+			$this->view()->CategoryList->variables ()->set('arrParentCat' , $arrCats);
+
 			//把cid传给frame
 			$this->params()->set('cid',$this->params->get("cid"));
 			

@@ -40,7 +40,7 @@ class MenuManage extends ControlPanel
 		Category::buildTree($categoryModel);
 		
 		$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
-		$arrMenus = $aSetting->item('/menu/mainmenu','mainmenu',array()) ;
+		$arrMenus = $aSetting->value('/menu/mainmenu/mainmenu',array()) ;
 		
 		$this->view()->setModel($categoryModel);
 		$this->view->variables()->set('arrMenus',$arrMenus) ;
@@ -87,7 +87,7 @@ class MenuManage extends ControlPanel
 		if(!$arrMenus){
 			$aSetting->deleteKey('/menu/mainmenu');
 		}else{
-			$aSetting->setItem('/menu/mainmenu','mainmenu',$arrMenus) ;
+			$aSetting->setValue('/menu/mainmenu/mainmenu',$arrMenus) ;
 		}
 		
 		$this->view->variables()->set('arrMenus',$arrMenus) ;

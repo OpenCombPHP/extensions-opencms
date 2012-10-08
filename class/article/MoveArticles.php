@@ -28,30 +28,34 @@ class MoveArticles extends ControlPanel
 	
 	public function process()
 	{
-		//权限
-		$this->requirePurview('purview:admin_category','opencms',$this->params->get('from'),'您没有这个分类的管理权限,无法继续浏览');
-		$this->requirePurview('purview:admin_category','opencms',$this->params->get('to'),'您没有这个分类的管理权限,无法继续浏览');
-		
+
 		if(empty($this->params['from']) || empty($this->params['to'])){
 			$this->messageQueue ()->create ( Message::error, "提供的参数不完整" );
 			return;
 		}
+
+		//权限
+		$this->requirePurview('purview:admin_category','opencms',$this->params->get('from'),'您没有这个分类的管理权限,无法继续浏览');
+		$this->requirePurview('purview:admin_category','opencms',$this->params->get('to'),'您没有这个分类的管理权限,无法继续浏览');
 		
 		$articlesModel = Model::Create('opencms:article');
 			
 		$arrFromCategorys = explode('_', $this->params->get('from'));
 		
-		
-		
-		
-		
 		$nToCategory = (int)$this->params->get('to');
 		
-		if(DB::singleton()->execute("UPDATE opencms_article SET  `cid` = '{$nToCategory}' WHERE `cid` in (" . implode(',', $arrFromCategorys) . ");")){
-			$this->messageQueue ()->create ( Message::success, "成功转移了文章" );
-		}else{
-			$this->messageQueue ()->create ( Message::error, "没有转移任何文章,可能是因为没有找到文章或者目标栏目不存在" );
-			return;
-		}
+		$articlesModel->update(
+				array( 'cid' => $nToCategory )
+				, "`cid` in (" . implode(',', $arrFromCategorys) . ")"    //where
+			);
+
+		$this->messageQueue ()->create ( Message::success, "成功转移了文章" );
+
+		// if(DB::singleton()->execute("UPDATE opencms_article SET  `cid` = '{$nToCategory}' WHERE `cid` in (" . implode(',', $arrFromCategorys) . ");")){
+		// 	$this->messageQueue ()->create ( Message::success, "成功转移了文章" );
+		// }else{
+		// 	$this->messageQueue ()->create ( Message::error, "没有转移任何文章,可能是因为没有找到文章或者目标栏目不存在" );
+		// 	return;
+		// }
 	}
 }

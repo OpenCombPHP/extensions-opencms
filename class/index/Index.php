@@ -17,7 +17,7 @@ class Index extends Controller
 	public function process()
 	{		
 		$aSetting = Application::singleton()->extensions()->extension('opencms')->setting() ;
-		$arrTopLists = $aSetting->item('/index/toplist','toplist',array()) ;
+		$arrTopLists = $aSetting->value('/index/toplist/toplist',array()) ;
 		
 		if(count($arrTopLists) > 0){
 			foreach($arrTopLists as $nCid => $arrTopList)

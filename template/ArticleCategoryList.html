@@ -1,4 +1,4 @@
-<if "$theModel->rowNum() > 0">
+<if "!$theModel || $theModel->rowNum() > 0">
 <div id='articleList' class="articleList">
 	<table class="article-table" width='100%' style="font-size:12px">
 		<thead>
