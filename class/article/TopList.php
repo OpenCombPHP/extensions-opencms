@@ -57,11 +57,18 @@ class TopList extends Controller
 		if($this->params->has('subCat_'.$type) and $this->params->get('subCat_'.$type) == 1)
 		{
 			$aCatChildren = Category::getChildren($categoryModel);
-			$arrCatChildren = array();
-			foreach($aCatChildren as $aChild){
-				$arrCatChildren[] = $aChild['cid'];
+			if($aCatChildren->rowNum() > 0){
+				$arrCatChildren = array();
+				foreach($aCatChildren as $aChild){
+					$arrCatChildren[] = $aChild['cid'];
+				}
+
+				$sWhere = "`article`.`cid` IN (" . implode(',', $arrCatChildren) . ")";
+			}else{
+				$sWhere = "`article`.`cid` = '" . $categoryModel['cid'] . "'";
 			}
-			$articleModel->where("`article`.`cid` IN (" . implode(',', $arrCatChildren) . ")" );
+
+			$articleModel->where( $sWhere );
 			$articleModel->load();
 		}
 		//遍历范围,所有层
