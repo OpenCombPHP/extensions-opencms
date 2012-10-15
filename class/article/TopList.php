@@ -62,7 +62,7 @@ class TopList extends Controller
 				foreach($aCatChildren as $aChild){
 					$arrCatChildren[] = $aChild['cid'];
 				}
-
+				$arrCatChildren[] = $this->params->get("cid");
 				$sWhere = "`article`.`cid` IN (" . implode(',', $arrCatChildren) . ")";
 			}else{
 				$sWhere = "`article`.`cid` = '" . $categoryModel['cid'] . "'";
