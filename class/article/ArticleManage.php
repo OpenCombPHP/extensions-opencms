@@ -26,7 +26,8 @@ class ArticleManage extends ControlPanel
 		$categoryModel = Model::Create('opencms:category');
 		
 		$articlesModel = Model::Create('opencms:article')
-		    ->belongsTo('opencms:category','cid','cid');
+		    ->belongsTo('opencms:category','cid','cid')
+		    ->order('createTime');
 		
 		if($this->params->get('cid'))
 		{
