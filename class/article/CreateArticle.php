@@ -214,7 +214,7 @@ class CreateArticle extends ControlPanel
 	        }elseif($filetype == 'image/gif'){
 	        	$file = imagecreatefromgif($sFileTempName);
 	        }elseif($filetype == 'image/png'){
-	        	$file = imagecreatefrompng($sileTempName);
+	        	$file = imagecreatefrompng($sFileTempName);
 	        }
 
 	        // if(function_exists("imagecopyresampled"))
