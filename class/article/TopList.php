@@ -1,10 +1,9 @@
 <?php
 namespace org\opencomb\opencms\article;
 
+use org\jecat\framework\mvc\model\Category;
 use org\jecat\framework\db\DB;
-
 use org\jecat\framework\mvc\model\Model;
-
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\Controller;
 
@@ -13,7 +12,6 @@ class TopList extends Controller
 	protected $arrConfig = array(
 			'view'=>array(
 				'template'=>'opencms:TopList.html',
-				'cssClass'=>'jc-view-decorater-oc',
 			),
 	) ;	
 	
@@ -24,17 +22,9 @@ class TopList extends Controller
 	    
 	    $type = $this->params->get('type');
 
-	    
 	    //遍历范围,仅第一层
-	    if($this->params->has('subCat_'.$type) and $this->params->get('subCat'.$type) == 1)
-	    {
-	        $articleModel = Model::create('opencms:article')
+	    $articleModel = Model::create('opencms:article')
 	        ->limit($this->params->get("limit_".$type));
-	    }else{  //遍历范围,所有层
-	        $articleModel = Model::create('opencms:article')
-		    ->hasOne('opencms:category','cid','cid')
-	        ->limit($this->params->get("limit_".$type));
-	    }
 	    
 	    //排序,默认按照时间反序排列
 	    if($this->params->has('orderby')){
@@ -46,8 +36,8 @@ class TopList extends Controller
 	        
 	    }
 	    
-	    //排序
-	    if($this->params->has("limit".$type)){
+	    //limit
+	    if($this->params->has("limit_".$type)){
 	        $articleModel->limit($this->params->get("limit_".$type));
 	    }
 	    
@@ -62,17 +52,29 @@ class TopList extends Controller
 		}
 		$this->view->variables()->set('sCategoryTitle',$categoryModel->data('title')) ;
 		$this->view->variables()->set('nCid',$this->params->get("cid")) ;
-		
+
 		//遍历范围,仅第一层
-		if($this->params->has('subCat') and $this->params->get('subCat') == 1)
+		if($this->params->has('subCat_'.$type) and $this->params->get('subCat_'.$type) == 1)
 		{
-			$articleModel->load($this->params->get('cid'),'cid') ;
+			$aCatChildren = Category::getChildren($categoryModel);
+			if($aCatChildren->rowNum() > 0){
+				$arrCatChildren = array();
+				foreach($aCatChildren as $aChild){
+					$arrCatChildren[] = $aChild['cid'];
+				}
+				$arrCatChildren[] = $this->params->get("cid");
+				$sWhere = "`article`.`cid` IN (" . implode(',', $arrCatChildren) . ")";
+			}else{
+				$sWhere = "`article`.`cid` = '" . $categoryModel['cid'] . "'";
+			}
+
+			$articleModel->where( $sWhere );
+			$articleModel->load();
 		}
 		//遍历范围,所有层
 		else
 		{
-			$articleModel->where("`article`.`cid` ='{$this->params->get("cid")}'");
-			$articleModel->load();
+			$articleModel->load($this->params->get('cid'),'cid') ;
 		}
 		
 		$this->view()->setModel($articleModel);

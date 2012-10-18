@@ -21,15 +21,18 @@ class Index extends Controller
 		
 		if(count($arrTopLists) > 0){
 			foreach($arrTopLists as $nCid => $arrTopList)
-			{
+			{	
+
 				if(isset($arrTopList['index_new'])){
 					$aToplist = new TopList(array_merge($arrTopList,array('cid'=>$nCid , 'orderby'=>'createTime','type'=>'new')));
 					$this->add($aToplist , 'topList_new_'.$nCid );
 				}
+				// var_dump('new',array_merge($arrTopList,array('cid'=>$nCid , 'orderby'=>'createTime','type'=>'new')));
 				if(isset($arrTopList['index_hot'])){
 					$aToplist = new TopList(array_merge($arrTopList,array('cid'=>$nCid , 'orderby'=>'views','type'=>'hot')));
 					$this->add($aToplist , 'topList_hot_'.$nCid );
 				}
+				// var_dump('hot',array_merge($arrTopList,array('cid'=>$nCid , 'orderby'=>'views','type'=>'hot')));
 			}
 		}else{
 			//TODO  输出提示文字,让管理员设置首页

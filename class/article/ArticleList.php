@@ -66,6 +66,7 @@ class ArticleList extends Controller
 
 			//$articlesModel->where("`article`.`cid` ='{$this->params->get("cid")}'");
 			$articlesModel->where("category.lft>={$categoryModel->lft} and category.lft<={$categoryModel->rgt} and category.rgt>={$categoryModel->lft} and category.rgt<={$categoryModel->rgt}");
+			$this->view()->widget('paginator')->setPaginal($articlesModel);
 			$articlesModel->load();
 			
 			//DB::singleton()->executeLog() ;
