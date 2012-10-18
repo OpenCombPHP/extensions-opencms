@@ -576,7 +576,11 @@ class DataInstaller implements IExtensionDataInstaller
 		$aMessageQueue->create(Message::success,'保存配置：%s',"/menu/mainmenu/mainmenu");
 			
 				
+<<<<<<< HEAD
+		$aSetting->setItem('/','data-version','0.1.0');
+=======
 		$aSetting->setValue('/data-version','0.2.0');
+>>>>>>> 62c7e6289ba829364fc854b3917e8e355eaff89d
 				
 		$aMessageQueue->create(Message::success,'保存配置：%s',"/data-version");
 			

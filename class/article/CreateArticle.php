@@ -77,9 +77,11 @@ class CreateArticle extends ControlPanel
 				
 			foreach($arrArticleFiles['name'] as $nKey=>$sFileName)
 			{
+			    
 				$sFileTempName = $arrArticleFiles['tmp_name'][$nKey];
 				$sFileType = $arrArticleFiles['type'][$nKey];
 				$sFileSize = $arrArticleFiles['size'][$nKey];
+			    
 				//文件是否上传成功
 				if( empty($sFileTempName) || empty($sFileType) || empty($sFileSize) )
 				{
@@ -121,32 +123,43 @@ class CreateArticle extends ControlPanel
 
 				$arrIndexs = explode(',', $this->params->get('article_files_index'));
 
-				
-				$newAttachment = array(
+				$newAttachment['attachment'][] = 
 				        array(
 				                'attachment.orginname'=>$sFileName,
 				                'attachment.storepath'=>$sSavedFileRelativePath,
 				                'attachment.size'=>$sFileSize,
 				                'attachment.type'=>$sFileType,
 				                'attachment.index'=>$arrIndexs[$nKey],
-		                )
-				);
+		                );
 				
 				if(!in_array((string)( $arrIndexs[$nKey]), $arrArticleFilesList))
 				{
 				    $newAttachment['displayInList'] = 0;
 				}
-		        $articlesModel->setData('attachment', $newAttachment);
+		        //$articlesModel->setData('attachment', $newAttachment);
 			}
+			
+			
 		}
 		/*           end 处理附件             */
-
-		$articlesModel->setData("createTime", time());
-		$this->view()->setModel($articlesModel);
-		$this->view()->fetch();
 		
+		$newAttachment['createTime'] = time();
+		$newAttachment['from '] = $this->params->get('article_title');
+		$newAttachment['cid'] = $this->params->get('article_cat');
+		$newAttachment['title'] = $this->params->get('article_title');
+		$newAttachment['summary'] = $this->params->get('article_content');
+		$newAttachment['text'] = $this->params->get('article_content');
+		$newAttachment['author'] = $this->params->get('article_author');
+		$newAttachment['title_bold'] = $this->params->get('article_title_bold');
+		$newAttachment['title_italic'] = $this->params->get('article_title_italic');
+		$newAttachment['title_strikethrough'] = $this->params->get('article_title_strikethrough');
+		$newAttachment['title_color'] = $this->params->get('article_title_color');
+		$newAttachment['url'] = $this->params->get('article_url');
+		//$articlesModel->setData("createTime", time());
+		//$this->view()->setModel($articlesModel);
+		//$this->view()->fetch();
 		
-		if ($articlesModel->insert())
+		if ($articlesModel->insert($newAttachment))
 		{
 			$this->messageQueue ()->create ( Message::success, "文章保存成功" );
 			$this->location('?c=org.opencomb.opencms.article.ArticleManage');
