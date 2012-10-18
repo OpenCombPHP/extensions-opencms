@@ -45,6 +45,8 @@ class CreateArticle extends ControlPanel
 		
 		$this->view->variables()->set('page_h1',"新建文章") ;
 		$this->view->variables()->set('save_button',"发布文章") ;
+		$this->view->variables()->set('uploadSize',$this->getUploadSize()) ;
+
 		
 		$this->doActions();
 	}
@@ -241,6 +243,42 @@ class CreateArticle extends ControlPanel
 	    {
 	        //do nothing
 	    }           
+	}
+
+	public function getUploadSize()
+	{
+		if (! $filesize = ini_get('upload_max_filesize')) {
+		    $filesize = "5M";
+		}
+
+		if ($postsize = ini_get('post_max_size')) {
+		    return min($this->PMA_get_real_size($filesize), $this->PMA_get_real_size($postsize));
+		} else {
+		    return $this->PMA_get_real_size($filesize);
+		}
+	}
+
+	private function PMA_get_real_size($size = 0)
+	{
+	    if (! $size) {
+	        return 0;
+	    }
+
+	    $scan['gb'] = 1073741824; //1024 * 1024 * 1024;
+	    $scan['g']  = 1073741824; //1024 * 1024 * 1024;
+	    $scan['mb'] = 1048576;
+	    $scan['m']  = 1048576;
+	    $scan['kb'] =    1024;
+	    $scan['k']  =    1024;
+	    $scan['b']  =       1;
+
+	    foreach ($scan as $unit => $factor) {
+	        if (strlen($size) > strlen($unit)
+	         && strtolower(substr($size, strlen($size) - strlen($unit))) == $unit) {
+	            return (int)( (substr($size, 0, strlen($size) - strlen($unit)) * $factor)/1000000);
+	        }
+	    }
+	    return (int)($size/1000000);
 	}
 	
 }
