@@ -169,4 +169,78 @@ class CreateArticle extends ControlPanel
 			$this->messageQueue ()->create ( Message::error, "文章保存失败" );
 		}
 	}
+
+
+	public function resizeImage($sFileTempName , $maxwidth , $maxheight = null)
+	{
+	    $arrImgInfo = \getImageSize($sFileTempName);
+		$pic_width = $arrImgInfo[0];
+		$pic_height = $arrImgInfo[1];
+		$filetype = $arrImgInfo['mime'];
+
+	    if(($maxwidth && $pic_width > $maxwidth) || ($maxheight && $pic_height > $maxheight))
+	    {
+	        if($maxwidth && $pic_width>$maxwidth)
+	        {
+	            $widthratio = $maxwidth/$pic_width;
+	            $resizewidth_tag = true;
+	        }
+	        $resizeheight_tag = false;
+	        if($maxheight && $pic_height>$maxheight)
+	        {
+	            $heightratio = $maxheight/$pic_height;
+	            $resizeheight_tag = true;
+	        }
+	        if($resizewidth_tag && $resizeheight_tag)
+	        {
+	            if($widthratio<$heightratio)
+	                $ratio = $widthratio;
+	            else
+	                $ratio = $heightratio;
+	        }
+	        if($resizewidth_tag && !$resizeheight_tag)
+	            $ratio = $widthratio;
+	        if($resizeheight_tag && !$resizewidth_tag)
+	            $ratio = $heightratio;
+	        $newwidth = $pic_width * $ratio;
+	        $newheight = $pic_height * $ratio;
+
+
+	        $file = null;
+	        if( $filetype == 'image/jpeg'){
+	        	$file = imagecreatefromjpeg($sFileTempName);
+	        }elseif($filetype == 'image/gif'){
+	        	$file = imagecreatefromgif($sFileTempName);
+	        }elseif($filetype == 'image/png'){
+	        	$file = imagecreatefrompng($sileTempName);
+	        }
+
+	        // if(function_exists("imagecopyresampled"))
+	        // {
+	            $newim = imagecreatetruecolor($newwidth,$newheight);
+	           imagecopyresampled($newim,$file,0,0,0,0,$newwidth,$newheight,$pic_width,$pic_height);
+	        // }
+	        // else
+	        // {
+	        //     $newim = imagecreate($newwidth,$newheight);
+	        //    imagecopyresized($newim,$file,0,0,0,0,$newwidth,$newheight,$pic_width,$pic_height);
+	        // }
+
+	        unlink($sFileTempName);
+
+	        if( $filetype == 'image/jpeg'){
+	        	imagejpeg($newim,$sFileTempName);
+	        }elseif($filetype == 'image/gif'){
+	        	imagegif($newim,$sFileTempName);
+	        }elseif($filetype == 'image/png'){
+	        	imagepng($newim,$sFileTempName);
+	        }
+	        imagedestroy($newim);
+	    }
+	    else
+	    {
+	        //do nothing
+	    }           
+	}
+	
 }
