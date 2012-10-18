@@ -149,7 +149,7 @@ class CreateArticle extends ControlPanel
 		$newAttachment['title'] = $this->params->get('article_title');
 		$newAttachment['summary'] = $this->params->get('article_content');
 		$newAttachment['text'] = $this->params->get('article_content');
-		$newAttachment['author'] = $this->params->get('article_author');
+		$newAttachment['author'] = 0;//$this->params->get('article_author');
 		$newAttachment['title_bold'] = $this->params->get('article_title_bold');
 		$newAttachment['title_italic'] = $this->params->get('article_title_italic');
 		$newAttachment['title_strikethrough'] = $this->params->get('article_title_strikethrough');
